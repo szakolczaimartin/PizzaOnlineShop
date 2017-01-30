@@ -1,12 +1,7 @@
 package com.pizzashop.entity;
 
 
-import org.springframework.security.core.userdetails.User;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "users")
@@ -20,6 +15,10 @@ public class Users {
     @Column(name = "ENABlED", nullable = false)
     private boolean enabled;
 
+    @OneToOne
+    @PrimaryKeyJoinColumn
+    private UsersDetails usersDetails;
+
     public Users() {
     }
 
@@ -27,6 +26,13 @@ public class Users {
         this.username = username;
         this.password = password;
         this.enabled = enabled;
+    }
+
+    public Users(String username, String password, boolean enabled, UsersDetails usersDetails) {
+        this.username = username;
+        this.password = password;
+        this.enabled = enabled;
+        this.usersDetails = usersDetails;
     }
 
     public String getUsername() {
@@ -53,4 +59,11 @@ public class Users {
         this.enabled = enabled;
     }
 
+    public UsersDetails getUsersDetails() {
+        return usersDetails;
+    }
+
+    public void setUsersDetails(UsersDetails usersDetails) {
+        this.usersDetails = usersDetails;
+    }
 }

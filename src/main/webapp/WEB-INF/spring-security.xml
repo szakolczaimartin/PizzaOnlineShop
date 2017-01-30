@@ -13,6 +13,7 @@
         <intercept-url pattern="/" access="permitAll()" />
         <intercept-url pattern="/welcome" access="permitAll()" />
         <intercept-url pattern="/login" access="permitAll()" />
+        <intercept-url pattern="/signUp" access="permitAll()" />
         <intercept-url pattern="/logout" access="permitAll()" />
 
 
@@ -20,6 +21,7 @@
                        access="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')" />
         <intercept-url pattern="/admin" access="hasRole('ROLE_ADMIN')" />
         <intercept-url pattern="/other/**" access="isAuthenticated()" />
+
 
         <access-denied-handler error-page="/403" />
 

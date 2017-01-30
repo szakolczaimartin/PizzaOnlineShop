@@ -4,13 +4,16 @@ import java.security.Principal;
 
 import com.pizzashop.dao.PizzaDao;
 import com.pizzashop.dao.UsersDao;
+import com.pizzashop.dao.UsersDetailsDao;
 import com.pizzashop.entity.Pizza;
 import com.pizzashop.entity.Users;
+import com.pizzashop.entity.UsersDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class MainController {
@@ -19,6 +22,9 @@ public class MainController {
 
     @Autowired
     private UsersDao usersDao;
+
+    @Autowired
+    private UsersDetailsDao usersDetailsDao;
 
     @RequestMapping(value = { "/", "/welcome" }, method = RequestMethod.GET)
     public String welcomePage(Model model) {
@@ -41,6 +47,7 @@ public class MainController {
 
     @RequestMapping(value = "/logoutSuccessful", method = RequestMethod.GET)
     public String logoutSuccessfulPage(Model model) {
+
         model.addAttribute("title", "Logout");
         return "logoutSuccessfulPage";
     }
@@ -53,8 +60,6 @@ public class MainController {
 
         System.out.println("User Name: "+ userName);
 
-        Users users = new Users("adam","12345",true);
-        usersDao.save(users);
         return "userInfoPage";
     }
 
@@ -69,5 +74,25 @@ public class MainController {
                     "You do not have permission to access this page!");
         }
         return "403Page";
+    }
+
+
+    @RequestMapping(value = "/signUpIn", method = RequestMethod.POST)
+    public String saveOrder(@RequestParam("name") String name, @RequestParam("username") String username,
+                            @RequestParam("email") String email, @RequestParam("phoneNumber") String phoneNumber,
+                            @RequestParam("address") String address,@RequestParam("password") String password){
+
+        Users users = new Users(username,password, true);
+        usersDao.save(users);
+        UsersDetails usersDetails = new UsersDetails(username,name,address,email,phoneNumber,users);
+        usersDetailsDao.save(usersDetails);
+
+        return "loginPage";
+    }
+
+    @RequestMapping(value = "/signUp", method = RequestMethod.GET)
+    public String signUpPage() {
+
+        return "signUpPage";
     }
 }
