@@ -3,12 +3,16 @@ package com.pizzashop.controller;
 import java.security.Principal;
 
 import com.pizzashop.dao.PizzaDao;
+import com.pizzashop.dao.UserRolesDao;
 import com.pizzashop.dao.UsersDao;
 import com.pizzashop.dao.UsersDetailsDao;
 import com.pizzashop.entity.Pizza;
+import com.pizzashop.entity.UserRoles;
 import com.pizzashop.entity.Users;
 import com.pizzashop.entity.UsersDetails;
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,6 +29,9 @@ public class MainController {
 
     @Autowired
     private UsersDetailsDao usersDetailsDao;
+
+    @Autowired
+    private UserRolesDao userRolesDao;
 
     @RequestMapping(value = { "/", "/welcome" }, method = RequestMethod.GET)
     public String welcomePage(Model model) {
@@ -58,6 +65,8 @@ public class MainController {
         // After user login successfully.
         String userName = principal.getName();
 
+
+
         System.out.println("User Name: "+ userName);
 
         return "userInfoPage";
@@ -86,6 +95,10 @@ public class MainController {
         usersDao.save(users);
         UsersDetails usersDetails = new UsersDetails(username,name,address,email,phoneNumber,users);
         usersDetailsDao.save(usersDetails);
+
+         UserRoles userRoles = new UserRoles(users,"USER");
+        userRolesDao.save(userRoles);
+
 
         return "loginPage";
     }

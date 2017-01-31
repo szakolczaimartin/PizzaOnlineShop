@@ -2,6 +2,7 @@ package com.pizzashop.entity;
 
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -18,6 +19,9 @@ public class Users {
     @OneToOne
     @PrimaryKeyJoinColumn
     private UsersDetails usersDetails;
+
+    @OneToMany(mappedBy = "users", fetch = FetchType.EAGER)
+    private List<UserRoles> userRoles;
 
     public Users() {
     }
@@ -66,4 +70,6 @@ public class Users {
     public void setUsersDetails(UsersDetails usersDetails) {
         this.usersDetails = usersDetails;
     }
+
+
 }
