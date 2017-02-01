@@ -1,6 +1,7 @@
 package com.pizzashop.controller;
 
 import java.security.Principal;
+import java.util.List;
 
 import com.pizzashop.dao.PizzaDao;
 import com.pizzashop.dao.UserRolesDao;
@@ -15,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -43,6 +45,10 @@ public class MainController {
 
     @RequestMapping(value = "/admin", method = RequestMethod.GET)
     public String adminPage(Model model) {
+
+        List<Users> usersList = usersDao.findAll();
+        model.addAttribute("usersList", usersList);
+
         return "adminPage";
     }
 
@@ -65,9 +71,6 @@ public class MainController {
         // After user login successfully.
         String userName = principal.getName();
 
-
-
-        System.out.println("User Name: "+ userName);
 
         return "userInfoPage";
     }
@@ -104,8 +107,21 @@ public class MainController {
     }
 
     @RequestMapping(value = "/signUp", method = RequestMethod.GET)
-    public String signUpPage() {
+    public String signUpPage(Model model) {
 
+        List<Users> usersList = usersDao.findAll();
+        model.addAttribute("usersList", usersList);
         return "signUpPage";
     }
+
+    @RequestMapping("/remove/{username}")
+    public String removePerson(@PathVariable("username") String username){
+
+        this.usersDetailsDao.removeUserDetails(username);
+        this.userRolesDao.removeUserRole(username);
+        this.usersDao.removeUser(username);
+        return "adminPage";
+    }
+
+
 }

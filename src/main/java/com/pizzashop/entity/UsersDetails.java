@@ -23,7 +23,7 @@ public class UsersDetails {
     @Column(name = "phoneNumber", nullable = false, length = 100)
     private String phoneNumber;
 
-    @OneToOne(fetch = FetchType.LAZY, mappedBy = "usersDetails", cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "usersDetails", cascade = CascadeType.DETACH)
     private Users users;
 
 

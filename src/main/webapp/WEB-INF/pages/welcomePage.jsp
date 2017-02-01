@@ -59,33 +59,38 @@
                     <!-- Collect the nav links, forms, and other content for toggling -->
                     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                         <ul class="nav navbar-nav navbar-center cl-effect-14">
-                            <li class="active"><a href="${pageContext.request.contextPath}/welcome"><font   size="5">Home</font></a></li>
-                            <li><a href="${pageContext.request.contextPath}/userInfo"><font   size="5">User Info</font></a></li>
-                            <li><a href="${pageContext.request.contextPath}/admin"><font   size="5">Admin</font></a></li>
-                            <li><a href="about.html"><font   size="5">About</font></a></li>
-                            <li><a href="codes.html"><font   size="5">Codes</font></a></li>
-                            <li><a href="gallery.html"><font   size="5">Gallery</font></a></li>
-                            <li><a href="contact.html"><font   size="5">Contact</font></a></li>
+                            <li class="active"><a href="${pageContext.request.contextPath}/welcome">Home</a></li>
+                            <li><a href="${pageContext.request.contextPath}/userInfo">User Info</a></li>
+                            <li><a href="${pageContext.request.contextPath}/admin">Admin</a></li>
+                            <li><a href="about.html">About</a></li>
+                            <li><a href="codes.html">Codes</a></li>
+                            <li><a href="gallery.html">Gallery</a></li>
+                            <li><a href="contact.html">Contact</a></li>
                         </ul>
                         <div class="clearfix"> </div>
                     </div>
                 </nav>
             </div>
-            <ul class="nav navbar-nav navbar-right">
-                <c:if test="${pageContext.request.userPrincipal.name != null}">
+        </div>
 
-                    <li><a href="${pageContext.request.contextPath}/logout" ><font color="white" size="5"><span class="glyphicon glyphicon-log-out"></span> Log out</font>></a></li>
-                </c:if>
-
-                <c:if test="${!(pageContext.request.userPrincipal.name != null)}">
-                    <li><a href="${pageContext.request.contextPath}/signUp"><font color="white"  size="5"><span class="glyphicon glyphicon-user"></span> Sign Up</font></a></li>
-                    <li><a href="${pageContext.request.contextPath}/login"><font color="white"  size="5"><span class="glyphicon glyphicon-log-in"></span> Login</font</a></li>
-                </c:if>
-            </ul>
-                </div>
             <!--navigation-->
         </div>
     </div>
+
+<div class="col-md-12">
+    <ul class="nav navbar-nav navbar-right">
+        <c:if test="${pageContext.request.userPrincipal.name != null}">
+            <li><a href="" >Signed in as: ${pageContext.request.userPrincipal.name}</a></li>
+            <li><a href="${pageContext.request.contextPath}/logout" ><span class="glyphicon glyphicon-log-out"></span> Log out</a></li>
+        </c:if>
+
+        <c:if test="${!(pageContext.request.userPrincipal.name != null)}">
+            <li><a href="${pageContext.request.contextPath}/signUp"><span class="glyphicon glyphicon-user"></span> Sign Up</font></a></li>
+            <li><a href="${pageContext.request.contextPath}/login"><span class="glyphicon glyphicon-log-in"></span> Login</font</a></li>
+        </c:if>
+    </ul>
+</div>
+
 <!--//banner-->
         <!--welcome-->
         <div class="welcome">

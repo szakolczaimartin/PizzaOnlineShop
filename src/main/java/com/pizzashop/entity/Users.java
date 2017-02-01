@@ -20,7 +20,7 @@ public class Users {
     @PrimaryKeyJoinColumn
     private UsersDetails usersDetails;
 
-    @OneToMany(mappedBy = "users", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "users", fetch = FetchType.LAZY, cascade = CascadeType.DETACH)
     private List<UserRoles> userRoles;
 
     public Users() {
@@ -71,5 +71,11 @@ public class Users {
         this.usersDetails = usersDetails;
     }
 
+    public List<UserRoles> getUserRoles() {
+        return userRoles;
+    }
 
+    public void setUserRoles(List<UserRoles> userRoles) {
+        this.userRoles = userRoles;
+    }
 }

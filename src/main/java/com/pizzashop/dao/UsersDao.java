@@ -1,6 +1,8 @@
 package com.pizzashop.dao;
 
+import com.pizzashop.entity.UserRoles;
 import com.pizzashop.entity.Users;
+import com.pizzashop.entity.UsersDetails;
 import com.sun.org.apache.xpath.internal.operations.String;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -34,4 +36,23 @@ public class UsersDao {
         List itemses = session.createQuery("select  i from Users i where i.username = '" + valaki + "'").list();
         return itemses;
     }
+
+    @Transactional
+    public List<Users> findAll() {
+        Session session = sessionFactory.getCurrentSession();
+        List users = session.createQuery("from Users").list();
+        return users;
+    }
+
+
+
+    public void removeUser(java.lang.String userName) {
+        Session session = sessionFactory.openSession();
+        List<Users> userses = session.createQuery("select  i from Users i where i.username = '" + userName + "'").list();
+        Users user = userses.get(0);
+        session.delete(user);
+        session.flush();
+        session.close();
+    }
+
 }

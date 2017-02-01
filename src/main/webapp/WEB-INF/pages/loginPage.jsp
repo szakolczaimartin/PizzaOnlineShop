@@ -43,7 +43,7 @@
         <div class="container">
             <div class="logo">
                 <div class="ribbon">
-                    <div class="ribbon-fold"><h1> <a href="index.html">Pizza</a></h1></div>
+                    <div class="ribbon-fold"><h1> <a href="${pageContext.request.contextPath}/welcome">Pizza</a></h1></div>
                 </div>
                 <h2>Better Ingredients better Pizza</h2>
             </div>
@@ -61,11 +61,11 @@
                     <!-- Collect the nav links, forms, and other content for toggling -->
                     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                         <ul class="nav navbar-nav navbar-center cl-effect-14">
-                            <li><a href="index.html">Home</a></li>
-                            <li><a href="about.html" class="active">About</a></li>
+                            <li class="active"><a href="${pageContext.request.contextPath}/welcome">Home</a></li>
+                            <li><a href="${pageContext.request.contextPath}/userInfo">User Info</a></li>
+                            <li><a href="${pageContext.request.contextPath}/admin">Admin</a></li>
+                            <li><a href="about.html">About</a></li>
                             <li><a href="codes.html">Codes</a></li>
-                            <li><a href="gallery.html">Gallery</a></li>
-                            <li><a href="contact.html">Contact</a></li>
                             <li><a href="gallery.html">Gallery</a></li>
                             <li><a href="contact.html">Contact</a></li>
                         </ul>
@@ -93,6 +93,14 @@
         <div class="col-xs-4"></div>
         <div class="col-xs-4 col-centered">
             <h3 class="title">Login</h3>
+            <c:if test="${param.error == 'true'}">
+                <div style="color:red;margin:10px 0px;">
+
+                    Login Failed!!!<br />
+                    Reason :  ${sessionScope["SPRING_SECURITY_LAST_EXCEPTION"].message}
+
+                </div>
+            </c:if>
             <br>
 
             <div class="input-group">
