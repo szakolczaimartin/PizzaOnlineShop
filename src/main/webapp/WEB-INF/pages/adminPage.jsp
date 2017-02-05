@@ -1,5 +1,6 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@page session="true"%>
 <!DOCTYPE html>
 <html>
@@ -78,8 +79,20 @@
         </div>
     </div>
 </div>
-<!--//banner-->
-<!--banner-bottom-->
+
+<div class="col-md-12">
+    <ul class="nav navbar-nav navbar-right">
+        <c:if test="${pageContext.request.userPrincipal.name != null}">
+            <li><a href="/modifyDetails" >Signed in as: ${pageContext.request.userPrincipal.name}</a></li>
+            <li><a href="${pageContext.request.contextPath}/logout" ><span class="glyphicon glyphicon-log-out"></span> Log out</a></li>
+        </c:if>
+
+        <c:if test="${!(pageContext.request.userPrincipal.name != null)}">
+            <li><a href="${pageContext.request.contextPath}/signUp"><span class="glyphicon glyphicon-user"></span> Sign Up</font></a></li>
+            <li><a href="${pageContext.request.contextPath}/login"><span class="glyphicon glyphicon-log-in"></span> Login</font</a></li>
+        </c:if>
+    </ul>
+</div>
 
 
 
@@ -88,29 +101,65 @@
 <br>
 <br>
 <br>
+
 
 <div class="container">
-    <h3>Persons List</h3>
-    <c:if test="${!empty usersList}">
-        <table class="tg">
-            <tr>
-                <th width="80">Person Username</th>
-                <th width="120">Person password</th>
-                <th width="60">Edit</th>
-                <th width="60">Delete</th>
-            </tr>
-            <c:forEach items="${usersList}" var="person">
-                <tr>
-                    <td>${person.username}</td>
-                    <td>${person.password}</td>
-                    <td><a href="<c:url value='/edit/${person.username}' />" >Edit</a></td>
-                    <td><a href="<c:url value='/remove/${person.username}' />" >Delete</a></td>
-                </tr>
-            </c:forEach>
-        </table>
-    </c:if>
-        </div>
 
+    <div class="col-xs-2"></div>
+    <div class="col-xs-8 col-centered">
+        <h2 class="typoh2">Users</h2>
+        <div class="bs-docs-separator">
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th width="80">Person name</th>
+            <th width="120">Person username</th>
+            <th width="120">Permission</th>
+            <th width="60">Edit</th>
+            <th width="60">Delete</th>
+        </tr>
+        </thead>
+        <tbody>
+        <c:forEach items="${usersList}" var="person">
+            <c:set var="contains" value="false" />
+            <tr>
+                <td>${person.username}</td>
+                <td>${person.usersDetails.username}</td>
+
+
+                    <c:forEach items="${userRoleAdminList}" var="admin">
+                         <c:if test="${(person.username == admin.users.username)}">
+                             <c:set var="contains" value="true" />
+                        </c:if>
+                    </c:forEach>
+                <td>
+                    <c:if test="${contains}">
+                        ADMIN
+                    </c:if>
+                    <c:if test="${!contains}">
+                        USER
+                    </c:if>
+
+                    </td>
+
+                    <td>
+                        <c:if test="${contains}">
+                            <a href="<c:url value='/depriveAdmin/${person.username}' />" >Deprive to Admin</a>
+                        </c:if>
+                        <c:if test="${!contains}">
+                            <a href="<c:url value='/addAdmin/${person.username}' />" >Add to Admin</a>
+                        </c:if>
+                    </td>
+
+                <td><a href="<c:url value='/remove/${person.username}' />" >Delete</a></td>
+            </tr>
+        </c:forEach>
+        </tbody>
+    </table>
+</div>
+    </div>
+
+</div>
 
 </div>
 </form>
@@ -119,7 +168,6 @@
 <br>
 <br>
 
-</div>
 
 
 <!-- //testimonial -->

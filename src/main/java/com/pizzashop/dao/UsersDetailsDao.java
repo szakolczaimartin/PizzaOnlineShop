@@ -6,6 +6,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -32,5 +33,14 @@ public class UsersDetailsDao {
         session.delete(usersDetails);
         session.flush();
         session.close();
+    }
+
+    @Transactional
+    public List<UsersDetails> listbyUsername(java.lang.String valaki) {
+
+
+        Session session = sessionFactory.getCurrentSession();
+        List itemses = session.createQuery("select  i from UsersDetails i where i.username = '" + valaki + "'").list();
+        return itemses;
     }
 }

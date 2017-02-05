@@ -80,7 +80,7 @@
 <div class="col-md-12">
     <ul class="nav navbar-nav navbar-right">
         <c:if test="${pageContext.request.userPrincipal.name != null}">
-            <li><a href="" >Signed in as: ${pageContext.request.userPrincipal.name}</a></li>
+            <li><a href="/modifyDetails" >Signed in as: ${pageContext.request.userPrincipal.name}</a></li>
             <li><a href="${pageContext.request.contextPath}/logout" ><span class="glyphicon glyphicon-log-out"></span> Log out</a></li>
         </c:if>
 

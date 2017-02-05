@@ -91,10 +91,10 @@
 <br>
 
 <div class="container">
-    <form  action="/signUpIn"  method='POST'>
+    <form  action="/modifyDetailsSubmit"  method='POST'>
         <div class="col-xs-4"></div>
         <div class="col-xs-4 col-centered">
-            <h3 class="title">Sign up</h3>
+            <h3 class="title">Modify your details</h3>
             <div style="color:red;margin:10px 0px;">
 
                 ${message}
@@ -104,56 +104,51 @@
 
             <div class="input-group">
                 <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                <input  type="text" class="form-control input-lg" name='name' placeholder="Your full name" required>
+                <input  type="text" class="form-control input-lg" name='name' placeholder="Your full name" value="${userDetails.name}" required>
             </div>
             <div class="input-group">
                 <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                <input  type="text" class="form-control input-lg" name='username' placeholder="Username" required>
+                <input  type="text" class="form-control input-lg" name='username' placeholder="Username"  value="${userDetails.username}" readonly>
             </div>
             <div class="input-group">
                 <span class="input-group-addon" id="basic-addon1">@</span>
-                <input type="email" class="form-control" placeholder="Email" name="email" aria-describedby="basic-addon1" required>
+                <input type="email" class="form-control" placeholder="Email" name="email" aria-describedby="basic-addon1" value="${userDetails.email}" required>
             </div>
 
             <div class="input-group">
                 <span class="input-group-addon"><i class="glyphicon glyphicon-earphone"></i></span>
-                <input  type="text" class="form-control input-lg" name='phoneNumber' placeholder="Phone number" required>
+                <input  type="text" class="form-control input-lg" name='phoneNumber' placeholder="Phone number" value="${userDetails.phoneNumber}" required>
             </div>
 
             <div class="input-group">
                 <span class="input-group-addon"><i class="glyphicon glyphicon-road"></i></span>
-                <input  type="text" class="form-control input-lg" name='address' placeholder="Address" required>
+                <input  type="text" class="form-control input-lg" name='address' placeholder="Address" value="${userDetails.address}"required>
             </div>
 
             <div class="input-group">
                 <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-                <input  type="password" class="form-control input-lg" name='password' placeholder="Password"  required>
+                <input  type="password" class="form-control input-lg" name='password' placeholder="Password" value=""  required>
                 <br>
             </div>
+            <div>
             <div class="input-group">
                 <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
                 <input  type="password" class="form-control input-lg" name='conFirmpassword' placeholder="Confirm password"  required>
                 <br>
             </div>
-            <div class="input-group">
-                <label class="checkbox-inline">
-                    <input type="checkbox" value="" required>I accept the agreement
-                </label>
-            </div>
             <div>
-                <button name="submit" type="submit" value="submit" class="btn btn-primary btn-lg btn-block">Sign Up</button>
+                <button name="submit" type="submit" value="submit" class="btn btn-primary btn-lg btn-block"> Modify</button>
             </div>
         </div>
 
 </div>
 </form>
-<br>
-<br>
-<br>
-<br>
-
 </div>
 
+<br>
+<br>
+<br>
+<br>
 
 <!-- //testimonial -->
 <!--footer-->

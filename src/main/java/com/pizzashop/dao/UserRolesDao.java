@@ -6,6 +6,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -15,6 +16,22 @@ public class UserRolesDao {
 
     @Autowired
     private SessionFactory sessionFactory;
+
+    @Transactional
+    public List<UserRoles> findAll() {
+        Session session = sessionFactory.getCurrentSession();
+        List userRoles = session.createQuery("from UserRoles").list();
+        return userRoles;
+    }
+
+    @Transactional
+    public List<UserRoles> findAdmin() {
+        String admin="ADMIN";
+        Session session = sessionFactory.getCurrentSession();
+        List<UserRoles> userRoles = session.createQuery("select  i from UserRoles i where i.userRole = '" + admin + "'").list();
+        return userRoles;
+    }
+
 
     public void save(UserRoles userRoles)
     {
