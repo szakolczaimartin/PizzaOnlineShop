@@ -64,7 +64,7 @@
                     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                         <ul class="nav navbar-nav navbar-center cl-effect-14">
                             <li class="active"><a href="${pageContext.request.contextPath}/welcome">Home</a></li>
-                            <li><a href="${pageContext.request.contextPath}/userInfo">User Info</a></li>
+                            <li><a href="${pageContext.request.contextPath}/userInfo">Orders</a></li>
                             <li><a href="${pageContext.request.contextPath}/admin">Admin</a></li>
                             <li><a href="about.html">About</a></li>
                             <li><a href="codes.html">Codes</a></li>
@@ -99,75 +99,180 @@
 <br>
 <br>
 <br>
-<br>
-<br>
-
 
 <div class="container">
+    <ul class="nav nav-tabs">
+        <li class="active"><a data-toggle="tab" href="#addFood">Add food</a></li>
+        <li><a data-toggle="tab" href="#menu1">User modify</a></li>
+        <li><a data-toggle="tab" href="#menu2">Food modify</a></li>
+        <li><a data-toggle="tab" href="#menu3">Orders</a></li>
+    </ul>
 
-    <div class="col-xs-2"></div>
-    <div class="col-xs-8 col-centered">
-        <h2 class="typoh2">Users</h2>
-        <div class="bs-docs-separator">
-    <table class="table table-striped">
-        <thead>
-        <tr>
-            <th width="80">Person name</th>
-            <th width="120">Person username</th>
-            <th width="120">Permission</th>
-            <th width="60">Edit</th>
-            <th width="60">Delete</th>
-        </tr>
-        </thead>
-        <tbody>
-        <c:forEach items="${usersList}" var="person">
-            <c:set var="contains" value="false" />
-            <tr>
-                <td>${person.username}</td>
-                <td>${person.usersDetails.username}</td>
+    <div class="tab-content">
+        <div id="addFood" class="tab-pane fade in active">
+            <h3>Add food</h3>
+            <form  action="/addFood" method='POST'>
+                <div class="col-xs-4"></div>
+                <div class="col-xs-4 col-centered">
+                <div class="input-group">
+                    <span class="input-group-addon">Name</span>
+                    <input  type="text" class="form-control input-lg" name='name' placeholder="Food name">
+                </div>
+                <div class="input-group">
+                    <span class="input-group-addon">Price</span>
+                    <input  type="number" class="form-control input-lg" name='price' placeholder="Price">
+                </div>
+                <div class="input-group">
+                    <span class="input-group-addon">Url</span>
+                    <input  type="text" class="form-control input-lg" name='url' placeholder="Url">
+                </div>
+                <div class="input-group">
+                    <span class="input-group-addon">Type</span>
+                    <select  class="selectpicker form-control" name="type">
+                        <option value="pizza">Pizza</option>
+                        <option value="drink">Drink</option>
+                        <option value="other">Other food</option>
+                    </select>
+                 </div>
+                <div class="input-group">
+                    <span class="input-group-addon">Size</span>
+                    <input  type="text" class="form-control input-lg" name='size' placeholder="Size">
+                </div>
+                <div class="input-group">
+                    <span class="input-group-addon">Ingredients</span>
+                    <input  type="text" class="form-control input-lg" name='ingredients' placeholder="Ingredients">
+                </div>
+                <div>
+                    <div>
+                        <button name="submit" type="submit" value="submit" class="btn btn-primary btn-lg btn-block">Add new food</button>
+                    </div>
+                </div>
+                    </div>
+                </form>
+        </div>
+        <div id="menu1" class="tab-pane fade">
+            <form>
+                    <h2 class="typoh2">Users</h2>
+                        <div class="bs-docs-separator">
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th width="80">Person name</th>
+                                    <th width="120">Person username</th>
+                                    <th width="120">Permission</th>
+                                    <th width="60">Edit</th>
+                                    <th width="60">Delete</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <c:forEach items="${usersList}" var="person">
+                                    <c:set var="contains" value="false" />
+                                    <tr>
+                                        <td>${person.usersDetails.name}</td>
+                                        <td>${person.username}</td>
 
 
-                    <c:forEach items="${userRoleAdminList}" var="admin">
-                         <c:if test="${(person.username == admin.users.username)}">
-                             <c:set var="contains" value="true" />
-                        </c:if>
-                    </c:forEach>
-                <td>
-                    <c:if test="${contains}">
-                        ADMIN
-                    </c:if>
-                    <c:if test="${!contains}">
-                        USER
-                    </c:if>
 
-                    </td>
+                                        <c:forEach items="${userRoleAdminList}" var="admin">
+                                            <c:if test="${(person.username == admin.users.username)}">
+                                                <c:set var="contains" value="true" />
+                                            </c:if>
+                                        </c:forEach>
+                                        <td>
+                                            <c:if test="${contains}">
+                                                ADMIN
+                                            </c:if>
+                                            <c:if test="${!contains}">
+                                                USER
+                                            </c:if>
 
-                    <td>
-                        <c:if test="${contains}">
-                            <a href="<c:url value='/depriveAdmin/${person.username}' />" >Deprive to Admin</a>
-                        </c:if>
-                        <c:if test="${!contains}">
-                            <a href="<c:url value='/addAdmin/${person.username}' />" >Add to Admin</a>
-                        </c:if>
-                    </td>
+                                        </td>
 
-                <td><a href="<c:url value='/remove/${person.username}' />" >Delete</a></td>
-            </tr>
-        </c:forEach>
-        </tbody>
-    </table>
-</div>
+                                        <td>
+                                            <c:if test="${contains}">
+                                                <a href="<c:url value='/depriveAdmin/${person.username}' />" >Deprive to Admin</a>
+                                            </c:if>
+                                            <c:if test="${!contains}">
+                                                <a href="<c:url value='/addAdmin/${person.username}' />" >Add to Admin</a>
+                                            </c:if>
+                                        </td>
+
+                                        <td><a href="<c:url value='/remove/${person.username}' />" >Delete</a></td>
+                                    </tr>
+                                </c:forEach>
+                                </tbody>
+                            </table>
+                        </div>
+        </form>
+        </div>
+        <div id="menu2" class="tab-pane fade">
+
+            <form>
+                <h2 class="typoh2">Food modify</h2>
+                        <div class="bs-docs-separator">
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th width="80">Food name</th>
+                                    <th width="120">Price</th>
+                                    <th width="120">Ingredients</th>
+                                    <th width="60">Url</th>
+                                    <th width="60">Type</th>
+                                    <th width="60">Size</th>
+                                    <th width="60">Edit</th>
+                                    <th width="60">Delete</th>
+
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <c:forEach items="${foods}" var="food">
+                                <tr>
+                                    <td>${food.name}</td>
+                                    <td>${food.price}</td>
+                                    <td>${food.ingredients}</td>
+                                    <td><img src="${food.url}" style="width:100px;height:80px;"></td>
+                                    <td>${food.type}</td>
+                                    <td>${food.size}</td>
+                                    <td><a href="<c:url value='/modifyFoodModal/${food.id}' />" data-toggle="modal"
+                                           data-target="#myModal"> Edit</a></td>
+                                    <td><a href="<c:url value='/removeFood/${food.id}' />" >Delete</a></td>
+                                    </c:forEach>
+                                </tbody>
+                            </table>
+
+        </div>
+        </form>
+        </div>
+        <div id="menu3" class="tab-pane fade">
+            <h3>Orders</h3>
+        </div>
     </div>
-
 </div>
+<br>
+<br>
 
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Modal Header</h4>
+            </div>
+            <div class="modal-body">
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
 </div>
-</form>
-<br>
-<br>
-<br>
-<br>
-
 
 
 <!-- //testimonial -->
@@ -177,32 +282,19 @@
         <div class="col-md-3 footer-left">
             <h4>Address</h4>
             <ul>
-                <li>New York Restaurant</li>
-                <li>3926 Anmoore Road</li>
-                <li>New York, NY 10014</li>
-                <li>718-749-1714</li>
+                <li>Martin Restaurant</li>
+                <li> Barsony Janos Street</li>
+                <li>3531 Miskolc</li>
+                <li>+3630/856-2123</li>
             </ul>
         </div>
-        <div class="col-md-3 footer-left">
-            <h4>Popular</h4>
-            <ul>
-                <li><a href="#">Proin placerat</a></li>
-                <li><a href="#">Ipsum et rutrum</a></li>
-                <li><a href="#">Proin semper utr</a></li>
-                <li><a href="#">ligula sit amet</a></li>
-            </ul>
-        </div>
-        <div class="col-md-3 footer-left">
-            <h4>Details</h4>
-            <ul>
-                <li><a href="about.html">About</a></li>
-                <li><a href="#">Careers</a></li>
-                <li><a href="#">Privacy Policy</a></li>
-                <li><a href="contact.html">Contact</a></li>
-            </ul>
+        <div class="col-md-5 footer-left">
+            <h4>Location</h4>
+            <div class="map">
+                <iframe style="height: 35%;" src="https://www.google.com/maps/embed/v1/place?q=miskolc%20b%C3%A1rsony%20j%C3%A1nos%2043%20&key=AIzaSyC3PM8eQYk6ie6KQBgZCrMXehaCMkFgL7I" ></iframe>
+            </div>
         </div>
         <div class="col-md-3 footer-right">
-            <p> © 2016 Pizza . All rights reserved | Design by <a href="http://w3layouts.com/">W3layouts</a></p>
             <div class="icons">
                 <ul>
                     <li><a href="#" class="twitter"> </a></li>

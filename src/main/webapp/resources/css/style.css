@@ -1458,8 +1458,8 @@ h2.typoh2{
     margin-bottom: 0.5em;
 }
 .map iframe {
-  width: 100%;
-  min-height: 400px;
+  width: 90%;
+  min-height: 170px;
   border: none;
 }
 .mail-grids {

@@ -18,7 +18,7 @@
         </div>
         <ul class="nav navbar-nav">
             <li class="active"><a href="${pageContext.request.contextPath}/welcome">Home</a></li>
-            <li><a href="${pageContext.request.contextPath}/userInfo">User Info</a></li>
+            <li><a href="${pageContext.request.contextPath}/userInfo">Orders</a></li>
             <li><a href="${pageContext.request.contextPath}/admin">Admin</a></li>
 
         </ul>

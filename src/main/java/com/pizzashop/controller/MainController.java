@@ -3,23 +3,14 @@ package com.pizzashop.controller;
 import java.security.Principal;
 import java.util.List;
 
-import com.pizzashop.dao.PizzaDao;
-import com.pizzashop.dao.UserRolesDao;
-import com.pizzashop.dao.UsersDao;
-import com.pizzashop.dao.UsersDetailsDao;
-import com.pizzashop.entity.Pizza;
-import com.pizzashop.entity.UserRoles;
-import com.pizzashop.entity.Users;
-import com.pizzashop.entity.UsersDetails;
+import com.pizzashop.dao.*;
+import com.pizzashop.entity.*;
 import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 public class MainController {
@@ -35,6 +26,10 @@ public class MainController {
     @Autowired
     private UserRolesDao userRolesDao;
 
+    @Autowired
+    private FoodDao foodDao;
+
+
     @RequestMapping(value = { "/", "/welcome" }, method = RequestMethod.GET)
     public String welcomePage(Model model) {
         model.addAttribute("title", "Welcome");
@@ -43,17 +38,60 @@ public class MainController {
         return "welcomePage";
     }
 
+    @RequestMapping(value = "/addFood", method = RequestMethod.POST)
+    public String save(Model model, @ModelAttribute("foodForm") Food f) {
+        this.foodDao.save(f);
+
+        return adminPage(model);
+    }
+
+
+
+    @RequestMapping(value = "/removeFood/{id}")
+    public String removeFood(Model model,@PathVariable("id") int id){
+        this.foodDao.removeFood(id);
+        return adminPage(model);
+    }
+
+
+    @RequestMapping(value = "/modifyFoodModal/{id}", method = RequestMethod.GET)
+    public String modifyFoodModal(Model model,@PathVariable("id") int id){
+        Food modifyFood = this.foodDao.getFoodById(id);
+        model.addAttribute("modifyFood", modifyFood);
+        return "modifyFood";
+    }
+
+
+    @RequestMapping(value = "/modifyFood", method = RequestMethod.POST)
+    public String modifyFood(Model model,@RequestParam("name") String name,
+                             @RequestParam("price") int price, @RequestParam("url") String url,
+                             @RequestParam("ingredients") String ingredients, @RequestParam("type") String type,
+                             @RequestParam("size") String size){
+
+        Food modifyFood = this.foodDao.foodByName(name).get(0);
+        modifyFood.setIngredients(ingredients);
+        modifyFood.setPrice(price);
+        modifyFood.setSize(size);
+        modifyFood.setUrl(url);
+        modifyFood.setType(type);
+        System.out.println(modifyFood.getSize());
+        this.foodDao.save(modifyFood);
+        return adminPage(model);
+    }
+
+
     @RequestMapping(value = "/admin", method = RequestMethod.GET)
     public String adminPage(Model model) {
 
         List<Users> usersList = usersDao.findAll();
         List<UserRoles> userRoleList = userRolesDao.findAll();
         List<UserRoles> userRoleAdminList = userRolesDao.findAdmin();
+        List<Food> foods = foodDao.findAll();
         model.addAttribute("usersList", usersList);
         model.addAttribute("userRoleList", userRoleList);
         model.addAttribute("userRoleAdminList", userRoleAdminList);
-
-
+        model.addAttribute("foodForm", new Food());
+        model.addAttribute("foods", foods);
 
         return "adminPage";
     }
@@ -114,8 +152,6 @@ public class MainController {
 
         // After user login successfully.
         String userName = principal.getName();
-
-
         return "userInfoPage";
     }
 
@@ -146,7 +182,7 @@ public class MainController {
             model.addAttribute("message", "Passwords don't equal!");
             return signUpPage(model);
         }
-        else if (usersDao.listItemsoOneOrder(username) != null)
+        else if (usersDao.listItemsoOneOrder(username).size() != 0)
         {
             model.addAttribute("message", "Username already exists!");
             return signUpPage(model);
