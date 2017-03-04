@@ -80,6 +80,173 @@
     </div>
 </div>
 
+<br>
+<br>
+
+<div>
+    <div class="col-xs-2">
+        <ul>
+            <li><h4><a href="#small">Pizza 32cm</a></h4></li>
+            <br>
+            <li><h4><a href="#big">Pizza 50cm</a></h4></li>
+            <br>
+            <li><h4><a href="#other">Other food</a></h4></li>
+            <br>
+            <li><h4><a href="#drink">Drink</a></h4></li>
+            <br>
+        </ul>
+
+    </div>
+    <div class="col-xs-8 col-centered">
+
+<form>
+    <h2 id="small" class="typoh2">Pizza 32cm</h2>
+    <div class="bs-docs-separator">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th width="80">Food name</th>
+                <th width="60">Picture</th>
+                <th width="120">Ingredients</th>
+                <th width="60">Size</th>
+                <th width="120">Price</th>
+                <th width="60">Quantity</th>
+                <th width="60">Add to the cart</th>
+
+            </tr>
+            </thead>
+            <tbody>
+            <c:forEach items="${smallPizza}" var="food">
+            <tr>
+                <td>${food.name}</td>
+                <td><img src="${food.url}" style="width:150px;height:120px;"></td>
+                <td>${food.ingredients}</td>
+                <td>${food.size} cm</td>
+                <td>${food.price} Ft</td>
+
+                <td>
+                <input type="number"/>
+                <td><button type="button">Add to the cart</button>
+                </c:forEach>
+            </tbody>
+        </table>
+    </div>
+</form>
+<br>
+<br>
+<form>
+
+    <h2 id="big" class="typoh2">Pizza 50cm</h2>
+    <div class="bs-docs-separator">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th width="80">Food name</th>
+                <th width="60">Picture</th>
+                <th width="120">Ingredients</th>
+                <th width="60">Size</th>
+                <th width="120">Price</th>
+                <th width="60">Quantity</th>
+                <th width="60">Add to the cart</th>
+
+            </tr>
+            </thead>
+            <tbody>
+            <c:forEach items="${bigPizza}" var="food">
+            <tr>
+                <td>${food.name}</td>
+                <td><img src="${food.url}" style="width:150px;height:120px;"></td>
+                <td>${food.ingredients}</td>
+                <td>${food.size} cm</td>
+                <td>${food.price} Ft</td>
+
+                <td>
+                    <input type="number"/>
+                <td><button type="button">Add to the cart</button>
+                    </c:forEach>
+            </tbody>
+        </table>
+    </div>
+</form>
+
+
+<br>
+<br>
+
+<form>
+    <h2 id="other" class="typoh2">Others food</h2>
+    <div class="bs-docs-separator">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th width="80">Food name</th>
+                <th width="60">Picture</th>
+                <th width="120">Ingredients</th>
+                <th width="60">Size</th>
+                <th width="120">Price</th>
+                <th width="60">Quantity</th>
+                <th width="60">Add to the cart</th>
+
+            </tr>
+            </thead>
+            <tbody>
+            <c:forEach items="${otherFood}" var="food">
+            <tr>
+                <td>${food.name}</td>
+                <td><img src="${food.url}" style="width:150px;height:120px;"></td>
+                <td>${food.ingredients}</td>
+                <td>${food.size}</td>
+                <td>${food.price} Ft</td>
+
+                <td>
+                    <input type="number"/>
+                <td><button type="button">Add to the cart</button>
+                    </c:forEach>
+            </tbody>
+        </table>
+    </div>
+</form>
+
+<br>
+<br>
+<div>
+<form>
+    <h2 id="drink" class="typoh2">Drink</h2>
+    <div class="bs-docs-separator">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th width="80">Food name</th>
+                <th width="60">Picture</th>
+                <th width="120">Ingredients</th>
+                <th width="60">Size</th>
+                <th width="120">Price</th>
+                <th width="60">Quantity</th>
+                <th width="60">Add to the cart</th>
+
+            </tr>
+            </thead>
+            <tbody>
+            <c:forEach items="${drink}" var="food">
+            <tr>
+                <td>${food.name}</td>
+                <td><img src="${food.url}" style="width:150px;height:120px;"></td>
+                <td>${food.ingredients}</td>
+                <td>${food.size} L</td>
+                <td>${food.price} Ft</td>
+
+                <td>
+                    <input type="number"/>
+                <td><button type="button">Add to the cart</button>
+                    </c:forEach>
+            </tbody>
+        </table>
+    </div>
+</form>
+</div>
+<br>
+<br>
+
 <!--//footer-->
 <!-- Bootstrap core JavaScript
 ================================================== -->

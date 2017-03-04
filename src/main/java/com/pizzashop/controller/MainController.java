@@ -1,6 +1,7 @@
 package com.pizzashop.controller;
 
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.pizzashop.dao.*;
@@ -149,6 +150,30 @@ public class MainController {
 
     @RequestMapping(value = "/userInfo", method = RequestMethod.GET)
     public String userInfo(Model model, Principal principal) {
+
+        List<Food> allFood = this.foodDao.findAll();
+
+        List<Food> smallPizza = new ArrayList<Food>();
+        List<Food> bigPizza = new ArrayList<Food>();
+        List<Food> otherFood = new ArrayList<Food>();
+        List<Food> drink = new ArrayList<Food>();
+
+        for (Food item:allFood) {
+            if (item.getType().equals("pizza"))
+            {
+                if (item.getSize().equals("32"))
+                {smallPizza.add(item);}
+                else {bigPizza.add(item);}
+            }
+            else if(item.getType().equals("drink")){
+                drink.add(item);}
+            else {otherFood.add(item);}
+        }
+
+        model.addAttribute("smallPizza", smallPizza);
+        model.addAttribute("bigPizza", bigPizza);
+        model.addAttribute("otherFood", otherFood);
+        model.addAttribute("drink", drink);
 
         // After user login successfully.
         String userName = principal.getName();
