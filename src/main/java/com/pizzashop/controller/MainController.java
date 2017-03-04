@@ -2,6 +2,7 @@ package com.pizzashop.controller;
 
 import java.security.Principal;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import com.pizzashop.dao.*;
@@ -30,6 +31,9 @@ public class MainController {
     @Autowired
     private FoodDao foodDao;
 
+    @Autowired
+    private Orderdao orderdao;
+
 
     @RequestMapping(value = { "/", "/welcome" }, method = RequestMethod.GET)
     public String welcomePage(Model model) {
@@ -47,6 +51,17 @@ public class MainController {
     }
 
 
+    @RequestMapping(value = "/adToChart")
+    public String adToChart(Model model,Principal principal, @RequestParam("id") int id, @RequestParam("quantity") int quantity){
+
+        Date date = new Date();
+        Users user = usersDao.listItemsoOneOrder("admin").get(0);
+        Order order = new Order(user, date, true);
+        orderdao.save(order);
+        System.out.println(id);
+        System.out.println(quantity);
+        return userInfo(model, principal);
+    }
 
     @RequestMapping(value = "/removeFood/{id}")
     public String removeFood(Model model,@PathVariable("id") int id){

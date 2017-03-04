@@ -99,7 +99,7 @@
     </div>
     <div class="col-xs-8 col-centered">
 
-<form>
+<form action="/adToChart">
     <h2 id="small" class="typoh2">Pizza 32cm</h2>
     <div class="bs-docs-separator">
         <table class="table table-striped">
@@ -118,6 +118,10 @@
             <tbody>
             <c:forEach items="${smallPizza}" var="food">
             <tr>
+            <tr>
+                <div style=" visibility: hidden">
+                    <input name="id" type="text"  value="${food.id}"  style="visibility: hidden;"/>
+                </div>
                 <td>${food.name}</td>
                 <td><img src="${food.url}" style="width:150px;height:120px;"></td>
                 <td>${food.ingredients}</td>
@@ -125,8 +129,8 @@
                 <td>${food.price} Ft</td>
 
                 <td>
-                <input type="number"/>
-                <td><button type="button">Add to the cart</button>
+                <input name="quantity" type="number" value="0" required/>
+                <td><button type="submit">Add to the cart</button></td>
                 </c:forEach>
             </tbody>
         </table>
@@ -134,7 +138,7 @@
 </form>
 <br>
 <br>
-<form>
+<form action="/adToChart">
 
     <h2 id="big" class="typoh2">Pizza 50cm</h2>
     <div class="bs-docs-separator">
@@ -154,6 +158,10 @@
             <tbody>
             <c:forEach items="${bigPizza}" var="food">
             <tr>
+            <tr>
+                <div style=" visibility: hidden">
+                    <input name="id" type="text"  value="${food.id}"  style="visibility: hidden;"/>
+                </div>
                 <td>${food.name}</td>
                 <td><img src="${food.url}" style="width:150px;height:120px;"></td>
                 <td>${food.ingredients}</td>
@@ -161,8 +169,8 @@
                 <td>${food.price} Ft</td>
 
                 <td>
-                    <input type="number"/>
-                <td><button type="button">Add to the cart</button>
+                    <input name="quantity" type="number" value="0" required/>
+                <td><button type="submit">Add to the cart</button></td>
                     </c:forEach>
             </tbody>
         </table>
@@ -173,7 +181,7 @@
 <br>
 <br>
 
-<form>
+<form action="/adToChart">
     <h2 id="other" class="typoh2">Others food</h2>
     <div class="bs-docs-separator">
         <table class="table table-striped">
@@ -192,16 +200,19 @@
             <tbody>
             <c:forEach items="${otherFood}" var="food">
             <tr>
+                <div style=" visibility: hidden">
+                <input name="id" type="text"  value="${food.id}"  style="visibility: hidden;"/>
+                 </div>
                 <td>${food.name}</td>
                 <td><img src="${food.url}" style="width:150px;height:120px;"></td>
                 <td>${food.ingredients}</td>
                 <td>${food.size}</td>
                 <td>${food.price} Ft</td>
 
-                <td>
-                    <input type="number"/>
-                <td><button type="button">Add to the cart</button>
-                    </c:forEach>
+                <td> <input name="quantity" type="number" value="0" required/> </td>>
+
+                <td><button type="submit">Add to the cart</button></td>
+                </c:forEach>
             </tbody>
         </table>
     </div>
@@ -210,7 +221,7 @@
 <br>
 <br>
 <div>
-<form>
+<form action="/adToChart">
     <h2 id="drink" class="typoh2">Drink</h2>
     <div class="bs-docs-separator">
         <table class="table table-striped">
@@ -229,6 +240,10 @@
             <tbody>
             <c:forEach items="${drink}" var="food">
             <tr>
+            <tr>
+                <div style=" visibility: hidden">
+                    <input name="id" type="text"  value="${food.id}"  style="visibility: hidden;"/>
+                </div>
                 <td>${food.name}</td>
                 <td><img src="${food.url}" style="width:150px;height:120px;"></td>
                 <td>${food.ingredients}</td>
@@ -236,8 +251,8 @@
                 <td>${food.price} Ft</td>
 
                 <td>
-                    <input type="number"/>
-                <td><button type="button">Add to the cart</button>
+                    <input name="quantity" type="number" value="0" required/>
+                <td><button type="submit">Add to the cart</button></td>
                     </c:forEach>
             </tbody>
         </table>

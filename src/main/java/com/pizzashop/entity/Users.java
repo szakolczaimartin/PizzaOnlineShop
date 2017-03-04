@@ -23,6 +23,10 @@ public class Users {
     @OneToMany(mappedBy = "users", fetch = FetchType.LAZY, cascade = CascadeType.DETACH)
     private List<UserRoles> userRoles;
 
+    @OneToMany(mappedBy = "users", fetch = FetchType.LAZY, cascade = CascadeType.DETACH)
+    private List<Order> orders;
+
+
     public Users() {
     }
 
