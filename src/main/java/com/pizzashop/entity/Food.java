@@ -1,9 +1,6 @@
 package com.pizzashop.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "food")
@@ -21,6 +18,10 @@ public class Food {
     private String size;
 
     private int price;
+
+    @OneToOne
+    @PrimaryKeyJoinColumn
+    private Item item;
 
     public int getId() {
         return id;
@@ -76,5 +77,13 @@ public class Food {
 
     public void setPrice(int price) {
         this.price = price;
+    }
+
+    public Item getItem() {
+        return item;
+    }
+
+    public void setItem(Item item) {
+        this.item = item;
     }
 }

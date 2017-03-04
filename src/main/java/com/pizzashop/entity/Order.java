@@ -2,6 +2,7 @@ package com.pizzashop.entity;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "orders")
@@ -9,11 +10,15 @@ public class Order {
 
     @Id
     @GeneratedValue
+    @Column(name = "order_id")
     private int id;
 
     @ManyToOne
     @JoinColumn(name = "USERNAME", nullable = false)
     private Users users;
+
+    @OneToMany(mappedBy = "orders", fetch = FetchType.LAZY, cascade = CascadeType.DETACH)
+    private List<Item> items;
 
     private Date date;
     private Boolean shipped;
@@ -57,5 +62,13 @@ public class Order {
 
     public void setShipped(Boolean shipped) {
         this.shipped = shipped;
+    }
+
+    public List<Item> getItems() {
+        return items;
+    }
+
+    public void setItems(List<Item> items) {
+        this.items = items;
     }
 }

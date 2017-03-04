@@ -7,9 +7,7 @@ import java.util.List;
 
 import com.pizzashop.dao.*;
 import com.pizzashop.entity.*;
-import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -32,7 +30,10 @@ public class MainController {
     private FoodDao foodDao;
 
     @Autowired
-    private Orderdao orderdao;
+    private OrderDao orderDao;
+
+    @Autowired
+    private ItemDao itemDao;
 
 
     @RequestMapping(value = { "/", "/welcome" }, method = RequestMethod.GET)
@@ -57,7 +58,7 @@ public class MainController {
         Date date = new Date();
         Users user = usersDao.listItemsoOneOrder("admin").get(0);
         Order order = new Order(user, date, true);
-        orderdao.save(order);
+        orderDao.save(order);
         System.out.println(id);
         System.out.println(quantity);
         return userInfo(model, principal);
