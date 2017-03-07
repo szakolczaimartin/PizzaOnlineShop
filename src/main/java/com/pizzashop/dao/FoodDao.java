@@ -36,13 +36,13 @@ public class FoodDao {
     public Food getFoodById(int id) {
         Session currenSession = sessionFactory.openSession();
         Food food = (Food) currenSession.get(Food.class, new Integer(id));
-
+        currenSession.close();
         return food;
     }
 
     public void removeFood(int id) {
-        Session session = sessionFactory.openSession();
         Food food = getFoodById(id);
+        Session session = sessionFactory.openSession();
         session.delete(food);
         session.flush();
         session.close();

@@ -72,6 +72,7 @@ public class MainController {
 
     @RequestMapping(value = "/removeFood/{id}")
     public String removeFood(Model model,@PathVariable("id") int id){
+        this.itemDao.removeUserDetails(Integer.toHexString(id));
         this.foodDao.removeFood(id);
         return adminPage(model);
     }
@@ -97,7 +98,6 @@ public class MainController {
         modifyFood.setSize(size);
         modifyFood.setUrl(url);
         modifyFood.setType(type);
-        System.out.println(modifyFood.getSize());
         this.foodDao.save(modifyFood);
         return adminPage(model);
     }
