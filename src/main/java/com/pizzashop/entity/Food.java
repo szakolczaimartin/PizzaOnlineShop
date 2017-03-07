@@ -1,6 +1,7 @@
 package com.pizzashop.entity;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "food")
@@ -19,9 +20,8 @@ public class Food {
 
     private int price;
 
-    @OneToOne
-    @PrimaryKeyJoinColumn
-    private Item item;
+    @OneToMany(mappedBy = "food", fetch = FetchType.LAZY, cascade = CascadeType.DETACH)
+    private List<Item> item;
 
     public int getId() {
         return id;
@@ -79,11 +79,11 @@ public class Food {
         this.price = price;
     }
 
-    public Item getItem() {
+    public List<Item> getItem() {
         return item;
     }
 
-    public void setItem(Item item) {
+    public void setItem(List<Item> item) {
         this.item = item;
     }
 }

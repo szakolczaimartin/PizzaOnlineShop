@@ -14,7 +14,8 @@ public class Item {
     @JoinColumn(name = "order_id", nullable = false)
     private Order orders;
 
-    @OneToOne(fetch = FetchType.LAZY, mappedBy = "item", cascade = CascadeType.DETACH)
+    @ManyToOne
+    @JoinColumn(name = "food", nullable = false)
     private Food food;
 
     private int quantity;

@@ -32,6 +32,7 @@ public class FoodDao {
         return foods;
     }
 
+    @Transactional
     public Food getFoodById(int id) {
         Session currenSession = sessionFactory.openSession();
         Food food = (Food) currenSession.get(Food.class, new Integer(id));

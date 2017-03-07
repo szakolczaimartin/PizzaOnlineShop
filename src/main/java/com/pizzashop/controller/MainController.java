@@ -57,8 +57,14 @@ public class MainController {
 
         Date date = new Date();
         Users user = usersDao.listItemsoOneOrder("admin").get(0);
-        Order order = new Order(user, date, true);
-        orderDao.save(order);
+//        Order order = new Order(user, date, true);
+
+        Food food = foodDao.getFoodById(1);
+        Order order1 = orderDao.findAll().get(0);
+
+        Item item = new Item(order1,food, 2, 3000);
+        itemDao.save(item);
+
         System.out.println(id);
         System.out.println(quantity);
         return userInfo(model, principal);
