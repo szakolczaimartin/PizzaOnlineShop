@@ -364,7 +364,7 @@ public class MainController {
         if (!orderList.isEmpty()) {
             for (Order order : orderList) {
 
-                if (order.getOrdered() == false) {
+                if (order.getOrdered() == false && !order.getItems().isEmpty()) {
                     order.setOrdered(true);
                     orderDao.save(order);
                     return succesOrdered(model, principal);
