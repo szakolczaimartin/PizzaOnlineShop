@@ -15,11 +15,18 @@
         <intercept-url pattern="/login" access="permitAll()" />
         <intercept-url pattern="/signUp" access="permitAll()" />
         <intercept-url pattern="/logout" access="permitAll()" />
+        <intercept-url pattern="/succesOrdered" access="permitAll()" />
+        <intercept-url pattern="/modifyItem" access="permitAll()" />
 
 
 
 
         <intercept-url pattern="/userInfo"
+                       access="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')" />
+        <intercept-url pattern="/admin" access="hasRole('ROLE_ADMIN')" />
+        <intercept-url pattern="/other/**" access="isAuthenticated()" />
+
+        <intercept-url pattern="/cart"
                        access="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')" />
         <intercept-url pattern="/admin" access="hasRole('ROLE_ADMIN')" />
         <intercept-url pattern="/other/**" access="isAuthenticated()" />

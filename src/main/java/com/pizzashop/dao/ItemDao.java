@@ -22,6 +22,7 @@ public class ItemDao {
     {
         Session currenSession = sessionFactory.openSession();
         currenSession.saveOrUpdate(item);
+        currenSession.flush();
         currenSession.close();
     }
 
@@ -32,13 +33,29 @@ public class ItemDao {
         return items;
     }
 
-    public void removeUserDetails(java.lang.String id) {
+    public void removeItemsFood(java.lang.String id) {
         Session session = sessionFactory.openSession();
         List<Food> foods = session.createQuery("select  i from Food i where i.id = '" + id + "'").list();
         List<Item> items = foods.get(0).getItem();
         for (Item var: items) {
             session.delete(var);
         }
+        session.flush();
+        session.close();
+    }
+
+    @Transactional
+    public Item getItemById(int id) {
+        Session currenSession = sessionFactory.openSession();
+        Item item = (Item) currenSession.get(Item.class, new Integer(id));
+        currenSession.close();
+        return item;
+    }
+
+    public void removeItem(int id) {
+        Item item = getItemById(id);
+        Session session = sessionFactory.openSession();
+        session.delete(item);
         session.flush();
         session.close();
     }

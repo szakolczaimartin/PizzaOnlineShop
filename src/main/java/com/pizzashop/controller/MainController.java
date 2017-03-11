@@ -56,23 +56,50 @@ public class MainController {
     public String adToChart(Model model,Principal principal, @RequestParam("id") int id, @RequestParam("quantity") int quantity){
 
         Date date = new Date();
-        Users user = usersDao.listItemsoOneOrder("admin").get(0);
-//        Order order = new Order(user, date, true);
+        Users user = usersDao.userByUsername(principal.getName());
+        Food food = foodDao.getFoodById(id);
+        int price = food.getPrice() * quantity;
 
-        Food food = foodDao.getFoodById(1);
-        Order order1 = orderDao.findAll().get(0);
+        if (orderDao.orderByUsername(user.getUsername()) == null)
+        {
+            Order order = new Order(user,date,false,false);
+            orderDao.save(order);
 
-        Item item = new Item(order1,food, 2, 3000);
-        itemDao.save(item);
+            Item item = new Item(order,food,quantity,price);
+            itemDao.save(item);
+        }
+        else {
 
-        System.out.println(id);
-        System.out.println(quantity);
+            List <Order> orderList = orderDao.orderByUsername(user.getUsername());
+            Boolean flag = false;
+
+            for (Order order: orderList) {
+
+                if (order.getOrdered() == false)
+                {
+                    Item item = new Item(order,food,quantity,price);
+                    itemDao.save(item);
+                    flag = true;
+                }
+            }
+
+            if (!flag)
+            {
+                Order order = new Order(user,date,false,false);
+                orderDao.save(order);
+
+                Item item = new Item(order,food,quantity,price);
+                itemDao.save(item);
+            }
+        }
+
+
         return userInfo(model, principal);
     }
 
     @RequestMapping(value = "/removeFood/{id}")
     public String removeFood(Model model,@PathVariable("id") int id){
-        this.itemDao.removeUserDetails(Integer.toHexString(id));
+        this.itemDao.removeItemsFood(Integer.toHexString(id));
         this.foodDao.removeFood(id);
         return adminPage(model);
     }
@@ -229,7 +256,7 @@ public class MainController {
             model.addAttribute("message", "Passwords don't equal!");
             return signUpPage(model);
         }
-        else if (usersDao.listItemsoOneOrder(username).size() != 0)
+        else if (usersDao.userByUsername(username) != null)
         {
             model.addAttribute("message", "Username already exists!");
             return signUpPage(model);
@@ -262,10 +289,17 @@ public class MainController {
         return adminPage(model);
     }
 
+    @RequestMapping("/removeItem/{itemId}")
+    public String removePerson(Model model,Principal principal,@PathVariable("itemId") int id){
+
+        this.itemDao.removeItem(id);
+        return cartPage(model,principal);
+    }
+
     @RequestMapping("/addAdmin/{username}")
     public String addAdmin(Model model,@PathVariable("username") String username){
 
-        Users user = usersDao.listItemsoOneOrder(username).get(0);
+        Users user = usersDao.userByUsername(username);
         UserRoles userRoles = new UserRoles(user, "ADMIN");
         this.userRolesDao.save(userRoles);
         return adminPage(model);
@@ -275,10 +309,99 @@ public class MainController {
     public String depriveAdmin(Model model,@PathVariable("username") String username){
 
         this.userRolesDao.removeUserRole(username);
-        Users user = usersDao.listItemsoOneOrder(username).get(0);
+        Users user = usersDao.userByUsername(username);
         UserRoles userRoles = new UserRoles(user, "USER");
         this.userRolesDao.save(userRoles);
         return adminPage(model);
+    }
+
+    @RequestMapping(value = "/cart", method = RequestMethod.GET)
+    public String cartPage(Model model, Principal principal) {
+
+       List <Order> orderList = orderDao.orderByUsername(principal.getName());
+
+        int allPrice = 0;
+        String  price = "0";
+        List<Item> itemList = new ArrayList<Item>();
+
+        for (Order order:orderList) {
+
+            if (order.getOrdered() == false)
+            {
+
+                itemList = order.getItems();
+
+                for (Item item:itemList) {
+                    allPrice = allPrice + item.getPrice();
+                }
+
+                price = Integer.toString(allPrice);
+
+                if (price.length() == 4)
+                {
+                    price = price.substring(0,1) + " " + price.substring(1, price.length());
+                }
+                else if (price.length() > 4)
+                {
+                    price = price.substring(0,2) + " " + price.substring(2, price.length());
+                }
+            }
+        }
+
+        model.addAttribute("orders", itemList);
+        model.addAttribute("inAll", price);
+
+        return "cartPage";
+    }
+
+
+    @RequestMapping(value = "/orderIt", method = RequestMethod.POST)
+    public String orderIt(Model model, Principal principal) {
+
+
+        List<Order> orderList = orderDao.orderByUsername(principal.getName());
+
+        if (!orderList.isEmpty()) {
+            for (Order order : orderList) {
+
+                if (order.getOrdered() == false) {
+                    order.setOrdered(true);
+                    orderDao.save(order);
+                    return succesOrdered(model, principal);
+                }
+            }
+        }
+        model.addAttribute("message", "There is no item.");
+        return cartPage(model, principal);
+    }
+
+
+
+    @RequestMapping(value = "/succesOrdered", method = RequestMethod.GET)
+    public String succesOrdered(Model model, Principal principal) {
+
+        return "successOrderedPage";
+    }
+
+    @RequestMapping(value = "/modifyItemModal/{id}", method = RequestMethod.GET)
+    public String modifyItemModal(Model model,@PathVariable("id") int id){
+        Item myItem = this.itemDao.getItemById(id);
+
+        model.addAttribute("myItem", myItem);
+        return "modifyItem";
+    }
+
+
+
+
+    @RequestMapping(value = "/modifyItemSub", method = RequestMethod.POST)
+    public String modifyItem(Model model,Principal principal, @RequestParam("id") int id, @RequestParam("quantity") int quantity){
+
+        Item item = this.itemDao.getItemById(id);
+        item.setQuantity(quantity);
+        item.setPrice(quantity*item.getFood().getPrice());
+        this.itemDao.save(item);
+        return cartPage(model,principal);
     }
 
 }

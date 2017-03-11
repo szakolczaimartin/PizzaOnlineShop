@@ -21,7 +21,22 @@ public class OrderDao {
     {
         Session currenSession = sessionFactory.openSession();
         currenSession.saveOrUpdate(order);
+        currenSession.flush();
         currenSession.close();
+    }
+
+    @Transactional
+    public List<Order> orderByUsername(java.lang.String valaki) {
+
+        Session session = sessionFactory.getCurrentSession();
+        List<Order> orderList = session.createQuery("select  i from Order i").list();
+
+        if (orderList != null)
+        {
+            return orderList;
+        }
+
+       return null;
     }
 
     @Transactional

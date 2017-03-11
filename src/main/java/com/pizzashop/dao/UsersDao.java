@@ -7,6 +7,7 @@ import com.sun.org.apache.xpath.internal.operations.String;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,12 +30,19 @@ public class UsersDao {
     }
 
     @Transactional
-    public List<Users> listItemsoOneOrder(java.lang.String valaki) {
-
+    public Users userByUsername(java.lang.String valaki) {
 
         Session session = sessionFactory.getCurrentSession();
-        List itemses = session.createQuery("select  i from Users i where i.username = '" + valaki + "'").list();
-        return itemses;
+        List<Users> userList = session.createQuery("select  i from Users i where i.username = '" + valaki + "'").list();
+
+        if (userList.get(0) == null)
+        {
+            return null;
+        }
+        else {
+            Users user = userList.get(0);
+            return user;
+        }
     }
 
     @Transactional

@@ -73,7 +73,7 @@
                             <li class="active"><a href="${pageContext.request.contextPath}/welcome">Home</a></li>
                             <li><a href="${pageContext.request.contextPath}/userInfo">Orders</a></li>
                             <li><a href="${pageContext.request.contextPath}/admin">Admin</a></li>
-                            <li><a href="about.html">About</a></li>
+                            <li><a href="${pageContext.request.contextPath}/cart">Cart</a></li>
                             <li><a href="codes.html">Codes</a></li>
                             <li><a href="gallery.html">Gallery</a></li>
                             <li><a href="contact.html">Contact</a></li>
@@ -105,7 +105,6 @@
 
     </div>
     <div class="col-xs-8 col-centered">
-        <form action="/adToChart">
             <div class="bs-docs-separator">
                 <table class="table table-striped">
                     <thead>
@@ -124,6 +123,7 @@
                     <c:forEach items="${smallPizza}" var="food">
                     <tr>
                     <tr>
+                        <form action="/adToChart">
                         <div style=" visibility: hidden">
                             <input name="id" type="text" value="${food.id}" style="visibility: hidden;"/>
                         </div>
@@ -138,31 +138,32 @@
                         <td>
                             <button type="submit">Add to the cart</button>
                         </td>
-                        </c:forEach>
+                        </form>
+                    </c:forEach>
                     </tbody>
                 </table>
             </div>
-        </form>
 
-            <form action="/adToChart">
-                <div class="bs-docs-separator">
-                    <table class="table table-striped">
-                        <thead>
-                        <tr>
-                            <th width="80"><h2 id="big" class="typoh2">Pizza 50cm</h2></th>
-                            <th width="80">Food name</th>
-                            <th width="60">Picture</th>
-                            <th width="120">Ingredients</th>
-                            <th width="60">Size</th>
-                            <th width="120">Price</th>
-                            <th width="60">Quantity</th>
-                            <th width="60">Add to the cart</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <c:forEach items="${bigPizza}" var="food">
-                        <tr>
-                        <tr>
+            <div class="bs-docs-separator">
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th width="80"><h2 id="big" class="typoh2">Pizza 50cm</h2></th>
+                        <th width="80">Food name</th>
+                        <th width="60">Picture</th>
+                        <th width="120">Ingredients</th>
+                        <th width="60">Size</th>
+                        <th width="120">Price</th>
+                        <th width="60">Quantity</th>
+                        <th width="60">Add to the cart</th>
+
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <c:forEach items="${bigPizza}" var="food">
+                    <tr>
+                    <tr>
+                        <form action="/adToChart">
                             <div style=" visibility: hidden">
                                 <input name="id" type="text" value="${food.id}" style="visibility: hidden;"/>
                             </div>
@@ -170,7 +171,7 @@
                             <td>${food.name}</td>
                             <td><img src="${food.url}" style="width:150px;height:120px;"></td>
                             <td>${food.ingredients}</td>
-                            <td>${food.size} cm </td>
+                            <td>${food.size} cm</td>
                             <td>${food.price} Ft</td>
 
                             <td>
@@ -178,13 +179,12 @@
                             <td>
                                 <button type="submit">Add to the cart</button>
                             </td>
-                            </c:forEach>
-                        </tbody>
-                    </table>
-                </div>
-            </form>
+                        </form>
+                        </c:forEach>
+                    </tbody>
+                </table>
+            </div>
 
-            <form action="/adToChart">
                 <div class="bs-docs-separator">
                     <table class="table table-striped">
                         <thead>
@@ -204,6 +204,7 @@
                         <c:forEach items="${otherFood}" var="food">
                         <tr>
                         <tr>
+                            <form action="/adToChart">
                             <div style=" visibility: hidden">
                                 <input name="id" type="text" value="${food.id}" style="visibility: hidden;"/>
                             </div>
@@ -219,13 +220,12 @@
                             <td>
                                 <button type="submit">Add to the cart</button>
                             </td>
-                            </c:forEach>
+                            </form>
+                        </c:forEach>
                         </tbody>
                     </table>
                 </div>
-            </form>
 
-            <form action="/adToChart">
                 <div class="bs-docs-separator">
                     <table class="table table-striped">
                         <thead>
@@ -246,6 +246,7 @@
                         <c:forEach items="${drink}" var="food">
                         <tr>
                         <tr>
+                            <form action="/adToChart">
                             <div style=" visibility: hidden">
                                 <input name="id" type="text" value="${food.id}" style="visibility: hidden;"/>
                             </div>
@@ -261,12 +262,14 @@
                             <td>
                                 <button type="submit">Add to the cart</button>
                             </td>
-                            </c:forEach>
+                            </form>
+                        </c:forEach>
                         </tbody>
                     </table>
                 </div>
-            </form>
         </div>
+    </div>
+
         <br>
         <br>
 

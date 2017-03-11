@@ -17,19 +17,21 @@ public class Order {
     @JoinColumn(name = "USERNAME", nullable = false)
     private Users users;
 
-    @OneToMany(mappedBy = "orders", fetch = FetchType.LAZY, cascade = CascadeType.DETACH)
+    @OneToMany(mappedBy = "orders", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Item> items;
 
     private Date date;
     private Boolean shipped;
+    private Boolean ordered;
 
     public Order() {
     }
 
-    public Order(Users users, Date date, Boolean shipped) {
+    public Order(Users users, Date date, Boolean shipped,Boolean ordered) {
         this.users = users;
         this.date = date;
         this.shipped = shipped;
+        this.ordered = ordered;
     }
 
     public int getId() {
@@ -70,5 +72,13 @@ public class Order {
 
     public void setItems(List<Item> items) {
         this.items = items;
+    }
+
+    public Boolean getOrdered() {
+        return ordered;
+    }
+
+    public void setOrdered(Boolean ordered) {
+        this.ordered = ordered;
     }
 }

@@ -89,12 +89,12 @@
 <br>
 <br>
 <br>
-
 <div class="container">
-    <form  action="/signUpIn"  method='POST'>
-        <div class="col-xs-4"></div>
-        <div class="col-xs-4 col-centered">
-            <h3 class="title">Sign up</h3>
+<div class="col-xs-2 col-centered"></div>
+<div class="col-xs-8 col-centered">
+    <div class="bs-docs-separator">
+        <table class="table table-striped">
+            <h3 class="title">Your cart</h3>
             <div style="color:red;margin:10px 0px;">
 
                 ${message}
@@ -102,58 +102,88 @@
             </div>
             <br>
 
-            <div class="input-group">
-                <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                <input  type="text" class="form-control input-lg" name='name' placeholder="Your full name" required>
-            </div>
-            <div class="input-group">
-                <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                <input  type="text" class="form-control input-lg" name='username' placeholder="Username" required>
-            </div>
-            <div class="input-group">
-                <span class="input-group-addon" id="basic-addon1">@</span>
-                <input type="email" class="form-control" placeholder="Email" name="email" aria-describedby="basic-addon1" required>
-            </div>
+            <thead>
+            <tr>
+                <th width="150"><h5>Food name</h5></th>
+                <th width="30"><h5>Quantity<h5></th>
+                <th width="400"><h5>Price<h5></th>
+                <th width="30"><h5>Edit<h5></th>
+                <th width="30"><h5>Delete<h5></th>
 
-            <div class="input-group">
-                <span class="input-group-addon"><i class="glyphicon glyphicon-earphone"></i></span>
-                <input  type="text" class="form-control input-lg" name='phoneNumber' placeholder="Phone number" required>
-            </div>
+            </tr>
+            </thead>
+            <tbody>
+            <c:forEach items="${orders}" var="food">
+            <tr>
+                <form action="/">
+                    <td><h5> ${food.food.name} </h5>
+                           Type: ${food.food.type}
+                    </td>
+                    <td><h5>${food.quantity}</h5></td>
+                    <td><h5>${food.price} Ft</h5></td>
+                    <td><a href="<c:url value='/modifyItemModal/${food.id}' />" data-toggle="modal" data-target="#myModal">
+                        Edit</a></td>
+                    <td>
+                        <a href="<c:url value='/removeItem/${food.id}' />" >Delete</a>
+                    </td>
+                </form>
 
-            <div class="input-group">
-                <span class="input-group-addon"><i class="glyphicon glyphicon-road"></i></span>
-                <input  type="text" class="form-control input-lg" name='address' placeholder="Address" required>
-            </div>
+            </tr>
+                </c:forEach>
+            </tbody>
+            <tr class="danger">
+                <td></td>
+                <td><h3>  </h3></td>
+                <td><h3> In all: ${inAll} Ft</h3>  </td>
+            <td></td>
+            <td></td>
+            <tr>
+            <tr class="danger">
+                <td></td>
+            <td></td>
 
-            <div class="input-group">
-                <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-                <input  type="password" class="form-control input-lg" name='password' placeholder="Password"  required>
-                <br>
-            </div>
-            <div class="input-group">
-                <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-                <input  type="password" class="form-control input-lg" name='conFirmpassword' placeholder="Confirm password"  required>
-                <br>
-            </div>
-            <div class="input-group">
-                <label class="checkbox-inline">
-                    <input type="checkbox" value="" required>I accept the agreement
-                </label>
-            </div>
+            <td>
             <div>
-                <button name="submit" type="submit" value="submit" class="btn btn-primary btn-lg btn-block">Sign Up</button>
+                <form action="/orderIt" method="post">
+                <button name="submit" type="submit" value="submit" class="btn btn-primary btn-lg btn-block"> Order it!</button>
+                </form>
+            </div>
+            </td>
+            <td></td>
+            <td></td>
+            <tr>
+        </table>
+</div>
+    </div>
+    </div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Modal Header</h4>
+            </div>
+            <div class="modal-body">
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
             </div>
         </div>
 
-</div>
-</form>
-<br>
-<br>
-<br>
-<br>
-
+    </div>
 </div>
 
+<br>
+<br>
+<br>
+<br>
 
 <!-- //testimonial -->
 <!--footer-->

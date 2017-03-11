@@ -16,10 +16,7 @@
     <!--js-->
     <script src="/resources/js/jquery-1.11.1.min.js"></script>
     <script src="/resources/js/modernizr.custom.js"></script>
-    <script src ="/resources/js/validator.js"></script>
-
     <!-- //js -->
-
 
     <script>
         $(document).ready(function () {
@@ -39,9 +36,8 @@
 </head>
 <body>
 <!--banner-->
-<!--banner-->
-<div class="banner about-bnr">
-    <div class="banner-info about-bnr-info">
+<div class="banner">
+    <div class="banner-info">
         <div class="container">
             <div class="logo">
                 <div class="ribbon">
@@ -75,12 +71,43 @@
                     </div>
                 </nav>
             </div>
-            <!--navigation-->
+        </div>
+
+        <!--navigation-->
+    </div>
+</div>
+
+<div class="col-md-12">
+    <ul class="nav navbar-nav navbar-right">
+        <c:if test="${pageContext.request.userPrincipal.name != null}">
+            <li><a href="/modifyDetails" >Signed in as: ${pageContext.request.userPrincipal.name}</a></li>
+            <li><a href="${pageContext.request.contextPath}/logout" ><span class="glyphicon glyphicon-log-out"></span> Log out</a></li>
+        </c:if>
+
+        <c:if test="${!(pageContext.request.userPrincipal.name != null)}">
+            <li><a href="${pageContext.request.contextPath}/signUp"><span class="glyphicon glyphicon-user"></span> Sign Up</font></a></li>
+            <li><a href="${pageContext.request.contextPath}/login"><span class="glyphicon glyphicon-log-in"></span> Login</font</a></li>
+        </c:if>
+    </ul>
+</div>
+
+<!--//banner-->
+<!--welcome-->
+<br>
+<br>
+<br>
+<br>
+<br>
+<div class="container">
+    <div class="col-xs-2 col-centered"></div>
+    <div class="col-xs-8 col-centered">
+        <h2>Successful order!</h2>
+        <br>
+        <h3>Delivered within 1 hour.</h3>
         </div>
     </div>
 </div>
-<!--//banner-->
-<!--banner-bottom-->
+
 
 
 
@@ -88,73 +115,6 @@
 <br>
 <br>
 <br>
-<br>
-
-<div class="container">
-    <form  action="/signUpIn"  method='POST'>
-        <div class="col-xs-4"></div>
-        <div class="col-xs-4 col-centered">
-            <h3 class="title">Sign up</h3>
-            <div style="color:red;margin:10px 0px;">
-
-                ${message}
-
-            </div>
-            <br>
-
-            <div class="input-group">
-                <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                <input  type="text" class="form-control input-lg" name='name' placeholder="Your full name" required>
-            </div>
-            <div class="input-group">
-                <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                <input  type="text" class="form-control input-lg" name='username' placeholder="Username" required>
-            </div>
-            <div class="input-group">
-                <span class="input-group-addon" id="basic-addon1">@</span>
-                <input type="email" class="form-control" placeholder="Email" name="email" aria-describedby="basic-addon1" required>
-            </div>
-
-            <div class="input-group">
-                <span class="input-group-addon"><i class="glyphicon glyphicon-earphone"></i></span>
-                <input  type="text" class="form-control input-lg" name='phoneNumber' placeholder="Phone number" required>
-            </div>
-
-            <div class="input-group">
-                <span class="input-group-addon"><i class="glyphicon glyphicon-road"></i></span>
-                <input  type="text" class="form-control input-lg" name='address' placeholder="Address" required>
-            </div>
-
-            <div class="input-group">
-                <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-                <input  type="password" class="form-control input-lg" name='password' placeholder="Password"  required>
-                <br>
-            </div>
-            <div class="input-group">
-                <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-                <input  type="password" class="form-control input-lg" name='conFirmpassword' placeholder="Confirm password"  required>
-                <br>
-            </div>
-            <div class="input-group">
-                <label class="checkbox-inline">
-                    <input type="checkbox" value="" required>I accept the agreement
-                </label>
-            </div>
-            <div>
-                <button name="submit" type="submit" value="submit" class="btn btn-primary btn-lg btn-block">Sign Up</button>
-            </div>
-        </div>
-
-</div>
-</form>
-<br>
-<br>
-<br>
-<br>
-
-</div>
-
-
 <!-- //testimonial -->
 <!--footer-->
 <div class="footer">
@@ -167,27 +127,15 @@
                 <li>3531 Miskolc</li>
                 <li>+3630/856-2123</li>
             </ul>
+
         </div>
-        <div class="col-md-3 footer-left">
-            <h4>Popular</h4>
-            <ul>
-                <li><a href="#">Proin placerat</a></li>
-                <li><a href="#">Ipsum et rutrum</a></li>
-                <li><a href="#">Proin semper utr</a></li>
-                <li><a href="#">ligula sit amet</a></li>
-            </ul>
-        </div>
-        <div class="col-md-3 footer-left">
-            <h4>Details</h4>
-            <ul>
-                <li><a href="about.html">About</a></li>
-                <li><a href="#">Careers</a></li>
-                <li><a href="#">Privacy Policy</a></li>
-                <li><a href="contact.html">Contact</a></li>
-            </ul>
+        <div class="col-md-5 footer-left">
+            <h4>Location</h4>
+            <div class="map">
+                <iframe style="height: 35%;" src="https://www.google.com/maps/embed/v1/place?q=miskolc%20b%C3%A1rsony%20j%C3%A1nos%2043%20&key=AIzaSyC3PM8eQYk6ie6KQBgZCrMXehaCMkFgL7I" ></iframe>
+            </div>
         </div>
         <div class="col-md-3 footer-right">
-            <p> © 2016 Pizza . All rights reserved | Design by <a href="http://w3layouts.com/">W3layouts</a></p>
             <div class="icons">
                 <ul>
                     <li><a href="#" class="twitter"> </a></li>
