@@ -1,4 +1,6 @@
-package com.pizzashop.entity;
+package com.pizzashop.Food.entity;
+
+import com.pizzashop.Item.entity.Item;
 
 import javax.persistence.*;
 import java.util.List;

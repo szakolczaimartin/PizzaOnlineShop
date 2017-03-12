@@ -1,4 +1,6 @@
-package com.pizzashop.entity;
+package com.pizzashop.UsersDetails.entity;
+
+import com.pizzashop.Users.entity.Users;
 
 import javax.persistence.*;
 

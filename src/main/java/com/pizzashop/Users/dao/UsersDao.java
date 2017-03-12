@@ -1,13 +1,9 @@
-package com.pizzashop.dao;
+package com.pizzashop.Users.dao;
 
-import com.pizzashop.entity.UserRoles;
-import com.pizzashop.entity.Users;
-import com.pizzashop.entity.UsersDetails;
-import com.sun.org.apache.xpath.internal.operations.String;
+import com.pizzashop.Users.entity.Users;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 

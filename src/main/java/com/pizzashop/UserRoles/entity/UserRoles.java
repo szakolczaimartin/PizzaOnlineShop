@@ -1,5 +1,7 @@
-package com.pizzashop.entity;
+package com.pizzashop.UserRoles.entity;
 
+
+import com.pizzashop.Users.entity.Users;
 
 import javax.persistence.*;
 

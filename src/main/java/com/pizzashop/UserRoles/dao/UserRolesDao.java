@@ -1,7 +1,7 @@
-package com.pizzashop.dao;
+package com.pizzashop.UserRoles.dao;
 
-import com.pizzashop.entity.UserRoles;
-import com.pizzashop.entity.Users;
+import com.pizzashop.UserRoles.entity.UserRoles;
+import com.pizzashop.Users.entity.Users;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;

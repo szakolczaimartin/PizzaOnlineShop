@@ -1,4 +1,7 @@
-package com.pizzashop.entity;
+package com.pizzashop.Item.entity;
+
+import com.pizzashop.Order.entity.Order;
+import com.pizzashop.Food.entity.Food;
 
 import javax.persistence.*;
 

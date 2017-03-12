@@ -1,7 +1,7 @@
-package com.pizzashop.dao;
+package com.pizzashop.UsersDetails.dao;
 
-import com.pizzashop.entity.Users;
-import com.pizzashop.entity.UsersDetails;
+import com.pizzashop.Users.entity.Users;
+import com.pizzashop.UsersDetails.entity.UsersDetails;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
