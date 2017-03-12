@@ -210,27 +210,15 @@
                 <li>3531 Miskolc</li>
                 <li>+3630/856-2123</li>
             </ul>
+
         </div>
-        <div class="col-md-3 footer-left">
-            <h4>Popular</h4>
-            <ul>
-                <li><a href="#">Proin placerat</a></li>
-                <li><a href="#">Ipsum et rutrum</a></li>
-                <li><a href="#">Proin semper utr</a></li>
-                <li><a href="#">ligula sit amet</a></li>
-            </ul>
-        </div>
-        <div class="col-md-3 footer-left">
-            <h4>Details</h4>
-            <ul>
-                <li><a href="about.html">About</a></li>
-                <li><a href="#">Careers</a></li>
-                <li><a href="#">Privacy Policy</a></li>
-                <li><a href="contact.html">Contact</a></li>
-            </ul>
+        <div class="col-md-5 footer-left">
+            <h4>Location</h4>
+            <div class="map">
+                <iframe style="height: 35%;" src="https://www.google.com/maps/embed/v1/place?q=miskolc%20b%C3%A1rsony%20j%C3%A1nos%2043%20&key=AIzaSyC3PM8eQYk6ie6KQBgZCrMXehaCMkFgL7I" ></iframe>
+            </div>
         </div>
         <div class="col-md-3 footer-right">
-            <p> © 2016 Pizza . All rights reserved | Design by <a href="http://w3layouts.com/">W3layouts</a></p>
             <div class="icons">
                 <ul>
                     <li><a href="#" class="twitter"> </a></li>
