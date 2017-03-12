@@ -103,8 +103,8 @@
 <div class="container">
     <ul class="nav nav-tabs">
         <li class="active"><a data-toggle="tab" href="#addFood">Add food</a></li>
-        <li><a data-toggle="tab" href="#menu1">User modify</a></li>
         <li><a data-toggle="tab" href="#menu2">Food modify</a></li>
+        <li><a data-toggle="tab" href="#menu1">User modify</a></li>
         <li><a data-toggle="tab" href="#menu3">Orders</a></li>
     </ul>
 

@@ -38,6 +38,22 @@ public class MainController {
     @RequestMapping(value = {"/", "/welcome"}, method = RequestMethod.GET)
     public String welcomePage(Model model) {
 
+
+        List<Food> foodList = this.foodDao.findAll();
+        List<Food> foodList1 = new ArrayList<Food>();
+        List<Food> foodList2 = new ArrayList<Food>();
+
+        foodList1.add(foodList.get(0));
+        foodList1.add(foodList.get(1));
+        foodList1.add(foodList.get(2));
+        foodList1.add(foodList.get(3));
+
+        foodList2.add(foodList.get(4));
+        foodList2.add(foodList.get(5));
+        foodList2.add(foodList.get(6));
+        foodList2.add(foodList.get(7));
+        model.addAttribute("foodList1", foodList1);
+        model.addAttribute("foodList2", foodList2);
         model.addAttribute("title", "Welcome");
         model.addAttribute("message", "This is welcome page!");
         return "welcomePage";

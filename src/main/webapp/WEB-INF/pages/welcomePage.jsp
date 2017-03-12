@@ -91,67 +91,25 @@
     </ul>
 </div>
 
+<div class="col-md-2">
+    <ul class="nav navbar-nav navbar-left">
+    <li><img src="/resources/images/open.jpg" style="width:150px;height:120px;" /></li>
+    </ul>
+</div>
+<div class="col-md-3">
+    <ul class="nav navbar-nav navbar-left">
+    <li><h3 class="title">6am-22pm</h3></li>
+    <li><h4 class="title" style="color: black">Phone: +36/30 856-2123</h4></li>
+        </ul>
+</div>
 <!--//banner-->
         <!--welcome-->
         <div class="welcome">
-            <h3 class="title">Welcome</h3>
-            <p>Nam libero tempore cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod </p>
-            <div class="welcome-info">
-                <div class="col-md-6 welcome-grids">
-                    <div class="welcome-img">
-                        <img src="/resources/images/img1.jpg" class="img-responsive zoom-img" alt=""/>
-                    </div>
-                </div>
-                <div class="col-md-6 welcome-grids">
-                    <div class="welcome-img">
-                        <img src="/resources/images/img2.jpg" class="img-responsive zoom-img" alt=""/>
-                    </div>
-                </div>
-                <div class="clearfix"> </div>
-            </div>
-            <p>Nam libero tempore cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus omnis optio cumque nihil impedit quo minus id quod maxime placeat facere possimus.Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae </p>
         </div>
         <!--//welcome-->
     </div>
 </div>
-<!--//banner-bottom-->
-<!--services-->
-<div class="services">
-    <div class="container">
-        <h3 class="title">Services</h3>
-        <div class="servc-grids">
-            <div class="col-md-3 servc-grid">
-                <div class="servc-icon hi-icon-effect-8">
-                    <a href="#" class="hi-icon hi-icon-archive"><span class="glyphicon glyphicon glyphicon-user" aria-hidden="true"></span></a>
-                </div>
-                <h4>Lorem ipsum dolor </h4>
-                <p>Nam libero tempore cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod </p>
-            </div>
-            <div class="col-md-3 servc-grid">
-                <div class="servc-icon hi-icon-effect-8">
-                    <a href="#" class="hi-icon hi-icon-archive"><span class="glyphicon glyphicon glyphicon-home" aria-hidden="true"></span></a>
-                </div>
-                <h4>Lorem ipsum dolor </h4>
-                <p>Nam libero tempore cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod </p>
-            </div>
-            <div class="col-md-3 servc-grid">
-                <div class="servc-icon hi-icon-effect-8">
-                    <a href="#" class="hi-icon hi-icon-archive"><span class="glyphicon glyphicon glyphicon-fire" aria-hidden="true"></span></a>
-                </div>
-                <h4>Lorem ipsum dolor </h4>
-                <p>Nam libero tempore cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod </p>
-            </div>
-            <div class="col-md-3 servc-grid">
-                <div class="servc-icon hi-icon-effect-8">
-                    <a href="#" class="hi-icon hi-icon-archive"><span class="glyphicon glyphicon glyphicon-heart-empty" aria-hidden="true"></span></a>
-                </div>
-                <h4>Lorem ipsum dolor </h4>
-                <p>Nam libero tempore cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod </p>
-            </div>
-            <div class="clearfix"> </div>
-        </div>
-    </div>
-</div>
+
 <!--//services-->
 <!--menu-->
 <div class="menu">
@@ -159,434 +117,58 @@
         <div class="menu-tag">
             <h3 class="title">The Menu</h3>
         </div>
-        <div class="load_more">
             <ul id="myList">
                 <li>
                     <div class="l_g">
                         <div class="l_g_r">
                             <div class="col-md-6 menu-grids">
+                                <c:forEach items="${foodList1}" var="food">
+
                                 <div class="menu-text">
-                                    <div class="menu-text-left">
-                                        <h4>Voluptate cillum fugiat.</h4>
-                                        <h6>Cheese, tomato, mushrooms, onions.</h6>
-                                    </div>
-                                    <div class="menu-text-midle">
-                                        <span class="line"> </span>
-                                    </div>
-                                    <div class="menu-text-right">
-                                        <h4>$ 50</h4>
-                                    </div>
-                                    <div class="clearfix"> </div>
+                                        <div class="menu-text-left">
+                                            <h4>${food.name}<img src="${food.url}" style="width:60px;height:40px;">
+                                            </h4>
+                                            <h6>${food.ingredients} | ${food.size}</h6>
+                                        </div>
+                                        <div class="menu-text-midle">
+                                            <span class="line"> </span>
+                                        </div>
+                                        <div class="menu-text-right">
+                                            <h4>${food.price} Ft</h4>
+                                        </div>
+                                        <div class="clearfix"> </div>
                                 </div>
-                                <div class="menu-text">
-                                    <div class="menu-text-left">
-                                        <h4>Metus varius laoreet.</h4>
-                                        <h6>Chicken, mozzarella cheese, onions.</h6>
-                                    </div>
-                                    <div class="menu-text-midle">
-                                        <span class="line"> </span>
-                                    </div>
-                                    <div class="menu-text-right">
-                                        <h4>$62</h4>
-                                    </div>
-                                    <div class="clearfix"> </div>
-                                </div>
-                                <div class="menu-text">
-                                    <div class="menu-text-left">
-                                        <h4>Donec sodales magna.</h4>
-                                        <h6>Tuna, Sweetcorn, Cheese.</h6>
-                                    </div>
-                                    <div class="menu-text-midle">
-                                        <span class="line"> </span>
-                                    </div>
-                                    <div class="menu-text-right">
-                                        <h4>$25</h4>
-                                    </div>
-                                    <div class="clearfix"> </div>
-                                </div>
-                                <div class="menu-text">
-                                    <div class="menu-text-left">
-                                        <h4>Saugue velit cursus.</h4>
-                                        <h6>Pineapple, Minced Beef, Cheese.</h6>
-                                    </div>
-                                    <div class="menu-text-midle">
-                                        <span class="line"> </span>
-                                    </div>
-                                    <div class="menu-text-right">
-                                        <h4>$30</h4>
-                                    </div>
-                                    <div class="clearfix"> </div>
-                                </div>
+                                </c:forEach>
                             </div>
                             <div class="col-md-6 menu-grids">
                                 <div class="menu-text">
-                                    <div class="menu-text-left">
-                                        <h4>Arcu pede enim justo.</h4>
-                                        <h6>Tuna, Sweetcorn, Cheese.</h6>
-                                    </div>
-                                    <div class="menu-text-midle">
-                                        <span class="line"> </span>
-                                    </div>
-                                    <div class="menu-text-right">
-                                        <h4>$50</h4>
-                                    </div>
-                                    <div class="clearfix"> </div>
-                                </div>
-                                <div class="menu-text">
-                                    <div class="menu-text-left">
-                                        <h4>Cras dapibussemper nisi.</h4>
-                                        <h6>Pineapple, Minced Beef, Cheese.</h6>
-                                    </div>
-                                    <div class="menu-text-midle">
-                                        <span class="line"> </span>
-                                    </div>
-                                    <div class="menu-text-right">
-                                        <h4>$62</h4>
-                                    </div>
-                                    <div class="clearfix"> </div>
-                                </div>
-                                <div class="menu-text">
-                                    <div class="menu-text-left">
-                                        <h4>Quam semper libero.</h4>
-                                        <h6>Cheese, tomato, mushrooms, onions.</h6>
-                                    </div>
-                                    <div class="menu-text-midle">
-                                        <span class="line"> </span>
-                                    </div>
-                                    <div class="menu-text-right">
-                                        <h4>$25</h4>
-                                    </div>
-                                    <div class="clearfix"> </div>
-                                </div>
-                                <div class="menu-text">
-                                    <div class="menu-text-left">
-                                        <h4>Nam eget dui Etiam.</h4>
-                                        <h6>Chicken, mozzarella cheese, onions.</h6>
-                                    </div>
-                                    <div class="menu-text-midle">
-                                        <span class="line"> </span>
-                                    </div>
-                                    <div class="menu-text-right">
-                                        <h4>$30</h4>
-                                    </div>
-                                    <div class="clearfix"> </div>
-                                </div>
-                            </div>
-                            <div class="clearfix"> </div>
-                        </div>
+                                    <c:forEach items="${foodList2}" var="food">
+
+                                        <div class="menu-text">
+                                            <div class="menu-text-left">
+                                                <h4>${food.name}<img src="${food.url}" style="width:60px;height:40px;">
+                                                </h4>
+                                                <h6>${food.ingredients} | ${food.size}</h6>
+                                            </div>
+                                            <div class="menu-text-midle">
+                                                <span class="line"> </span>
+                                            </div>
+                                            <div class="menu-text-right">
+                                                <h4>${food.price} Ft</h4>
+                                            </div>
+                                            <div class="clearfix"> </div>
+                                        </div>
+                                    </c:forEach>
                     </div>
+                                </div>
+                            </div>
+                        </div>
                 </li>
-                <li><div class="l_g">
-                    <div class="l_g_r g_r">
-                        <div class="col-md-6 menu-grids">
-                            <div class="menu-text">
-                                <div class="menu-text-left">
-                                    <h4>Voluptate cillum fugiat.</h4>
-                                    <h6>Cheese, tomato, mushrooms, onions.</h6>
-                                </div>
-                                <div class="menu-text-midle">
-                                    <span class="line"> </span>
-                                </div>
-                                <div class="menu-text-right">
-                                    <h4>$50</h4>
-                                </div>
-                                <div class="clearfix"> </div>
-                            </div>
-                            <div class="menu-text">
-                                <div class="menu-text-left">
-                                    <h4>Metus varius laoreet.</h4>
-                                    <h6>Chicken, mozzarella cheese, onions.</h6>
-                                </div>
-                                <div class="menu-text-midle">
-                                    <span class="line"> </span>
-                                </div>
-                                <div class="menu-text-right">
-                                    <h4>$62</h4>
-                                </div>
-                                <div class="clearfix"> </div>
-                            </div>
-                            <div class="menu-text">
-                                <div class="menu-text-left">
-                                    <h4>Donec sodales magna.</h4>
-                                    <h6>Tuna, Sweetcorn, Cheese.</h6>
-                                </div>
-                                <div class="menu-text-midle">
-                                    <span class="line"> </span>
-                                </div>
-                                <div class="menu-text-right">
-                                    <h4>$25</h4>
-                                </div>
-                                <div class="clearfix"> </div>
-                            </div>
-                            <div class="menu-text">
-                                <div class="menu-text-left">
-                                    <h4>Saugue velit cursus.</h4>
-                                    <h6>Pineapple, Minced Beef, Cheese.</h6>
-                                </div>
-                                <div class="menu-text-midle">
-                                    <span class="line"> </span>
-                                </div>
-                                <div class="menu-text-right">
-                                    <h4>$30</h4>
-                                </div>
-                                <div class="clearfix"> </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6 menu-grids">
-                            <div class="menu-text">
-                                <div class="menu-text-left">
-                                    <h4>Arcu pede enim justo.</h4>
-                                    <h6>Tuna, Sweetcorn, Cheese.</h6>
-                                </div>
-                                <div class="menu-text-midle">
-                                    <span class="line"></span>
-                                </div>
-                                <div class="menu-text-right">
-                                    <h4>$50</h4>
-                                </div>
-                                <div class="clearfix"> </div>
-                            </div>
-                            <div class="menu-text">
-                                <div class="menu-text-left">
-                                    <h4>Cras dapibussemper nisi.</h4>
-                                    <h6>Pineapple, Minced Beef, Cheese.</h6>
-                                </div>
-                                <div class="menu-text-midle">
-                                    <span class="line"> </span>
-                                </div>
-                                <div class="menu-text-right">
-                                    <h4>$62</h4>
-                                </div>
-                                <div class="clearfix"> </div>
-                            </div>
-                            <div class="menu-text">
-                                <div class="menu-text-left">
-                                    <h4>Quam semper libero.</h4>
-                                    <h6>Cheese, tomato, mushrooms, onions.</h6>
-                                </div>
-                                <div class="menu-text-midle">
-                                    <span class="line"> </span>
-                                </div>
-                                <div class="menu-text-right">
-                                    <h4>$25</h4>
-                                </div>
-                                <div class="clearfix"> </div>
-                            </div>
-                            <div class="menu-text">
-                                <div class="menu-text-left">
-                                    <h4>Nam eget dui Etiam.</h4>
-                                    <h6>Chicken, mozzarella cheese, onions.</h6>
-                                </div>
-                                <div class="menu-text-midle">
-                                    <span class="line"> </span>
-                                </div>
-                                <div class="menu-text-right">
-                                    <h4>$30</h4>
-                                </div>
-                                <div class="clearfix"> </div>
-                            </div>
-                        </div>
-                        <div class="clearfix"> </div>
-                    </div>
-                </div>
-                </li>
-                <li><div class="l_g">
-                    <div class="l_g_r g_r">
-                        <div class="col-md-6 menu-grids">
-                            <div class="menu-text">
-                                <div class="menu-text-left">
-                                    <h4>Voluptate cillum fugiat.</h4>
-                                    <h6>Cheese, tomato, mushrooms, onions.</h6>
-                                </div>
-                                <div class="menu-text-midle">
-                                    <span class="line"> </span>
-                                </div>
-                                <div class="menu-text-right">
-                                    <h4>$50</h4>
-                                </div>
-                                <div class="clearfix"> </div>
-                            </div>
-                            <div class="menu-text">
-                                <div class="menu-text-left">
-                                    <h4>Metus varius laoreet.</h4>
-                                    <h6>Chicken, mozzarella cheese, onions.</h6>
-                                </div>
-                                <div class="menu-text-midle">
-                                    <span class="line"> </span>
-                                </div>
-                                <div class="menu-text-right">
-                                    <h4>$62</h4>
-                                </div>
-                                <div class="clearfix"> </div>
-                            </div>
-                            <div class="menu-text">
-                                <div class="menu-text-left">
-                                    <h4>Donec sodales magna.</h4>
-                                    <h6>Tuna, Sweetcorn, Cheese.</h6>
-                                </div>
-                                <div class="menu-text-midle">
-                                    <span class="line"> </span>
-                                </div>
-                                <div class="menu-text-right">
-                                    <h4>$25</h4>
-                                </div>
-                                <div class="clearfix"> </div>
-                            </div>
-                            <div class="menu-text">
-                                <div class="menu-text-left">
-                                    <h4>Saugue velit cursus.</h4>
-                                    <h6>Pineapple, Minced Beef, Cheese.</h6>
-                                </div>
-                                <div class="menu-text-midle">
-                                    <span class="line"> </span>
-                                </div>
-                                <div class="menu-text-right">
-                                    <h4>$30</h4>
-                                </div>
-                                <div class="clearfix"> </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6 menu-grids">
-                            <div class="menu-text">
-                                <div class="menu-text-left">
-                                    <h4>Arcu pede enim justo.</h4>
-                                    <h6>Tuna, Sweetcorn, Cheese.</h6>
-                                </div>
-                                <div class="menu-text-midle">
-                                    <span class="line"> </span>
-                                </div>
-                                <div class="menu-text-right">
-                                    <h4>$50</h4>
-                                </div>
-                                <div class="clearfix"> </div>
-                            </div>
-                            <div class="menu-text">
-                                <div class="menu-text-left">
-                                    <h4>Cras dapibussemper nisi.</h4>
-                                    <h6>Pineapple, Minced Beef, Cheese.</h6>
-                                </div>
-                                <div class="menu-text-midle">
-                                    <span class="line"> </span>
-                                </div>
-                                <div class="menu-text-right">
-                                    <h4>$62</h4>
-                                </div>
-                                <div class="clearfix"> </div>
-                            </div>
-                            <div class="menu-text">
-                                <div class="menu-text-left">
-                                    <h4>Quam semper libero.</h4>
-                                    <h6>Cheese, tomato, mushrooms, onions.</h6>
-                                </div>
-                                <div class="menu-text-midle">
-                                    <span class="line"> </span>
-                                </div>
-                                <div class="menu-text-right">
-                                    <h4>$25</h4>
-                                </div>
-                                <div class="clearfix"> </div>
-                            </div>
-                            <div class="menu-text">
-                                <div class="menu-text-left">
-                                    <h4>Nam eget dui Etiam.</h4>
-                                    <h6>Chicken, mozzarella cheese, onions.</h6>
-                                </div>
-                                <div class="menu-text-midle">
-                                    <span class="line"> </span>
-                                </div>
-                                <div class="menu-text-right">
-                                    <h4>$30</h4>
-                                </div>
-                                <div class="clearfix"> </div>
-                            </div>
-                        </div>
-                        <div class="clearfix"> </div>
-                    </div>
-                </div>
-                </li>
-            </ul>
-            <div id="loadMore">Load more</div>
-            <div id="showLess">Show less</div>
-        </div>
+                </ul>
     </div>
-</div>
-<!--//menu-->
-<!-- testimonial -->
-<div class="testimonial">
-    <!-- container -->
-    <div class="container">
-        <h3 class="title">Feedback About us</h3>
-        <!-- banner-text Slider starts Here -->
-        <script src="/resources/js/responsiveslides.min.js"></script>
-        <script>
-            // You can also use "$(window).load(function() {"
-            $(function () {
-                // Slideshow 4
-                $("#slider3").responsiveSlides({
-                    auto: true,
-                    pager:true,
-                    nav:false,
-                    speed: 500,
-                    namespace: "callbacks",
-                    before: function () {
-                        $('.events').append("<li>before event fired.</li>");
-                    },
-                    after: function () {
-                        $('.events').append("<li>after event fired.</li>");
-                    }
-                });
-            });
-        </script>
-        <!--//End-slider-script -->
-        <div  id="top" class="callbacks_container">
-            <ul class="rslides" id="slider3">
-                <li>
-                    <div class="testimonial-grids">
-                        <div class="testimonial-left">
-                            <img src="/resources/images/t1.jpg" alt="" />
-                        </div>
-                        <div class="testimonial-right">
-                            <h5>Mary Wilson</h5>
-                            <p><span>"</span> Lorem ipsum dolor sit amet consec tetuer adi piscing elit Praesent vestibulum
-                                molestie lacus consec tetuer adi piscing elit Praesent vestibulum molestie lacus <span>"</span>
-                            </p>
-                        </div>
-                        <div class="clearfix"> </div>
-                    </div>
-                </li>
-                <li>
-                    <div class="testimonial-grids">
-                        <div class="testimonial-left">
-                            <img src="/resources/images/t3.jpg" alt="" />
-                        </div>
-                        <div class="testimonial-right">
-                            <h5>Lora  Alance</h5>
-                            <p><span>"</span> Lorem ipsum dolor sit amet consec tetuer adi piscing elit Praesent vestibulum
-                                molestie lacus consec tetuer adi piscing elit Praesent vestibulum molestie lacus <span>"</span>
-                            </p>
-                        </div>
-                        <div class="clearfix"> </div>
-                    </div>
-                </li>
-                <li>
-                    <div class="testimonial-grids">
-                        <div class="testimonial-left">
-                            <img src="/resources/images/t2.jpg" alt="" />
-                        </div>
-                        <div class="testimonial-right">
-                            <h5>David Smith</h5>
-                            <p><span>"</span> Lorem ipsum dolor sit amet consec tetuer adi piscing elit Praesent vestibulum
-                                molestie lacus consec tetuer adi piscing elit Praesent vestibulum molestie lacus <span>"</span>
-                            </p>
-                        </div>
-                        <div class="clearfix"> </div>
-                    </div>
-                </li>
-            </ul>
-        </div>
     </div>
-    <!-- //container -->
-</div>
+
+
 <!-- //testimonial -->
 <!--footer-->
 <div class="footer">
