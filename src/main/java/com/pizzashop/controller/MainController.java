@@ -25,7 +25,6 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 public class MainController {
 
-
     @Autowired
     private UsersDao usersDao;
 
@@ -43,7 +42,6 @@ public class MainController {
 
     @Autowired
     private ItemDao itemDao;
-
 
     @RequestMapping(value = {"/", "/welcome"}, method = RequestMethod.GET)
     public String welcomePage(Model model) {
@@ -70,12 +68,11 @@ public class MainController {
     }
 
     @RequestMapping(value = "/addFood", method = RequestMethod.POST)
-    public String save(Model model,Principal principal, @ModelAttribute("foodForm") Food f) {
+    public String save(Model model, Principal principal, @ModelAttribute("foodForm") Food f) {
         this.foodDao.save(f);
 
         return adminPage(model, principal);
     }
-
 
     @RequestMapping(value = "/adToChart")
     public String adToChart(Model model, Principal principal, @RequestParam("id") int id, @RequestParam("quantity") int quantity) {
@@ -84,9 +81,6 @@ public class MainController {
         Users user = usersDao.userByUsername(principal.getName());
         Food food = foodDao.getFoodById(id);
         int price = food.getPrice() * quantity;
-
-
-
 
         if (orderDao.orderByUsername(user.getUsername()) == null) {
             Order order = new Order(user, date, false, false, 0);
@@ -116,18 +110,15 @@ public class MainController {
                 itemDao.save(item);
             }
         }
-
-
         return selectOrder(model, principal);
     }
 
     @RequestMapping(value = "/removeFood/{id}")
-    public String removeFood(Model model,Principal principal, @PathVariable("id") int id) {
+    public String removeFood(Model model, Principal principal, @PathVariable("id") int id) {
         this.itemDao.removeItemsFood(Integer.toHexString(id));
         this.foodDao.removeFood(id);
         return adminPage(model, principal);
     }
-
 
     @RequestMapping(value = "/modifyFoodModal/{id}", method = RequestMethod.GET)
     public String modifyFoodModal(Model model, @PathVariable("id") int id) {
@@ -138,7 +129,7 @@ public class MainController {
 
 
     @RequestMapping(value = "/modifyFood", method = RequestMethod.POST)
-    public String modifyFood(Model model,Principal principal, @RequestParam("name") String name,
+    public String modifyFood(Model model, Principal principal, @RequestParam("name") String name,
                              @RequestParam("price") int price, @RequestParam("url") String url,
                              @RequestParam("ingredients") String ingredients, @RequestParam("type") String type,
                              @RequestParam("size") String size) {
@@ -150,7 +141,7 @@ public class MainController {
         modifyFood.setUrl(url);
         modifyFood.setType(type);
         this.foodDao.save(modifyFood);
-        return adminPage(model,principal);
+        return adminPage(model, principal);
     }
 
     public List<Order> avaiableOrderList() {
@@ -321,7 +312,7 @@ public class MainController {
     }
 
     @RequestMapping("/remove/{username}")
-    public String removePerson(Model model,Principal principal, @PathVariable("username") String username) {
+    public String removePerson(Model model, Principal principal, @PathVariable("username") String username) {
 
         this.usersDetailsDao.removeUserDetails(username);
         this.userRolesDao.removeUserRole(username);
@@ -346,7 +337,7 @@ public class MainController {
     }
 
     @RequestMapping("/depriveAdmin/{username}")
-    public String depriveAdmin(Model model,Principal principal, @PathVariable("username") String username) {
+    public String depriveAdmin(Model model, Principal principal, @PathVariable("username") String username) {
 
         this.userRolesDao.removeUserRole(username);
         Users user = usersDao.userByUsername(username);
@@ -466,17 +457,14 @@ public class MainController {
         return cartPage(model, principal);
     }
 
-
     public int countItemsInCart(String username) {
         List<Order> orderList = this.orderDao.orderByUsername(username);
-        for (Order order:orderList) {
+        for (Order order : orderList) {
 
-            if (order.getOrdered() == false)
-            {
+            if (order.getOrdered() == false) {
                 return order.getItems().size();
             }
         }
-
         return 0;
     }
 }
