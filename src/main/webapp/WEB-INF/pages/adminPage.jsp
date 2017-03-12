@@ -64,9 +64,9 @@
                     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                         <ul class="nav navbar-nav navbar-center cl-effect-14">
                             <li class="active"><a href="${pageContext.request.contextPath}/welcome">Home</a></li>
-                            <li><a href="${pageContext.request.contextPath}/userInfo">Orders</a></li>
+                            <li><a href="${pageContext.request.contextPath}/selectOrder">Orders</a></li>
                             <li><a href="${pageContext.request.contextPath}/admin">Admin</a></li>
-                            <li><a href="${pageContext.request.contextPath}/cartPage">Cart</a></li>
+                            <li><a href="${pageContext.request.contextPath}/cart">Cart</a></li>
                             <li><a href="codes.html">Codes</a></li>
                             <li><a href="gallery.html">Gallery</a></li>
                             <li><a href="contact.html">Contact</a></li>
@@ -79,10 +79,10 @@
         </div>
     </div>
 </div>
-
 <div class="col-md-12">
     <ul class="nav navbar-nav navbar-right">
         <c:if test="${pageContext.request.userPrincipal.name != null}">
+            <li><a href="${pageContext.request.contextPath}/signUp"><span class="glyphicon glyphicon-shopping-cart"></span> <span class="badge badge-primary">${countItemNumber}</span></a></li>
             <li><a href="/modifyDetails" >Signed in as: ${pageContext.request.userPrincipal.name}</a></li>
             <li><a href="${pageContext.request.contextPath}/logout" ><span class="glyphicon glyphicon-log-out"></span> Log out</a></li>
         </c:if>
@@ -236,6 +236,7 @@
                                     <td><a href="<c:url value='/modifyFoodModal/${food.id}' />" data-toggle="modal"
                                            data-target="#myModal"> Edit</a></td>
                                     <td><a href="<c:url value='/removeFood/${food.id}' />" >Delete</a></td>
+                                    </tr>
                                     </c:forEach>
                                 </tbody>
                             </table>
@@ -244,7 +245,43 @@
         </form>
         </div>
         <div id="menu3" class="tab-pane fade">
-            <h3>Orders</h3>
+            <form>
+                <h2 class="typoh2">Food modify</h2>
+                <div class="bs-docs-separator">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th width="80">Order id</th>
+                            <th width="80">Customer name</th>
+                            <th width="120">Phone number</th>
+                            <th width="120">Address</th>
+                            <th width="60">Order time</th>
+                            <th width="30">Price</th>
+                            <th width="60">Show items</th>
+                            <th width="60">Delivered</th>
+
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <c:forEach items="${orderList}" var="order">
+                        <tr>
+                            <td>${order.id}</td>
+                            <td>${order.users.usersDetails.name}</td>
+                            <td>${order.users.usersDetails.phoneNumber}</td>
+                            <td>${order.users.usersDetails.address}</td>
+                            <td>${order.date}</td>
+                            <td>${order.price}</td>
+                            <td><a href="<c:url value='/showItems/${order.id}' />" data-toggle="modal"
+                                   data-target="#orderModal"> Show items</a></td>
+                            <td><a href="<c:url value='/orderDelivered/${order.id}' />" >Delivered</a></td>
+
+                        </tr>
+                        </c:forEach>
+                        </tbody>
+                    </table>
+
+                </div>
+            </form>
         </div>
     </div>
 </div>
@@ -274,6 +311,27 @@
     </div>
 </div>
 
+<!-- Modal -->
+<div class="modal fade" id="orderModal" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Modal Header</h4>
+            </div>
+            <div class="modal-body">
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
 
 <!-- //testimonial -->
 <!--footer-->

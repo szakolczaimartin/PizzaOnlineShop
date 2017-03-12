@@ -2,6 +2,7 @@ package com.pizzashop.dao;
 
 import com.pizzashop.entity.Item;
 import com.pizzashop.entity.Pizza;
+import com.sun.org.apache.xpath.internal.operations.Or;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import com.pizzashop.entity.Order;
@@ -23,6 +24,14 @@ public class OrderDao {
         currenSession.saveOrUpdate(order);
         currenSession.flush();
         currenSession.close();
+    }
+
+    @Transactional
+    public Order getOrderById(int id) {
+        Session currenSession = sessionFactory.openSession();
+        Order order = (Order) currenSession.get(Order.class, new Integer(id));
+        currenSession.close();
+        return order;
     }
 
     @Transactional

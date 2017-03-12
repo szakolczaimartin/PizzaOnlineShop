@@ -45,39 +45,41 @@
 <br>
 
 <div class="container">
-    <div class="col-xs-1"></div>
 
-    <div class="col-xs-4">
-        <form action="/modifyItemSub" method="post">
-            <h3>Modify item</h3>
+    <div class="col-xs-6">
+        <form >
+            <h2 class="typoh2">List items</h2>
+            <div class="bs-docs-separator">
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th width="20">id</th>
+                        <th width="50">Food name</th>
+                        <th width="50">Type</th>
+                        <th width="120">Ingredients</th>
+                        <th width="30">Size</th>
 
-            <div style=" visibility: hidden">
-                <input name="id" type="text" value="${myItem.id}" style="visibility: hidden;"/>
-            </div>
-            <div class="input-group">
-                <span class="input-group-addon">Name</span>
-                <input  type="text" class="form-control input-lg" name='name'  value="${myItem.food.name}" disabled>
-            </div>
-
-
-            <div class="input-group">
-                <span class="input-group-addon">Quantity</span>
-                <input  type="number" class="form-control input-lg" min="" name='quantity'  value="${myItem.quantity}">
-            </div>
-
-            <div>
-                <div>
-                    <button name="submit" type="submit" value="submit" class="btn btn-primary btn-lg btn-block">Modify item</button>
-                    <br>
-                    <br>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    </div>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <c:forEach items="${itemList}" var="item">
+                        <tr>
+                            <td>${item.food.id}</td>
+                            <td>${item.food.name}</td>
+                            <td>${item.food.type}</td>
+                            <td>${item.food.ingredients}</td>
+                            <td>${item.food.size}</td>
+                        </tr>
+                    </c:forEach>
+                    </tbody>
+                </table>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                 </div>
             </div>
         </form>
 
-</div>
+    </div>
 </div>
 
 

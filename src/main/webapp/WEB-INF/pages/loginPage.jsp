@@ -62,7 +62,7 @@
                     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                         <ul class="nav navbar-nav navbar-center cl-effect-14">
                             <li class="active"><a href="${pageContext.request.contextPath}/welcome">Home</a></li>
-                            <li><a href="${pageContext.request.contextPath}/userInfo">Orders</a></li>
+                            <li><a href="${pageContext.request.contextPath}/selectOrder">Orders</a></li>
                             <li><a href="${pageContext.request.contextPath}/admin">Admin</a></li>
                             <li><a href="${pageContext.request.contextPath}/cart">Cart</a></li>
                             <li><a href="codes.html">Codes</a></li>

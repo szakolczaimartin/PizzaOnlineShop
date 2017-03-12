@@ -71,7 +71,7 @@
                     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                         <ul class="nav navbar-nav navbar-center cl-effect-14">
                             <li class="active"><a href="${pageContext.request.contextPath}/welcome">Home</a></li>
-                            <li><a href="${pageContext.request.contextPath}/userInfo">Orders</a></li>
+                            <li><a href="${pageContext.request.contextPath}/selectOrder">Orders</a></li>
                             <li><a href="${pageContext.request.contextPath}/admin">Admin</a></li>
                             <li><a href="${pageContext.request.contextPath}/cart">Cart</a></li>
                             <li><a href="codes.html">Codes</a></li>
@@ -85,6 +85,21 @@
             <!--navigation-->
         </div>
     </div>
+</div>
+
+<div class="col-md-12">
+    <ul class="nav navbar-nav navbar-right">
+        <c:if test="${pageContext.request.userPrincipal.name != null}">
+            <li><a href="${pageContext.request.contextPath}/signUp"><span class="glyphicon glyphicon-shopping-cart"></span> <span class="badge badge-primary">${countItemNumber}</span></a></li>
+            <li><a href="/modifyDetails" >Signed in as: ${pageContext.request.userPrincipal.name}</a></li>
+            <li><a href="${pageContext.request.contextPath}/logout" ><span class="glyphicon glyphicon-log-out"></span> Log out</a></li>
+        </c:if>
+
+        <c:if test="${!(pageContext.request.userPrincipal.name != null)}">
+            <li><a href="${pageContext.request.contextPath}/signUp"><span class="glyphicon glyphicon-user"></span> Sign Up</font></a></li>
+            <li><a href="${pageContext.request.contextPath}/login"><span class="glyphicon glyphicon-log-in"></span> Login</font</a></li>
+        </c:if>
+    </ul>
 </div>
 
 <br>
@@ -134,7 +149,7 @@
                         <td>${food.size} cm</td>
                         <td>${food.price} Ft</td>
                         <td>
-                            <input name="quantity" type="number" value="0" required/>
+                            <input name="quantity" type="number" min="0" value="0" required/>
                         <td>
                             <button type="submit">Add to the cart</button>
                         </td>
@@ -175,7 +190,7 @@
                             <td>${food.price} Ft</td>
 
                             <td>
-                                <input name="quantity" type="number" value="0" required/>
+                                <input name="quantity" type="number" min="0" value="0" required/>
                             <td>
                                 <button type="submit">Add to the cart</button>
                             </td>
@@ -216,7 +231,7 @@
                             <td>${food.price} Ft</td>
 
                             <td>
-                                <input name="quantity" type="number" value="0" required/>
+                                <input name="quantity" type="number" min="0" value="0" required/>
                             <td>
                                 <button type="submit">Add to the cart</button>
                             </td>
@@ -258,7 +273,7 @@
                             <td>${food.price} Ft</td>
 
                             <td>
-                                <input name="quantity" type="number" value="0" required/>
+                                <input name="quantity" type="number" min="0" value="0" required/>
                             <td>
                                 <button type="submit">Add to the cart</button>
                             </td>

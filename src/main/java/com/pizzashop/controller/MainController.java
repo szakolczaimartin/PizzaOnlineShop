@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.*;
 public class MainController {
 
 
-
     @Autowired
     private UsersDao usersDao;
 
@@ -36,77 +35,76 @@ public class MainController {
     private ItemDao itemDao;
 
 
-    @RequestMapping(value = { "/", "/welcome" }, method = RequestMethod.GET)
+    @RequestMapping(value = {"/", "/welcome"}, method = RequestMethod.GET)
     public String welcomePage(Model model) {
-        model.addAttribute("title", "Welcome");
 
+        model.addAttribute("title", "Welcome");
         model.addAttribute("message", "This is welcome page!");
         return "welcomePage";
     }
 
     @RequestMapping(value = "/addFood", method = RequestMethod.POST)
-    public String save(Model model, @ModelAttribute("foodForm") Food f) {
+    public String save(Model model,Principal principal, @ModelAttribute("foodForm") Food f) {
         this.foodDao.save(f);
 
-        return adminPage(model);
+        return adminPage(model, principal);
     }
 
 
     @RequestMapping(value = "/adToChart")
-    public String adToChart(Model model,Principal principal, @RequestParam("id") int id, @RequestParam("quantity") int quantity){
+    public String adToChart(Model model, Principal principal, @RequestParam("id") int id, @RequestParam("quantity") int quantity) {
 
         Date date = new Date();
         Users user = usersDao.userByUsername(principal.getName());
         Food food = foodDao.getFoodById(id);
         int price = food.getPrice() * quantity;
 
-        if (orderDao.orderByUsername(user.getUsername()) == null)
-        {
-            Order order = new Order(user,date,false,false);
+
+
+
+        if (orderDao.orderByUsername(user.getUsername()) == null) {
+            Order order = new Order(user, date, false, false, 0);
             orderDao.save(order);
 
-            Item item = new Item(order,food,quantity,price);
+            Item item = new Item(order, food, quantity, price);
             itemDao.save(item);
-        }
-        else {
+        } else {
 
-            List <Order> orderList = orderDao.orderByUsername(user.getUsername());
+            List<Order> orderList = orderDao.orderByUsername(user.getUsername());
             Boolean flag = false;
 
-            for (Order order: orderList) {
+            for (Order order : orderList) {
 
-                if (order.getOrdered() == false)
-                {
-                    Item item = new Item(order,food,quantity,price);
+                if (order.getOrdered() == false) {
+                    Item item = new Item(order, food, quantity, price);
                     itemDao.save(item);
                     flag = true;
                 }
             }
 
-            if (!flag)
-            {
-                Order order = new Order(user,date,false,false);
+            if (!flag) {
+                Order order = new Order(user, date, false, false, 0);
                 orderDao.save(order);
 
-                Item item = new Item(order,food,quantity,price);
+                Item item = new Item(order, food, quantity, price);
                 itemDao.save(item);
             }
         }
 
 
-        return userInfo(model, principal);
+        return selectOrder(model, principal);
     }
 
     @RequestMapping(value = "/removeFood/{id}")
-    public String removeFood(Model model,@PathVariable("id") int id){
+    public String removeFood(Model model,Principal principal, @PathVariable("id") int id) {
         this.itemDao.removeItemsFood(Integer.toHexString(id));
         this.foodDao.removeFood(id);
-        return adminPage(model);
+        return adminPage(model, principal);
     }
 
 
     @RequestMapping(value = "/modifyFoodModal/{id}", method = RequestMethod.GET)
-    public String modifyFoodModal(Model model,@PathVariable("id") int id){
+    public String modifyFoodModal(Model model, @PathVariable("id") int id) {
         Food modifyFood = this.foodDao.getFoodById(id);
         model.addAttribute("modifyFood", modifyFood);
         return "modifyFood";
@@ -114,10 +112,10 @@ public class MainController {
 
 
     @RequestMapping(value = "/modifyFood", method = RequestMethod.POST)
-    public String modifyFood(Model model,@RequestParam("name") String name,
+    public String modifyFood(Model model,Principal principal, @RequestParam("name") String name,
                              @RequestParam("price") int price, @RequestParam("url") String url,
                              @RequestParam("ingredients") String ingredients, @RequestParam("type") String type,
-                             @RequestParam("size") String size){
+                             @RequestParam("size") String size) {
 
         Food modifyFood = this.foodDao.foodByName(name).get(0);
         modifyFood.setIngredients(ingredients);
@@ -126,28 +124,45 @@ public class MainController {
         modifyFood.setUrl(url);
         modifyFood.setType(type);
         this.foodDao.save(modifyFood);
-        return adminPage(model);
+        return adminPage(model,principal);
+    }
+
+    public List<Order> avaiableOrderList() {
+        List<Order> allOrderList = orderDao.findAll();
+        List<Order> orderList = new ArrayList<Order>();
+        for (Order order : allOrderList) {
+
+            if (order.getShipped() == false && order.getOrdered() == true) {
+                order.getUsers().getUsersDetails().getName();
+                orderList.add(order);
+            }
+        }
+        return orderList;
     }
 
 
     @RequestMapping(value = "/admin", method = RequestMethod.GET)
-    public String adminPage(Model model) {
+    public String adminPage(Model model, Principal principal) {
 
+        int countItemNumber = countItemsInCart(principal.getName());
         List<Users> usersList = usersDao.findAll();
         List<UserRoles> userRoleList = userRolesDao.findAll();
         List<UserRoles> userRoleAdminList = userRolesDao.findAdmin();
         List<Food> foods = foodDao.findAll();
+        List<Order> orderList = avaiableOrderList();
         model.addAttribute("usersList", usersList);
         model.addAttribute("userRoleList", userRoleList);
         model.addAttribute("userRoleAdminList", userRoleAdminList);
         model.addAttribute("foodForm", new Food());
         model.addAttribute("foods", foods);
+        model.addAttribute("orderList", orderList);
+        model.addAttribute("countItemNumber", countItemNumber);
 
         return "adminPage";
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
-    public String loginPage(Model model ) {
+    public String loginPage(Model model) {
 
         return "loginPage";
     }
@@ -178,11 +193,10 @@ public class MainController {
                                 @RequestParam("password") String password,
                                 @RequestParam("conFirmpassword") String conFirmpassword) {
 
-        if (!password.equals(conFirmpassword))
-        {
+        if (!password.equals(conFirmpassword)) {
             model.addAttribute("message", "Passwords don't equal!");
-            return modifyDetailsPage(model,principal);
-        }else {
+            return modifyDetailsPage(model, principal);
+        } else {
 
             // After user login successfully.
             String userName2 = principal.getName();
@@ -197,8 +211,8 @@ public class MainController {
         }
     }
 
-    @RequestMapping(value = "/userInfo", method = RequestMethod.GET)
-    public String userInfo(Model model, Principal principal) {
+    @RequestMapping(value = "/selectOrder", method = RequestMethod.GET)
+    public String selectOrder(Model model, Principal principal) {
 
         List<Food> allFood = this.foodDao.findAll();
 
@@ -206,27 +220,31 @@ public class MainController {
         List<Food> bigPizza = new ArrayList<Food>();
         List<Food> otherFood = new ArrayList<Food>();
         List<Food> drink = new ArrayList<Food>();
+        int countItemNumber = countItemsInCart(principal.getName());
 
-        for (Food item:allFood) {
-            if (item.getType().equals("pizza"))
-            {
-                if (item.getSize().equals("32"))
-                {smallPizza.add(item);}
-                else {bigPizza.add(item);}
+        for (Food item : allFood) {
+            if (item.getType().equals("pizza")) {
+                if (item.getSize().equals("32")) {
+                    smallPizza.add(item);
+                } else {
+                    bigPizza.add(item);
+                }
+            } else if (item.getType().equals("drink")) {
+                drink.add(item);
+            } else {
+                otherFood.add(item);
             }
-            else if(item.getType().equals("drink")){
-                drink.add(item);}
-            else {otherFood.add(item);}
         }
 
         model.addAttribute("smallPizza", smallPizza);
         model.addAttribute("bigPizza", bigPizza);
         model.addAttribute("otherFood", otherFood);
         model.addAttribute("drink", drink);
+        model.addAttribute("countItemNumber", countItemNumber);
 
         // After user login successfully.
         String userName = principal.getName();
-        return "userInfoPage";
+        return "selectOrderPage";
     }
 
     @RequestMapping(value = "/403", method = RequestMethod.GET)
@@ -244,23 +262,19 @@ public class MainController {
 
 
     @RequestMapping(value = "/signUpIn", method = RequestMethod.POST)
-    public String saveOrder(Model model,@RequestParam("name") String name, @RequestParam("username") String username,
+    public String saveOrder(Model model, @RequestParam("name") String name, @RequestParam("username") String username,
                             @RequestParam("email") String email, @RequestParam("phoneNumber") String phoneNumber,
-                            @RequestParam("address") String address,@RequestParam("password") String password,
-                            @RequestParam("conFirmpassword") String conFirmpassword)
-    {
+                            @RequestParam("address") String address, @RequestParam("password") String password,
+                            @RequestParam("conFirmpassword") String conFirmpassword) {
 
 
-        if (!password.equals(conFirmpassword))
-        {
+        if (!password.equals(conFirmpassword)) {
             model.addAttribute("message", "Passwords don't equal!");
             return signUpPage(model);
-        }
-        else if (usersDao.userByUsername(username) != null)
-        {
+        } else if (usersDao.userByUsername(username) != null) {
             model.addAttribute("message", "Username already exists!");
             return signUpPage(model);
-        }else {
+        } else {
             Users users = new Users(username, password, true);
             usersDao.save(users);
             UsersDetails usersDetails = new UsersDetails(username, name, address, email, phoneNumber, users);
@@ -281,73 +295,71 @@ public class MainController {
     }
 
     @RequestMapping("/remove/{username}")
-    public String removePerson(Model model,@PathVariable("username") String username){
+    public String removePerson(Model model,Principal principal, @PathVariable("username") String username) {
 
         this.usersDetailsDao.removeUserDetails(username);
         this.userRolesDao.removeUserRole(username);
         this.usersDao.removeUser(username);
-        return adminPage(model);
+        return adminPage(model, principal);
     }
 
     @RequestMapping("/removeItem/{itemId}")
-    public String removePerson(Model model,Principal principal,@PathVariable("itemId") int id){
+    public String removePerson(Model model, Principal principal, @PathVariable("itemId") int id) {
 
         this.itemDao.removeItem(id);
-        return cartPage(model,principal);
+        return cartPage(model, principal);
     }
 
     @RequestMapping("/addAdmin/{username}")
-    public String addAdmin(Model model,@PathVariable("username") String username){
+    public String addAdmin(Model model, Principal principal, @PathVariable("username") String username) {
 
         Users user = usersDao.userByUsername(username);
         UserRoles userRoles = new UserRoles(user, "ADMIN");
         this.userRolesDao.save(userRoles);
-        return adminPage(model);
+        return adminPage(model, principal);
     }
 
     @RequestMapping("/depriveAdmin/{username}")
-    public String depriveAdmin(Model model,@PathVariable("username") String username){
+    public String depriveAdmin(Model model,Principal principal, @PathVariable("username") String username) {
 
         this.userRolesDao.removeUserRole(username);
         Users user = usersDao.userByUsername(username);
         UserRoles userRoles = new UserRoles(user, "USER");
         this.userRolesDao.save(userRoles);
-        return adminPage(model);
+        return adminPage(model, principal);
     }
 
     @RequestMapping(value = "/cart", method = RequestMethod.GET)
     public String cartPage(Model model, Principal principal) {
 
-       List <Order> orderList = orderDao.orderByUsername(principal.getName());
+        List<Order> orderList = orderDao.orderByUsername(principal.getName());
+        int countItemNumber = countItemsInCart(principal.getName());
 
         int allPrice = 0;
-        String  price = "0";
+        String price = "0";
         List<Item> itemList = new ArrayList<Item>();
 
-        for (Order order:orderList) {
+        for (Order order : orderList) {
 
-            if (order.getOrdered() == false)
-            {
+            if (order.getOrdered() == false) {
 
                 itemList = order.getItems();
 
-                for (Item item:itemList) {
+                for (Item item : itemList) {
                     allPrice = allPrice + item.getPrice();
                 }
 
                 price = Integer.toString(allPrice);
 
-                if (price.length() == 4)
-                {
-                    price = price.substring(0,1) + " " + price.substring(1, price.length());
-                }
-                else if (price.length() > 4)
-                {
-                    price = price.substring(0,2) + " " + price.substring(2, price.length());
+                if (price.length() == 4) {
+                    price = price.substring(0, 1) + " " + price.substring(1, price.length());
+                } else if (price.length() > 4) {
+                    price = price.substring(0, 2) + " " + price.substring(2, price.length());
                 }
             }
         }
 
+        model.addAttribute("countItemNumber", countItemNumber);
         model.addAttribute("orders", itemList);
         model.addAttribute("inAll", price);
 
@@ -365,7 +377,15 @@ public class MainController {
             for (Order order : orderList) {
 
                 if (order.getOrdered() == false && !order.getItems().isEmpty()) {
+
+                    int price = 0;
+                    for (Item item : order.getItems()) {
+                        price = price + item.getPrice();
+                    }
+
                     order.setOrdered(true);
+                    order.setDate(new Date());
+                    order.setPrice(price);
                     orderDao.save(order);
                     return succesOrdered(model, principal);
                 }
@@ -376,7 +396,6 @@ public class MainController {
     }
 
 
-
     @RequestMapping(value = "/succesOrdered", method = RequestMethod.GET)
     public String succesOrdered(Model model, Principal principal) {
 
@@ -384,24 +403,54 @@ public class MainController {
     }
 
     @RequestMapping(value = "/modifyItemModal/{id}", method = RequestMethod.GET)
-    public String modifyItemModal(Model model,@PathVariable("id") int id){
+    public String modifyItemModal(Model model, @PathVariable("id") int id) {
         Item myItem = this.itemDao.getItemById(id);
 
         model.addAttribute("myItem", myItem);
         return "modifyItem";
     }
 
+    @RequestMapping(value = "/showItems/{id}", method = RequestMethod.GET)
+    public String showItems(Model model, @PathVariable("id") int id) {
+
+        List<Item> itemList = this.orderDao.getOrderById(id).getItems();
+
+        model.addAttribute("itemList", itemList);
+        return "showItemsList";
+    }
 
 
+    @RequestMapping(value = "/orderDelivered/{id}", method = RequestMethod.GET)
+    public String orderDelivered(Model model, Principal principal, @PathVariable("id") int id) {
+        Order order = this.orderDao.getOrderById(id);
+
+        order.setShipped(true);
+        this.orderDao.save(order);
+
+        return adminPage(model, principal);
+    }
 
     @RequestMapping(value = "/modifyItemSub", method = RequestMethod.POST)
-    public String modifyItem(Model model,Principal principal, @RequestParam("id") int id, @RequestParam("quantity") int quantity){
+    public String modifyItem(Model model, Principal principal, @RequestParam("id") int id, @RequestParam("quantity") int quantity) {
 
         Item item = this.itemDao.getItemById(id);
         item.setQuantity(quantity);
-        item.setPrice(quantity*item.getFood().getPrice());
+        item.setPrice(quantity * item.getFood().getPrice());
         this.itemDao.save(item);
-        return cartPage(model,principal);
+        return cartPage(model, principal);
     }
 
+
+    public int countItemsInCart(String username) {
+        List<Order> orderList = this.orderDao.orderByUsername(username);
+        for (Order order:orderList) {
+
+            if (order.getOrdered() == false)
+            {
+                return order.getItems().size();
+            }
+        }
+
+        return 0;
+    }
 }

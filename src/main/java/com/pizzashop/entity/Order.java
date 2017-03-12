@@ -23,15 +23,17 @@ public class Order {
     private Date date;
     private Boolean shipped;
     private Boolean ordered;
+    private int price;
 
     public Order() {
     }
 
-    public Order(Users users, Date date, Boolean shipped,Boolean ordered) {
+    public Order(Users users, Date date, Boolean shipped,Boolean ordered, int price) {
         this.users = users;
         this.date = date;
         this.shipped = shipped;
         this.ordered = ordered;
+        this.price = price;
     }
 
     public int getId() {
@@ -80,5 +82,13 @@ public class Order {
 
     public void setOrdered(Boolean ordered) {
         this.ordered = ordered;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
     }
 }
