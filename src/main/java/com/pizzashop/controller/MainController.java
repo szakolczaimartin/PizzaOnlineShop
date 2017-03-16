@@ -12,7 +12,7 @@ import com.pizzashop.Item.entity.Item;
 import com.pizzashop.Order.dao.OrderDao;
 import com.pizzashop.Order.entity.Order;
 import com.pizzashop.UserRoles.dao.UserRolesDao;
-import com.pizzashop.UserRoles.entity.UserRoles;
+import com.pizzashop.UserRoles.entity.UserRole;
 import com.pizzashop.Users.dao.UsersDao;
 import com.pizzashop.Users.entity.User;
 import com.pizzashop.UsersDetails.dao.UsersDetailsDao;
@@ -163,8 +163,8 @@ public class MainController {
 
         int countItemNumber = countItemsInCart(principal.getName());
         List<User> userList = usersDao.findAll();
-        List<UserRoles> userRoleList = userRolesDao.findAll();
-        List<UserRoles> userRoleAdminList = userRolesDao.findAdmin();
+        List<UserRole> userRoleList = userRolesDao.findAll();
+        List<UserRole> userRoleAdminList = userRolesDao.findAdmin();
         List<Food> foods = foodDao.findAll();
         List<Order> orderList = avaiableOrderList();
         model.addAttribute("userList", userList);
@@ -297,8 +297,8 @@ public class MainController {
             UsersDetails usersDetails = new UsersDetails(username, name, address, email, phoneNumber, user);
             usersDetailsDao.save(usersDetails);
 
-            UserRoles userRoles = new UserRoles(user, "USER");
-            userRolesDao.save(userRoles);
+            UserRole userRole = new UserRole(user, "USER");
+            userRolesDao.save(userRole);
 
 
             return "loginPage";
@@ -331,8 +331,8 @@ public class MainController {
     public String addAdmin(Model model, Principal principal, @PathVariable("username") String username) {
 
         User user = usersDao.userByUsername(username);
-        UserRoles userRoles = new UserRoles(user, "ADMIN");
-        this.userRolesDao.save(userRoles);
+        UserRole userRole = new UserRole(user, "ADMIN");
+        this.userRolesDao.save(userRole);
         return adminPage(model, principal);
     }
 
@@ -341,8 +341,8 @@ public class MainController {
 
         this.userRolesDao.removeUserRole(username);
         User user = usersDao.userByUsername(username);
-        UserRoles userRoles = new UserRoles(user, "USER");
-        this.userRolesDao.save(userRoles);
+        UserRole userRole = new UserRole(user, "USER");
+        this.userRolesDao.save(userRole);
         return adminPage(model, principal);
     }
 

@@ -6,8 +6,8 @@ import com.pizzashop.Users.entity.User;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "USER_ROLES")
-public class UserRoles {
+@Table(name = "USER_ROLE")
+public class UserRole {
 
     @Id
     @GeneratedValue
@@ -21,9 +21,9 @@ public class UserRoles {
     @Column(name = "USER_ROLE" ,  nullable = false)
     private String userRole ;
 
-    public UserRoles(){}
+    public UserRole(){}
 
-    public UserRoles(User user, String userRole){
+    public UserRole(User user, String userRole){
         this.user = user;
         this.userRole = userRole;
     }

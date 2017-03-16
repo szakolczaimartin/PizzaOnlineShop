@@ -2,7 +2,7 @@ package com.pizzashop.Users.entity;
 
 
 import com.pizzashop.Order.entity.Order;
-import com.pizzashop.UserRoles.entity.UserRoles;
+import com.pizzashop.UserRoles.entity.UserRole;
 import com.pizzashop.UsersDetails.entity.UsersDetails;
 
 import javax.persistence.*;
@@ -25,7 +25,7 @@ public class User {
     private UsersDetails usersDetails;
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.DETACH)
-    private List<UserRoles> userRoles;
+    private List<UserRole> userRoles;
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.DETACH)
     private List<Order> orders;
@@ -79,11 +79,11 @@ public class User {
         this.usersDetails = usersDetails;
     }
 
-    public List<UserRoles> getUserRoles() {
+    public List<UserRole> getUserRoles() {
         return userRoles;
     }
 
-    public void setUserRoles(List<UserRoles> userRoles) {
+    public void setUserRoles(List<UserRole> userRoles) {
         this.userRoles = userRoles;
     }
 }
