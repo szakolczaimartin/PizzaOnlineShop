@@ -6,7 +6,7 @@ import com.pizzashop.Food.entity.Food;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "items")
+@Table(name = "ITEMS")
 public class Item {
 
     @Id

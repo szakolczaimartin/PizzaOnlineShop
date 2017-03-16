@@ -1,7 +1,7 @@
 package com.pizzashop.UserRoles.dao;
 
 import com.pizzashop.UserRoles.entity.UserRoles;
-import com.pizzashop.Users.entity.Users;
+import com.pizzashop.Users.entity.User;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,7 +43,7 @@ public class UserRolesDao {
 
     public void removeUserRole(java.lang.String userName) {
         Session session = sessionFactory.openSession();
-        List<Users> users = session.createQuery("select  i from Users i where i.username = '" + userName + "'").list();
+        List<User> users = session.createQuery("select  i from Users i where i.username = '" + userName + "'").list();
         List<UserRoles> userRoles = users.get(0).getUserRoles();
         for (UserRoles var: userRoles) {
             session.delete(var);

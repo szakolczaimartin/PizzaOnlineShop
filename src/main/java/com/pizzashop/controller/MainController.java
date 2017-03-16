@@ -14,7 +14,7 @@ import com.pizzashop.Order.entity.Order;
 import com.pizzashop.UserRoles.dao.UserRolesDao;
 import com.pizzashop.UserRoles.entity.UserRoles;
 import com.pizzashop.Users.dao.UsersDao;
-import com.pizzashop.Users.entity.Users;
+import com.pizzashop.Users.entity.User;
 import com.pizzashop.UsersDetails.dao.UsersDetailsDao;
 import com.pizzashop.UsersDetails.entity.UsersDetails;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -78,7 +78,7 @@ public class MainController {
     public String adToChart(Model model, Principal principal, @RequestParam("id") int id, @RequestParam("quantity") int quantity) {
 
         Date date = new Date();
-        Users user = usersDao.userByUsername(principal.getName());
+        User user = usersDao.userByUsername(principal.getName());
         Food food = foodDao.getFoodById(id);
         int price = food.getPrice() * quantity;
 
@@ -150,7 +150,7 @@ public class MainController {
         for (Order order : allOrderList) {
 
             if (order.getShipped() == false && order.getOrdered() == true) {
-                order.getUsers().getUsersDetails().getName();
+                order.getUser().getUsersDetails().getName();
                 orderList.add(order);
             }
         }
@@ -162,12 +162,12 @@ public class MainController {
     public String adminPage(Model model, Principal principal) {
 
         int countItemNumber = countItemsInCart(principal.getName());
-        List<Users> usersList = usersDao.findAll();
+        List<User> userList = usersDao.findAll();
         List<UserRoles> userRoleList = userRolesDao.findAll();
         List<UserRoles> userRoleAdminList = userRolesDao.findAdmin();
         List<Food> foods = foodDao.findAll();
         List<Order> orderList = avaiableOrderList();
-        model.addAttribute("usersList", usersList);
+        model.addAttribute("userList", userList);
         model.addAttribute("userRoleList", userRoleList);
         model.addAttribute("userRoleAdminList", userRoleAdminList);
         model.addAttribute("foodForm", new Food());
@@ -221,7 +221,7 @@ public class MainController {
             UsersDetails userDetails = usersDetailsDao.listbyUsername(userName2).get(0);
 
             UsersDetails modifyDetails = new UsersDetails(username, name, address, email, phoneNumber);
-            Users user = new Users(userName2, password, true);
+            User user = new User(userName2, password, true);
             this.usersDao.save(user);
             this.usersDetailsDao.save(modifyDetails);
             return "welcomePage";
@@ -292,12 +292,12 @@ public class MainController {
             model.addAttribute("message", "Username already exists!");
             return signUpPage(model);
         } else {
-            Users users = new Users(username, password, true);
-            usersDao.save(users);
-            UsersDetails usersDetails = new UsersDetails(username, name, address, email, phoneNumber, users);
+            User user = new User(username, password, true);
+            usersDao.save(user);
+            UsersDetails usersDetails = new UsersDetails(username, name, address, email, phoneNumber, user);
             usersDetailsDao.save(usersDetails);
 
-            UserRoles userRoles = new UserRoles(users, "USER");
+            UserRoles userRoles = new UserRoles(user, "USER");
             userRolesDao.save(userRoles);
 
 
@@ -330,7 +330,7 @@ public class MainController {
     @RequestMapping("/addAdmin/{username}")
     public String addAdmin(Model model, Principal principal, @PathVariable("username") String username) {
 
-        Users user = usersDao.userByUsername(username);
+        User user = usersDao.userByUsername(username);
         UserRoles userRoles = new UserRoles(user, "ADMIN");
         this.userRolesDao.save(userRoles);
         return adminPage(model, principal);
@@ -340,7 +340,7 @@ public class MainController {
     public String depriveAdmin(Model model, Principal principal, @PathVariable("username") String username) {
 
         this.userRolesDao.removeUserRole(username);
-        Users user = usersDao.userByUsername(username);
+        User user = usersDao.userByUsername(username);
         UserRoles userRoles = new UserRoles(user, "USER");
         this.userRolesDao.save(userRoles);
         return adminPage(model, principal);

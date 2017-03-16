@@ -1,12 +1,12 @@
 package com.pizzashop.UserRoles.entity;
 
 
-import com.pizzashop.Users.entity.Users;
+import com.pizzashop.Users.entity.User;
 
 import javax.persistence.*;
 
 @Entity
-@Table(name = "user_roles")
+@Table(name = "USER_ROLES")
 public class UserRoles {
 
     @Id
@@ -16,15 +16,15 @@ public class UserRoles {
 
     @ManyToOne
     @JoinColumn(name = "USERNAME", nullable = false)
-    private Users users;
+    private User user;
 
     @Column(name = "USER_ROLE" ,  nullable = false)
     private String userRole ;
 
     public UserRoles(){}
 
-    public UserRoles(Users users, String userRole){
-        this.users= users;
+    public UserRoles(User user, String userRole){
+        this.user = user;
         this.userRole = userRole;
     }
 
@@ -37,12 +37,12 @@ public class UserRoles {
         this.id = id;
     }
 
-    public Users getUsers() {
-        return users;
+    public User getUser() {
+        return user;
     }
 
-    public void setUsers(Users users) {
-        this.users = users;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public String getUserRole() {

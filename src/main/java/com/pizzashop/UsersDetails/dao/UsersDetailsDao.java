@@ -1,6 +1,6 @@
 package com.pizzashop.UsersDetails.dao;
 
-import com.pizzashop.Users.entity.Users;
+import com.pizzashop.Users.entity.User;
 import com.pizzashop.UsersDetails.entity.UsersDetails;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -28,7 +28,7 @@ public class UsersDetailsDao {
 
     public void removeUserDetails(java.lang.String userName) {
         Session session = sessionFactory.openSession();
-        List<Users> userses = session.createQuery("select  i from Users i where i.username = '" + userName + "'").list();
+        List<User> userses = session.createQuery("select  i from User i where i.username = '" + userName + "'").list();
         UsersDetails usersDetails = userses.get(0).getUsersDetails();
         session.delete(usersDetails);
         session.flush();

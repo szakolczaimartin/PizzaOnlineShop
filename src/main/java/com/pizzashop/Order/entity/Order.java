@@ -1,6 +1,6 @@
 package com.pizzashop.Order.entity;
 
-import com.pizzashop.Users.entity.Users;
+import com.pizzashop.Users.entity.User;
 import com.pizzashop.Item.entity.Item;
 
 import javax.persistence.*;
@@ -8,7 +8,7 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
-@Table(name = "orders")
+@Table(name = "ORDERS")
 public class Order {
 
     @Id
@@ -18,7 +18,7 @@ public class Order {
 
     @ManyToOne
     @JoinColumn(name = "USERNAME", nullable = false)
-    private Users users;
+    private User user;
 
     @OneToMany(mappedBy = "orders", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Item> items;
@@ -31,8 +31,8 @@ public class Order {
     public Order() {
     }
 
-    public Order(Users users, Date date, Boolean shipped,Boolean ordered, int price) {
-        this.users = users;
+    public Order(User user, Date date, Boolean shipped, Boolean ordered, int price) {
+        this.user = user;
         this.date = date;
         this.shipped = shipped;
         this.ordered = ordered;
@@ -47,12 +47,12 @@ public class Order {
         this.id = id;
     }
 
-    public Users getUsers() {
-        return users;
+    public User getUser() {
+        return user;
     }
 
-    public void setUsers(Users users) {
-        this.users = users;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public Date getDate() {

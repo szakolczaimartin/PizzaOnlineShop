@@ -1,6 +1,6 @@
 package com.pizzashop.Users.dao;
 
-import com.pizzashop.Users.entity.Users;
+import com.pizzashop.Users.entity.User;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,34 +17,34 @@ public class UsersDao {
     @Autowired
     private SessionFactory sessionFactory;
 
-    public void save(Users users)
+    public void save(User user)
     {
         Session currenSession = sessionFactory.openSession();
-        currenSession.saveOrUpdate(users);
+        currenSession.saveOrUpdate(user);
         currenSession.flush();
         currenSession.close();
     }
 
     @Transactional
-    public Users userByUsername(java.lang.String valaki) {
+    public User userByUsername(java.lang.String valaki) {
 
         Session session = sessionFactory.getCurrentSession();
-        List<Users> userList = session.createQuery("select  i from Users i where i.username = '" + valaki + "'").list();
+        List<User> userList = session.createQuery("select  i from User i where i.username = '" + valaki + "'").list();
 
         if (userList.get(0) == null)
         {
             return null;
         }
         else {
-            Users user = userList.get(0);
+            User user = userList.get(0);
             return user;
         }
     }
 
     @Transactional
-    public List<Users> findAll() {
+    public List<User> findAll() {
         Session session = sessionFactory.getCurrentSession();
-        List users = session.createQuery("from Users").list();
+        List users = session.createQuery("from User").list();
         return users;
     }
 
@@ -52,8 +52,8 @@ public class UsersDao {
 
     public void removeUser(java.lang.String userName) {
         Session session = sessionFactory.openSession();
-        List<Users> userses = session.createQuery("select  i from Users i where i.username = '" + userName + "'").list();
-        Users user = userses.get(0);
+        List<User> userses = session.createQuery("select  i from User i where i.username = '" + userName + "'").list();
+        User user = userses.get(0);
         session.delete(user);
         session.flush();
         session.close();

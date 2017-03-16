@@ -9,8 +9,8 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@Table(name = "users")
-public class Users {
+@Table(name = "USER")
+public class User {
 
     @Id
     @Column(name = "USERNAME", unique = true, nullable = false, length = 45)
@@ -24,23 +24,23 @@ public class Users {
     @PrimaryKeyJoinColumn
     private UsersDetails usersDetails;
 
-    @OneToMany(mappedBy = "users", fetch = FetchType.LAZY, cascade = CascadeType.DETACH)
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.DETACH)
     private List<UserRoles> userRoles;
 
-    @OneToMany(mappedBy = "users", fetch = FetchType.LAZY, cascade = CascadeType.DETACH)
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.DETACH)
     private List<Order> orders;
 
 
-    public Users() {
+    public User() {
     }
 
-    public Users(String username, String password, boolean enabled) {
+    public User(String username, String password, boolean enabled) {
         this.username = username;
         this.password = password;
         this.enabled = enabled;
     }
 
-    public Users(String username, String password, boolean enabled, UsersDetails usersDetails) {
+    public User(String username, String password, boolean enabled, UsersDetails usersDetails) {
         this.username = username;
         this.password = password;
         this.enabled = enabled;

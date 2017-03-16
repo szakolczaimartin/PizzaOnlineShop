@@ -165,7 +165,7 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <c:forEach items="${usersList}" var="person">
+                                <c:forEach items="${userList}" var="person">
                                     <c:set var="contains" value="false" />
                                     <tr>
                                         <td>${person.usersDetails.name}</td>
@@ -174,7 +174,7 @@
 
 
                                         <c:forEach items="${userRoleAdminList}" var="admin">
-                                            <c:if test="${(person.username == admin.users.username)}">
+                                            <c:if test="${(person.username == admin.user.username)}">
                                                 <c:set var="contains" value="true" />
                                             </c:if>
                                         </c:forEach>
@@ -266,9 +266,9 @@
                         <c:forEach items="${orderList}" var="order">
                         <tr>
                             <td>${order.id}</td>
-                            <td>${order.users.usersDetails.name}</td>
-                            <td>${order.users.usersDetails.phoneNumber}</td>
-                            <td>${order.users.usersDetails.address}</td>
+                            <td>${order.user.usersDetails.name}</td>
+                            <td>${order.user.usersDetails.phoneNumber}</td>
+                            <td>${order.user.usersDetails.address}</td>
                             <td>${order.date}</td>
                             <td>${order.price}</td>
                             <td><a href="<c:url value='/showItems/${order.id}' />" data-toggle="modal"

@@ -1,11 +1,11 @@
 package com.pizzashop.UsersDetails.entity;
 
-import com.pizzashop.Users.entity.Users;
+import com.pizzashop.Users.entity.User;
 
 import javax.persistence.*;
 
 @Entity
-@Table(name = "usersDetails")
+@Table(name = "USER_DETAILS")
 public class UsersDetails {
 
 
@@ -26,7 +26,7 @@ public class UsersDetails {
     private String phoneNumber;
 
     @OneToOne(fetch = FetchType.LAZY, mappedBy = "usersDetails", cascade = CascadeType.DETACH)
-    private Users users;
+    private User user;
 
 
     public UsersDetails(){}
@@ -39,12 +39,12 @@ public class UsersDetails {
         this.name = name;
     }
 
-    public UsersDetails(String username, String name, String address, String email, String phoneNumber, Users users) {
+    public UsersDetails(String username, String name, String address, String email, String phoneNumber, User user) {
         this.username = username;
         this.address = address;
         this.email = email;
         this.phoneNumber = phoneNumber;
-        this.users = users;
+        this.user = user;
         this.name = name;
     }
 
@@ -88,11 +88,11 @@ public class UsersDetails {
         this.phoneNumber = phoneNumber;
     }
 
-    public Users getUsers() {
-        return users;
+    public User getUser() {
+        return user;
     }
 
-    public void setUsers(Users users) {
-        this.users = users;
+    public void setUser(User user) {
+        this.user = user;
     }
 }
