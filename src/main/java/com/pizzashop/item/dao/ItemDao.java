@@ -1,7 +1,7 @@
-package com.pizzashop.Item.dao;
+package com.pizzashop.item.dao;
 
-import com.pizzashop.Item.entity.Item;
-import com.pizzashop.Food.entity.Food;
+import com.pizzashop.item.entity.Item;
+import com.pizzashop.food.entity.Food;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,6 +1,6 @@
-package com.pizzashop.Users.dao;
+package com.pizzashop.user.dao;
 
-import com.pizzashop.Users.entity.User;
+import com.pizzashop.user.entity.User;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +11,7 @@ import java.util.List;
 
 @Repository
 @SuppressWarnings({"unchecked", "rawtypes"})
-public class UsersDao {
+public class UserDao {
 
 
     @Autowired

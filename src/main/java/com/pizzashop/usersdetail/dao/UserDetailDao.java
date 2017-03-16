@@ -1,7 +1,7 @@
-package com.pizzashop.UsersDetails.dao;
+package com.pizzashop.usersdetail.dao;
 
-import com.pizzashop.Users.entity.User;
-import com.pizzashop.UsersDetails.entity.UsersDetails;
+import com.pizzashop.user.entity.User;
+import com.pizzashop.usersdetail.entity.UsersDetail;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,15 +12,15 @@ import java.util.List;
 
 @Repository
 @SuppressWarnings({"unchecked", "rawtypes"})
-public class UsersDetailsDao {
+public class UserDetailDao {
 
     @Autowired
     private SessionFactory sessionFactory;
 
-    public void save(UsersDetails usersDetails)
+    public void save(UsersDetail usersDetail)
     {
         Session currenSession = sessionFactory.openSession();
-        currenSession.saveOrUpdate(usersDetails);
+        currenSession.saveOrUpdate(usersDetail);
         currenSession.flush();
         currenSession.close();
     }
@@ -29,18 +29,18 @@ public class UsersDetailsDao {
     public void removeUserDetails(java.lang.String userName) {
         Session session = sessionFactory.openSession();
         List<User> userses = session.createQuery("select  i from User i where i.username = '" + userName + "'").list();
-        UsersDetails usersDetails = userses.get(0).getUsersDetails();
-        session.delete(usersDetails);
+        UsersDetail usersDetail = userses.get(0).getUsersDetail();
+        session.delete(usersDetail);
         session.flush();
         session.close();
     }
 
     @Transactional
-    public List<UsersDetails> listbyUsername(java.lang.String valaki) {
+    public List<UsersDetail> listbyUsername(java.lang.String valaki) {
 
 
         Session session = sessionFactory.getCurrentSession();
-        List itemses = session.createQuery("select  i from UsersDetails i where i.username = '" + valaki + "'").list();
+        List itemses = session.createQuery("select  i from UsersDetail i where i.username = '" + valaki + "'").list();
         return itemses;
     }
 }

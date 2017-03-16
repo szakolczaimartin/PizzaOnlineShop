@@ -1,7 +1,7 @@
-package com.pizzashop.Order.entity;
+package com.pizzashop.order.entity;
 
-import com.pizzashop.Users.entity.User;
-import com.pizzashop.Item.entity.Item;
+import com.pizzashop.user.entity.User;
+import com.pizzashop.item.entity.Item;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -20,7 +20,7 @@ public class Order {
     @JoinColumn(name = "USERNAME", nullable = false)
     private User user;
 
-    @OneToMany(mappedBy = "orders", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "order", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Item> items;
 
     private Date date;

@@ -1,12 +1,12 @@
-package com.pizzashop.UsersDetails.entity;
+package com.pizzashop.usersdetail.entity;
 
-import com.pizzashop.Users.entity.User;
+import com.pizzashop.user.entity.User;
 
 import javax.persistence.*;
 
 @Entity
-@Table(name = "USER_DETAILS")
-public class UsersDetails {
+@Table(name = "USER_DETAIL")
+public class UsersDetail {
 
 
 
@@ -25,13 +25,13 @@ public class UsersDetails {
     @Column(name = "phoneNumber", nullable = false, length = 100)
     private String phoneNumber;
 
-    @OneToOne(fetch = FetchType.LAZY, mappedBy = "usersDetails", cascade = CascadeType.DETACH)
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "usersDetail", cascade = CascadeType.DETACH)
     private User user;
 
 
-    public UsersDetails(){}
+    public UsersDetail(){}
 
-    public UsersDetails(String username, String name, String address, String email, String phoneNumber) {
+    public UsersDetail(String username, String name, String address, String email, String phoneNumber) {
         this.username = username;
         this.address = address;
         this.email = email;
@@ -39,7 +39,7 @@ public class UsersDetails {
         this.name = name;
     }
 
-    public UsersDetails(String username, String name, String address, String email, String phoneNumber, User user) {
+    public UsersDetail(String username, String name, String address, String email, String phoneNumber, User user) {
         this.username = username;
         this.address = address;
         this.email = email;

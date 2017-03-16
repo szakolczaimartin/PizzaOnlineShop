@@ -1,9 +1,9 @@
-package com.pizzashop.Users.entity;
+package com.pizzashop.user.entity;
 
 
-import com.pizzashop.Order.entity.Order;
-import com.pizzashop.UserRoles.entity.UserRole;
-import com.pizzashop.UsersDetails.entity.UsersDetails;
+import com.pizzashop.order.entity.Order;
+import com.pizzashop.userrole.entity.UserRole;
+import com.pizzashop.usersdetail.entity.UsersDetail;
 
 import javax.persistence.*;
 import java.util.List;
@@ -22,13 +22,13 @@ public class User {
 
     @OneToOne
     @PrimaryKeyJoinColumn
-    private UsersDetails usersDetails;
+    private UsersDetail usersDetail;
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.DETACH)
     private List<UserRole> userRoles;
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.DETACH)
-    private List<Order> orders;
+    private List<Order> order;
 
 
     public User() {
@@ -40,11 +40,11 @@ public class User {
         this.enabled = enabled;
     }
 
-    public User(String username, String password, boolean enabled, UsersDetails usersDetails) {
+    public User(String username, String password, boolean enabled, UsersDetail usersDetail) {
         this.username = username;
         this.password = password;
         this.enabled = enabled;
-        this.usersDetails = usersDetails;
+        this.usersDetail = usersDetail;
     }
 
     public String getUsername() {
@@ -71,12 +71,12 @@ public class User {
         this.enabled = enabled;
     }
 
-    public UsersDetails getUsersDetails() {
-        return usersDetails;
+    public UsersDetail getUsersDetail() {
+        return usersDetail;
     }
 
-    public void setUsersDetails(UsersDetails usersDetails) {
-        this.usersDetails = usersDetails;
+    public void setUsersDetail(UsersDetail usersDetail) {
+        this.usersDetail = usersDetail;
     }
 
     public List<UserRole> getUserRoles() {

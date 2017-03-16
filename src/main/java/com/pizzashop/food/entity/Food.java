@@ -1,12 +1,12 @@
-package com.pizzashop.Food.entity;
+package com.pizzashop.food.entity;
 
-import com.pizzashop.Item.entity.Item;
+import com.pizzashop.item.entity.Item;
 
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@Table(name = "FOODS")
+@Table(name = "FOOD")
 public class Food {
 
     @Id

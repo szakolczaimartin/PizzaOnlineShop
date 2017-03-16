@@ -1,8 +1,8 @@
-package com.pizzashop.Order.dao;
+package com.pizzashop.order.dao;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import com.pizzashop.Order.entity.Order;
+import com.pizzashop.order.entity.Order;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;

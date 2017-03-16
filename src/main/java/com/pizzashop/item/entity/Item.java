@@ -1,12 +1,12 @@
-package com.pizzashop.Item.entity;
+package com.pizzashop.item.entity;
 
-import com.pizzashop.Order.entity.Order;
-import com.pizzashop.Food.entity.Food;
+import com.pizzashop.order.entity.Order;
+import com.pizzashop.food.entity.Food;
 
 import javax.persistence.*;
 
 @Entity
-@Table(name = "ITEMS")
+@Table(name = "ITEM")
 public class Item {
 
     @Id
@@ -15,7 +15,7 @@ public class Item {
 
     @ManyToOne
     @JoinColumn(name = "order_id", nullable = false)
-    private Order orders;
+    private Order order;
 
     @ManyToOne
     @JoinColumn(name = "food_id", nullable = false)
@@ -27,8 +27,8 @@ public class Item {
     public Item() {
     }
 
-    public Item(Order orders, Food food, int quantity, int price) {
-        this.orders = orders;
+    public Item(Order order, Food food, int quantity, int price) {
+        this.order = order;
         this.food = food;
         this.quantity = quantity;
         this.price = price;
@@ -42,12 +42,12 @@ public class Item {
         this.id = id;
     }
 
-    public Order getOrders() {
-        return orders;
+    public Order getOrder() {
+        return order;
     }
 
-    public void setOrders(Order orders) {
-        this.orders = orders;
+    public void setOrder(Order order) {
+        this.order = order;
     }
 
     public Food getFood() {

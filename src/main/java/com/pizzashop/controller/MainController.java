@@ -5,18 +5,18 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import com.pizzashop.Food.dao.FoodDao;
-import com.pizzashop.Item.dao.ItemDao;
-import com.pizzashop.Food.entity.Food;
-import com.pizzashop.Item.entity.Item;
-import com.pizzashop.Order.dao.OrderDao;
-import com.pizzashop.Order.entity.Order;
-import com.pizzashop.UserRoles.dao.UserRolesDao;
-import com.pizzashop.UserRoles.entity.UserRole;
-import com.pizzashop.Users.dao.UsersDao;
-import com.pizzashop.Users.entity.User;
-import com.pizzashop.UsersDetails.dao.UsersDetailsDao;
-import com.pizzashop.UsersDetails.entity.UsersDetails;
+import com.pizzashop.food.dao.FoodDao;
+import com.pizzashop.item.dao.ItemDao;
+import com.pizzashop.food.entity.Food;
+import com.pizzashop.item.entity.Item;
+import com.pizzashop.order.dao.OrderDao;
+import com.pizzashop.order.entity.Order;
+import com.pizzashop.userrole.dao.UserRoleDao;
+import com.pizzashop.userrole.entity.UserRole;
+import com.pizzashop.user.dao.UserDao;
+import com.pizzashop.user.entity.User;
+import com.pizzashop.usersdetail.dao.UserDetailDao;
+import com.pizzashop.usersdetail.entity.UsersDetail;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,13 +26,13 @@ import org.springframework.web.bind.annotation.*;
 public class MainController {
 
     @Autowired
-    private UsersDao usersDao;
+    private UserDao userDao;
 
     @Autowired
-    private UsersDetailsDao usersDetailsDao;
+    private UserDetailDao userDetailDao;
 
     @Autowired
-    private UserRolesDao userRolesDao;
+    private UserRoleDao userRoleDao;
 
     @Autowired
     private FoodDao foodDao;
@@ -78,7 +78,7 @@ public class MainController {
     public String adToChart(Model model, Principal principal, @RequestParam("id") int id, @RequestParam("quantity") int quantity) {
 
         Date date = new Date();
-        User user = usersDao.userByUsername(principal.getName());
+        User user = userDao.userByUsername(principal.getName());
         Food food = foodDao.getFoodById(id);
         int price = food.getPrice() * quantity;
 
@@ -150,7 +150,7 @@ public class MainController {
         for (Order order : allOrderList) {
 
             if (order.getShipped() == false && order.getOrdered() == true) {
-                order.getUser().getUsersDetails().getName();
+                order.getUser().getUsersDetail().getName();
                 orderList.add(order);
             }
         }
@@ -162,9 +162,9 @@ public class MainController {
     public String adminPage(Model model, Principal principal) {
 
         int countItemNumber = countItemsInCart(principal.getName());
-        List<User> userList = usersDao.findAll();
-        List<UserRole> userRoleList = userRolesDao.findAll();
-        List<UserRole> userRoleAdminList = userRolesDao.findAdmin();
+        List<User> userList = userDao.findAll();
+        List<UserRole> userRoleList = userRoleDao.findAll();
+        List<UserRole> userRoleAdminList = userRoleDao.findAdmin();
         List<Food> foods = foodDao.findAll();
         List<Order> orderList = avaiableOrderList();
         model.addAttribute("userList", userList);
@@ -195,7 +195,7 @@ public class MainController {
     public String modifyDetailsPage(Model model, Principal principal) {
         String userName2 = principal.getName();
 
-        UsersDetails userDetails = usersDetailsDao.listbyUsername(userName2).get(0);
+        UsersDetail userDetails = userDetailDao.listbyUsername(userName2).get(0);
 
         model.addAttribute("userDetails", userDetails);
 
@@ -218,12 +218,12 @@ public class MainController {
             // After user login successfully.
             String userName2 = principal.getName();
 
-            UsersDetails userDetails = usersDetailsDao.listbyUsername(userName2).get(0);
+            UsersDetail userDetails = userDetailDao.listbyUsername(userName2).get(0);
 
-            UsersDetails modifyDetails = new UsersDetails(username, name, address, email, phoneNumber);
+            UsersDetail modifyDetails = new UsersDetail(username, name, address, email, phoneNumber);
             User user = new User(userName2, password, true);
-            this.usersDao.save(user);
-            this.usersDetailsDao.save(modifyDetails);
+            this.userDao.save(user);
+            this.userDetailDao.save(modifyDetails);
             return "welcomePage";
         }
     }
@@ -288,17 +288,17 @@ public class MainController {
         if (!password.equals(conFirmpassword)) {
             model.addAttribute("message", "Passwords don't equal!");
             return signUpPage(model);
-        } else if (usersDao.userByUsername(username) != null) {
+        } else if (userDao.userByUsername(username) != null) {
             model.addAttribute("message", "Username already exists!");
             return signUpPage(model);
         } else {
             User user = new User(username, password, true);
-            usersDao.save(user);
-            UsersDetails usersDetails = new UsersDetails(username, name, address, email, phoneNumber, user);
-            usersDetailsDao.save(usersDetails);
+            userDao.save(user);
+            UsersDetail usersDetail = new UsersDetail(username, name, address, email, phoneNumber, user);
+            userDetailDao.save(usersDetail);
 
             UserRole userRole = new UserRole(user, "USER");
-            userRolesDao.save(userRole);
+            userRoleDao.save(userRole);
 
 
             return "loginPage";
@@ -314,9 +314,9 @@ public class MainController {
     @RequestMapping("/remove/{username}")
     public String removePerson(Model model, Principal principal, @PathVariable("username") String username) {
 
-        this.usersDetailsDao.removeUserDetails(username);
-        this.userRolesDao.removeUserRole(username);
-        this.usersDao.removeUser(username);
+        this.userDetailDao.removeUserDetails(username);
+        this.userRoleDao.removeUserRole(username);
+        this.userDao.removeUser(username);
         return adminPage(model, principal);
     }
 
@@ -330,19 +330,19 @@ public class MainController {
     @RequestMapping("/addAdmin/{username}")
     public String addAdmin(Model model, Principal principal, @PathVariable("username") String username) {
 
-        User user = usersDao.userByUsername(username);
+        User user = userDao.userByUsername(username);
         UserRole userRole = new UserRole(user, "ADMIN");
-        this.userRolesDao.save(userRole);
+        this.userRoleDao.save(userRole);
         return adminPage(model, principal);
     }
 
     @RequestMapping("/depriveAdmin/{username}")
     public String depriveAdmin(Model model, Principal principal, @PathVariable("username") String username) {
 
-        this.userRolesDao.removeUserRole(username);
-        User user = usersDao.userByUsername(username);
+        this.userRoleDao.removeUserRole(username);
+        User user = userDao.userByUsername(username);
         UserRole userRole = new UserRole(user, "USER");
-        this.userRolesDao.save(userRole);
+        this.userRoleDao.save(userRole);
         return adminPage(model, principal);
     }
 

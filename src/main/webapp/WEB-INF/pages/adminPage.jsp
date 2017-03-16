@@ -168,7 +168,7 @@
                                 <c:forEach items="${userList}" var="person">
                                     <c:set var="contains" value="false" />
                                     <tr>
-                                        <td>${person.usersDetails.name}</td>
+                                        <td>${person.usersDetail.name}</td>
                                         <td>${person.username}</td>
 
 
@@ -266,9 +266,9 @@
                         <c:forEach items="${orderList}" var="order">
                         <tr>
                             <td>${order.id}</td>
-                            <td>${order.user.usersDetails.name}</td>
-                            <td>${order.user.usersDetails.phoneNumber}</td>
-                            <td>${order.user.usersDetails.address}</td>
+                            <td>${order.user.usersDetail.name}</td>
+                            <td>${order.user.usersDetail.phoneNumber}</td>
+                            <td>${order.user.usersDetail.address}</td>
                             <td>${order.date}</td>
                             <td>${order.price}</td>
                             <td><a href="<c:url value='/showItems/${order.id}' />" data-toggle="modal"

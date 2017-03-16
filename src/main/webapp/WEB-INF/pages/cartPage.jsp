@@ -126,7 +126,7 @@
             </tr>
             </thead>
             <tbody>
-            <c:forEach items="${orders}" var="food">
+            <c:forEach items="${order}" var="food">
             <tr>
                 <form action="/">
                     <td><h5> ${food.food.name} </h5>
