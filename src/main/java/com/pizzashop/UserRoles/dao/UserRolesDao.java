@@ -43,7 +43,7 @@ public class UserRolesDao {
 
     public void removeUserRole(java.lang.String userName) {
         Session session = sessionFactory.openSession();
-        List<User> users = session.createQuery("select  i from Users i where i.username = '" + userName + "'").list();
+        List<User> users = session.createQuery("select  i from User i where i.username = '" + userName + "'").list();
         List<UserRoles> userRoles = users.get(0).getUserRoles();
         for (UserRoles var: userRoles) {
             session.delete(var);
