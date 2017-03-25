@@ -15,8 +15,8 @@ import com.pizzashop.user.service.UserService;
 import com.pizzashop.userrole.entity.UserRole;
 import com.pizzashop.user.entity.User;
 import com.pizzashop.userrole.service.UserRoleService;
-import com.pizzashop.usersdetail.dao.UserDetailDao;
 import com.pizzashop.usersdetail.entity.UsersDetail;
+import com.pizzashop.usersdetail.service.UserDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -29,7 +29,7 @@ public class MainController {
     private UserService userService;
 
     @Autowired
-    private UserDetailDao userDetailDao;
+    private UserDetailService userDetailService;
 
     @Autowired
     private UserRoleService roleService;
@@ -195,7 +195,7 @@ public class MainController {
     public String modifyDetailsPage(Model model, Principal principal) {
         String userName2 = principal.getName();
 
-        UsersDetail userDetails = userDetailDao.listbyUsername(userName2).get(0);
+        UsersDetail userDetails = userDetailService.listbyUsername(userName2).get(0);
 
         model.addAttribute("userDetails", userDetails);
 
@@ -218,12 +218,12 @@ public class MainController {
             // After user login successfully.
             String userName2 = principal.getName();
 
-            UsersDetail userDetails = userDetailDao.listbyUsername(userName2).get(0);
+            UsersDetail userDetails = userDetailService.listbyUsername(userName2).get(0);
 
             UsersDetail modifyDetails = new UsersDetail(username, name, address, email, phoneNumber);
             User user = new User(userName2, password, true);
             this.userService.save(user);
-            this.userDetailDao.save(modifyDetails);
+            this.userDetailService.save(modifyDetails);
             return "welcomePage";
         }
     }
@@ -295,7 +295,7 @@ public class MainController {
             User user = new User(username, password, true);
             userService.save(user);
             UsersDetail usersDetail = new UsersDetail(username, name, address, email, phoneNumber, user);
-            userDetailDao.save(usersDetail);
+            userDetailService.save(usersDetail);
 
             UserRole userRole = new UserRole(user, "USER");
             roleService.save(userRole);
@@ -314,7 +314,7 @@ public class MainController {
     @RequestMapping("/remove/{username}")
     public String removePerson(Model model, Principal principal, @PathVariable("username") String username) {
 
-        this.userDetailDao.removeUserDetails(username);
+        this.userDetailService.removeUserDetails(username);
         this.roleService.removeUserRole(username);
         this.userService.removeUser(username);
         return adminPage(model, principal);

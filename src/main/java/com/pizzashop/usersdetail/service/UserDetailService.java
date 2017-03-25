@@ -1,11 +1,11 @@
-package com.pizzashop.usersdetail.dao;
+package com.pizzashop.usersdetail.service;
 
 
 import com.pizzashop.usersdetail.entity.UsersDetail;
 
 import java.util.List;
 
-public interface UserDetailDao {
+public interface UserDetailService {
 
     void save(UsersDetail usersDetail);
 
