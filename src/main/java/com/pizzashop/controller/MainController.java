@@ -6,11 +6,11 @@ import java.util.Date;
 import java.util.List;
 
 import com.pizzashop.food.dao.FoodDao;
-import com.pizzashop.item.dao.ItemDao;
 import com.pizzashop.food.entity.Food;
 import com.pizzashop.item.entity.Item;
-import com.pizzashop.order.dao.OrderDao;
+import com.pizzashop.item.service.ItemService;
 import com.pizzashop.order.entity.Order;
+import com.pizzashop.order.service.OrderService;
 import com.pizzashop.userrole.dao.UserRoleDao;
 import com.pizzashop.userrole.entity.UserRole;
 import com.pizzashop.user.dao.UserDao;
@@ -38,10 +38,10 @@ public class MainController {
     private FoodDao foodDao;
 
     @Autowired
-    private OrderDao orderDao;
+    private ItemService itemService;
 
     @Autowired
-    private ItemDao itemDao;
+    private OrderService orderService;
 
     @RequestMapping(value = {"/", "/welcome"}, method = RequestMethod.GET)
     public String welcomePage(Model model) {
@@ -82,32 +82,32 @@ public class MainController {
         Food food = foodDao.getFoodById(id);
         int price = food.getPrice() * quantity;
 
-        if (orderDao.orderByUsername(user.getUsername()) == null) {
+        if (orderService.getOrdesByUsername(user.getUsername()) == null) {
             Order order = new Order(user, date, false, false, 0);
-            orderDao.save(order);
+            orderService.save(order);
 
             Item item = new Item(order, food, quantity, price);
-            itemDao.save(item);
+            itemService.save(item);
         } else {
 
-            List<Order> orderList = orderDao.orderByUsername(user.getUsername());
+            List<Order> orderList = orderService.getOrdesByUsername(user.getUsername());
             Boolean flag = false;
 
             for (Order order : orderList) {
 
                 if (order.getOrdered() == false) {
                     Item item = new Item(order, food, quantity, price);
-                    itemDao.save(item);
+                    itemService.save(item);
                     flag = true;
                 }
             }
 
             if (!flag) {
                 Order order = new Order(user, date, false, false, 0);
-                orderDao.save(order);
+                orderService.save(order);
 
                 Item item = new Item(order, food, quantity, price);
-                itemDao.save(item);
+                itemService.save(item);
             }
         }
         return selectOrder(model, principal);
@@ -115,7 +115,7 @@ public class MainController {
 
     @RequestMapping(value = "/removeFood/{id}")
     public String removeFood(Model model, Principal principal, @PathVariable("id") int id) {
-        this.itemDao.removeItemsFood(Integer.toHexString(id));
+        this.itemService.removeItemsFood(Integer.toHexString(id));
         this.foodDao.removeFood(id);
         return adminPage(model, principal);
     }
@@ -145,7 +145,7 @@ public class MainController {
     }
 
     public List<Order> avaiableOrderList() {
-        List<Order> allOrderList = orderDao.findAll();
+        List<Order> allOrderList = orderService.findAll();
         List<Order> orderList = new ArrayList<Order>();
         for (Order order : allOrderList) {
 
@@ -323,7 +323,7 @@ public class MainController {
     @RequestMapping("/removeItem/{itemId}")
     public String removePerson(Model model, Principal principal, @PathVariable("itemId") int id) {
 
-        this.itemDao.removeItem(id);
+        this.itemService.removeItem(id);
         return cartPage(model, principal);
     }
 
@@ -349,7 +349,7 @@ public class MainController {
     @RequestMapping(value = "/cart", method = RequestMethod.GET)
     public String cartPage(Model model, Principal principal) {
 
-        List<Order> orderList = orderDao.orderByUsername(principal.getName());
+        List<Order> orderList = orderService.getOrdesByUsername(principal.getName());
         int countItemNumber = countItemsInCart(principal.getName());
 
         int allPrice = 0;
@@ -388,7 +388,7 @@ public class MainController {
     public String orderIt(Model model, Principal principal) {
 
 
-        List<Order> orderList = orderDao.orderByUsername(principal.getName());
+        List<Order> orderList = orderService.getOrdesByUsername(principal.getName());
 
         if (!orderList.isEmpty()) {
             for (Order order : orderList) {
@@ -403,7 +403,7 @@ public class MainController {
                     order.setOrdered(true);
                     order.setDate(new Date());
                     order.setPrice(price);
-                    orderDao.save(order);
+                    orderService.save(order);
                     return succesOrdered(model, principal);
                 }
             }
@@ -421,7 +421,7 @@ public class MainController {
 
     @RequestMapping(value = "/modifyItemModal/{id}", method = RequestMethod.GET)
     public String modifyItemModal(Model model, @PathVariable("id") int id) {
-        Item myItem = this.itemDao.getItemById(id);
+        Item myItem = this.itemService.getItemById(id);
 
         model.addAttribute("myItem", myItem);
         return "modifyItem";
@@ -430,7 +430,7 @@ public class MainController {
     @RequestMapping(value = "/showItems/{id}", method = RequestMethod.GET)
     public String showItems(Model model, @PathVariable("id") int id) {
 
-        List<Item> itemList = this.orderDao.getOrderById(id).getItems();
+        List<Item> itemList = this.orderService.getOrderById(id).getItems();
 
         model.addAttribute("itemList", itemList);
         return "showItemsList";
@@ -439,10 +439,10 @@ public class MainController {
 
     @RequestMapping(value = "/orderDelivered/{id}", method = RequestMethod.GET)
     public String orderDelivered(Model model, Principal principal, @PathVariable("id") int id) {
-        Order order = this.orderDao.getOrderById(id);
+        Order order = this.orderService.getOrderById(id);
 
         order.setShipped(true);
-        this.orderDao.save(order);
+        this.orderService.save(order);
 
         return adminPage(model, principal);
     }
@@ -450,15 +450,15 @@ public class MainController {
     @RequestMapping(value = "/modifyItemSub", method = RequestMethod.POST)
     public String modifyItem(Model model, Principal principal, @RequestParam("id") int id, @RequestParam("quantity") int quantity) {
 
-        Item item = this.itemDao.getItemById(id);
+        Item item = this.itemService.getItemById(id);
         item.setQuantity(quantity);
         item.setPrice(quantity * item.getFood().getPrice());
-        this.itemDao.save(item);
+        this.itemService.save(item);
         return cartPage(model, principal);
     }
 
     public int countItemsInCart(String username) {
-        List<Order> orderList = this.orderDao.orderByUsername(username);
+        List<Order> orderList = this.orderService.getOrdesByUsername(username);
         for (Order order : orderList) {
 
             if (order.getOrdered() == false) {

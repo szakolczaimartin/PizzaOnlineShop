@@ -13,7 +13,6 @@ import java.util.List;
 @SuppressWarnings({"unchecked", "rawtypes"})
 public class UserDao {
 
-
     @Autowired
     private SessionFactory sessionFactory;
 
@@ -47,8 +46,6 @@ public class UserDao {
         List users = session.createQuery("from User").list();
         return users;
     }
-
-
 
     public void removeUser(java.lang.String userName) {
         Session session = sessionFactory.openSession();

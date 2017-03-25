@@ -1,10 +1,10 @@
-package com.pizzashop.item.dao;
+package com.pizzashop.item.service;
 
 import com.pizzashop.item.entity.Item;
 
 import java.util.List;
 
-public interface ItemDao {
+public interface ItemService {
 
     void save(Item item);
 
