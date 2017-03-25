@@ -11,7 +11,7 @@ public interface OrderDao {
 
     Order getOrderById(int id);
 
-    List<Order> orderByUsername(String valaki);
+    List<Order> orderByUsername(String username);
 
     List<Order> findAll();
 }

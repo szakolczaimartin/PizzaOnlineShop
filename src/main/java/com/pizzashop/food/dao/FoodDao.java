@@ -15,5 +15,5 @@ public interface FoodDao {
 
     void removeFood(int id);
 
-    List<Food> foodByName(java.lang.String valaki);
+    List<Food> foodByName(String username);
 }

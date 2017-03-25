@@ -11,9 +11,9 @@ import com.pizzashop.item.entity.Item;
 import com.pizzashop.item.service.ItemService;
 import com.pizzashop.order.entity.Order;
 import com.pizzashop.order.service.OrderService;
+import com.pizzashop.user.service.UserService;
 import com.pizzashop.userrole.dao.UserRoleDao;
 import com.pizzashop.userrole.entity.UserRole;
-import com.pizzashop.user.dao.UserDao;
 import com.pizzashop.user.entity.User;
 import com.pizzashop.usersdetail.dao.UserDetailDao;
 import com.pizzashop.usersdetail.entity.UsersDetail;
@@ -26,7 +26,7 @@ import org.springframework.web.bind.annotation.*;
 public class MainController {
 
     @Autowired
-    private UserDao userDao;
+    private UserService userService;
 
     @Autowired
     private UserDetailDao userDetailDao;
@@ -78,7 +78,7 @@ public class MainController {
     public String adToChart(Model model, Principal principal, @RequestParam("id") int id, @RequestParam("quantity") int quantity) {
 
         Date date = new Date();
-        User user = userDao.userByUsername(principal.getName());
+        User user = userService.userByUsername(principal.getName());
         Food food = foodService.getFoodById(id);
         int price = food.getPrice() * quantity;
 
@@ -162,7 +162,7 @@ public class MainController {
     public String adminPage(Model model, Principal principal) {
 
         int countItemNumber = countItemsInCart(principal.getName());
-        List<User> userList = userDao.findAll();
+        List<User> userList = userService.findAll();
         List<UserRole> userRoleList = userRoleDao.findAll();
         List<UserRole> userRoleAdminList = userRoleDao.findAdmin();
         List<Food> foods = foodService.findAll();
@@ -222,7 +222,7 @@ public class MainController {
 
             UsersDetail modifyDetails = new UsersDetail(username, name, address, email, phoneNumber);
             User user = new User(userName2, password, true);
-            this.userDao.save(user);
+            this.userService.save(user);
             this.userDetailDao.save(modifyDetails);
             return "welcomePage";
         }
@@ -288,12 +288,12 @@ public class MainController {
         if (!password.equals(conFirmpassword)) {
             model.addAttribute("message", "Passwords don't equal!");
             return signUpPage(model);
-        } else if (userDao.userByUsername(username) != null) {
+        } else if (userService.userByUsername(username) != null) {
             model.addAttribute("message", "Username already exists!");
             return signUpPage(model);
         } else {
             User user = new User(username, password, true);
-            userDao.save(user);
+            userService.save(user);
             UsersDetail usersDetail = new UsersDetail(username, name, address, email, phoneNumber, user);
             userDetailDao.save(usersDetail);
 
@@ -316,7 +316,7 @@ public class MainController {
 
         this.userDetailDao.removeUserDetails(username);
         this.userRoleDao.removeUserRole(username);
-        this.userDao.removeUser(username);
+        this.userService.removeUser(username);
         return adminPage(model, principal);
     }
 
@@ -330,7 +330,7 @@ public class MainController {
     @RequestMapping("/addAdmin/{username}")
     public String addAdmin(Model model, Principal principal, @PathVariable("username") String username) {
 
-        User user = userDao.userByUsername(username);
+        User user = userService.userByUsername(username);
         UserRole userRole = new UserRole(user, "ADMIN");
         this.userRoleDao.save(userRole);
         return adminPage(model, principal);
@@ -340,7 +340,7 @@ public class MainController {
     public String depriveAdmin(Model model, Principal principal, @PathVariable("username") String username) {
 
         this.userRoleDao.removeUserRole(username);
-        User user = userDao.userByUsername(username);
+        User user = userService.userByUsername(username);
         UserRole userRole = new UserRole(user, "USER");
         this.userRoleDao.save(userRole);
         return adminPage(model, principal);

@@ -31,7 +31,7 @@ public class OrderDaoImp implements OrderDao {
     }
 
     @Transactional
-    public List<Order> orderByUsername(java.lang.String valaki) {
+    public List<Order> orderByUsername(String username) {
 
         Session session = sessionFactory.getCurrentSession();
         List<Order> orderList = session.createQuery("select  i from Order i").list();

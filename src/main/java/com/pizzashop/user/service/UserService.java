@@ -1,11 +1,11 @@
-package com.pizzashop.user.dao;
+package com.pizzashop.user.service;
 
 
 import com.pizzashop.user.entity.User;
 
 import java.util.List;
 
-public interface UserDao {
+public interface UserService {
 
     void save(User user);
 

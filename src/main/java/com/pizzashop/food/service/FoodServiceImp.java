@@ -29,9 +29,9 @@ public class FoodServiceImp implements FoodService {
         dao.removeFood(id);
     }
 
-    public List<Food> foodByName(String valaki) {
+    public List<Food> foodByName(String username) {
 
-        return dao.foodByName(valaki);
+        return dao.foodByName(username);
     }
 
 }

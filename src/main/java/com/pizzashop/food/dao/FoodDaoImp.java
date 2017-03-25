@@ -48,10 +48,10 @@ public class FoodDaoImp implements FoodDao {
     }
 
     @Transactional
-    public List<Food> foodByName(java.lang.String valaki) {
+    public List<Food> foodByName(String username) {
 
         Session session = sessionFactory.getCurrentSession();
-        List foods = session.createQuery("select  i from Food i where i.name = '" + valaki + "'").list();
+        List foods = session.createQuery("select  i from Food i where i.name = '" + username + "'").list();
         return foods;
     }
 

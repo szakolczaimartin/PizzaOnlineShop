@@ -31,7 +31,7 @@ public class ItemDaoImp implements ItemDao {
         return items;
     }
 
-    public void removeItemsFood(java.lang.String id) {
+    public void removeItemsFood(String id) {
         Session session = sessionFactory.openSession();
         List<Food> foods = session.createQuery("select  i from Food i where i.id = '" + id + "'").list();
         List<Item> items = foods.get(0).getItem();
