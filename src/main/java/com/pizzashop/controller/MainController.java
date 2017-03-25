@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import com.pizzashop.food.dao.FoodDao;
 import com.pizzashop.food.entity.Food;
+import com.pizzashop.food.service.FoodService;
 import com.pizzashop.item.entity.Item;
 import com.pizzashop.item.service.ItemService;
 import com.pizzashop.order.entity.Order;
@@ -35,7 +35,7 @@ public class MainController {
     private UserRoleDao userRoleDao;
 
     @Autowired
-    private FoodDao foodDao;
+    private FoodService foodService;
 
     @Autowired
     private ItemService itemService;
@@ -47,7 +47,7 @@ public class MainController {
     public String welcomePage(Model model) {
 
 
-        List<Food> foodList = this.foodDao.findAll();
+        List<Food> foodList = this.foodService.findAll();
         List<Food> foodList1 = new ArrayList<Food>();
         List<Food> foodList2 = new ArrayList<Food>();
 
@@ -69,7 +69,7 @@ public class MainController {
 
     @RequestMapping(value = "/addFood", method = RequestMethod.POST)
     public String save(Model model, Principal principal, @ModelAttribute("foodForm") Food f) {
-        this.foodDao.save(f);
+        this.foodService.save(f);
 
         return adminPage(model, principal);
     }
@@ -79,7 +79,7 @@ public class MainController {
 
         Date date = new Date();
         User user = userDao.userByUsername(principal.getName());
-        Food food = foodDao.getFoodById(id);
+        Food food = foodService.getFoodById(id);
         int price = food.getPrice() * quantity;
 
         if (orderService.getOrdesByUsername(user.getUsername()) == null) {
@@ -116,13 +116,13 @@ public class MainController {
     @RequestMapping(value = "/removeFood/{id}")
     public String removeFood(Model model, Principal principal, @PathVariable("id") int id) {
         this.itemService.removeItemsFood(Integer.toHexString(id));
-        this.foodDao.removeFood(id);
+        this.foodService.removeFood(id);
         return adminPage(model, principal);
     }
 
     @RequestMapping(value = "/modifyFoodModal/{id}", method = RequestMethod.GET)
     public String modifyFoodModal(Model model, @PathVariable("id") int id) {
-        Food modifyFood = this.foodDao.getFoodById(id);
+        Food modifyFood = this.foodService.getFoodById(id);
         model.addAttribute("modifyFood", modifyFood);
         return "modifyFood";
     }
@@ -134,13 +134,13 @@ public class MainController {
                              @RequestParam("ingredients") String ingredients, @RequestParam("type") String type,
                              @RequestParam("size") String size) {
 
-        Food modifyFood = this.foodDao.foodByName(name).get(0);
+        Food modifyFood = this.foodService.foodByName(name).get(0);
         modifyFood.setIngredients(ingredients);
         modifyFood.setPrice(price);
         modifyFood.setSize(size);
         modifyFood.setUrl(url);
         modifyFood.setType(type);
-        this.foodDao.save(modifyFood);
+        this.foodService.save(modifyFood);
         return adminPage(model, principal);
     }
 
@@ -165,7 +165,7 @@ public class MainController {
         List<User> userList = userDao.findAll();
         List<UserRole> userRoleList = userRoleDao.findAll();
         List<UserRole> userRoleAdminList = userRoleDao.findAdmin();
-        List<Food> foods = foodDao.findAll();
+        List<Food> foods = foodService.findAll();
         List<Order> orderList = avaiableOrderList();
         model.addAttribute("userList", userList);
         model.addAttribute("userRoleList", userRoleList);
@@ -231,7 +231,7 @@ public class MainController {
     @RequestMapping(value = "/selectOrder", method = RequestMethod.GET)
     public String selectOrder(Model model, Principal principal) {
 
-        List<Food> allFood = this.foodDao.findAll();
+        List<Food> allFood = this.foodService.findAll();
 
         List<Food> smallPizza = new ArrayList<Food>();
         List<Food> bigPizza = new ArrayList<Food>();

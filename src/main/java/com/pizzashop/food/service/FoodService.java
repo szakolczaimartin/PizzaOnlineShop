@@ -1,11 +1,11 @@
-package com.pizzashop.food.dao;
+package com.pizzashop.food.service;
 
 
 import com.pizzashop.food.entity.Food;
 
 import java.util.List;
 
-public interface FoodDao {
+public interface FoodService {
 
     void save(Food food);
 
@@ -15,5 +15,5 @@ public interface FoodDao {
 
     void removeFood(int id);
 
-    List<Food> foodByName(java.lang.String valaki);
+    List<Food> foodByName(String username);
 }
