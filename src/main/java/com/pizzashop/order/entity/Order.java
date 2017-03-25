@@ -8,7 +8,7 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
-@Table(name = "ORDERS")
+@Table(name = "FOOD_ORDER")
 public class Order {
 
     @Id
