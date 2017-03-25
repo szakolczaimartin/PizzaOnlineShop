@@ -12,9 +12,9 @@ import com.pizzashop.item.service.ItemService;
 import com.pizzashop.order.entity.Order;
 import com.pizzashop.order.service.OrderService;
 import com.pizzashop.user.service.UserService;
-import com.pizzashop.userrole.dao.UserRoleDao;
 import com.pizzashop.userrole.entity.UserRole;
 import com.pizzashop.user.entity.User;
+import com.pizzashop.userrole.service.UserRoleService;
 import com.pizzashop.usersdetail.dao.UserDetailDao;
 import com.pizzashop.usersdetail.entity.UsersDetail;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +32,7 @@ public class MainController {
     private UserDetailDao userDetailDao;
 
     @Autowired
-    private UserRoleDao userRoleDao;
+    private UserRoleService roleService;
 
     @Autowired
     private FoodService foodService;
@@ -163,8 +163,8 @@ public class MainController {
 
         int countItemNumber = countItemsInCart(principal.getName());
         List<User> userList = userService.findAll();
-        List<UserRole> userRoleList = userRoleDao.findAll();
-        List<UserRole> userRoleAdminList = userRoleDao.findAdmin();
+        List<UserRole> userRoleList = roleService.findAll();
+        List<UserRole> userRoleAdminList = roleService.findAdmin();
         List<Food> foods = foodService.findAll();
         List<Order> orderList = avaiableOrderList();
         model.addAttribute("userList", userList);
@@ -298,7 +298,7 @@ public class MainController {
             userDetailDao.save(usersDetail);
 
             UserRole userRole = new UserRole(user, "USER");
-            userRoleDao.save(userRole);
+            roleService.save(userRole);
 
 
             return "loginPage";
@@ -315,7 +315,7 @@ public class MainController {
     public String removePerson(Model model, Principal principal, @PathVariable("username") String username) {
 
         this.userDetailDao.removeUserDetails(username);
-        this.userRoleDao.removeUserRole(username);
+        this.roleService.removeUserRole(username);
         this.userService.removeUser(username);
         return adminPage(model, principal);
     }
@@ -332,17 +332,17 @@ public class MainController {
 
         User user = userService.userByUsername(username);
         UserRole userRole = new UserRole(user, "ADMIN");
-        this.userRoleDao.save(userRole);
+        this.roleService.save(userRole);
         return adminPage(model, principal);
     }
 
     @RequestMapping("/depriveAdmin/{username}")
     public String depriveAdmin(Model model, Principal principal, @PathVariable("username") String username) {
 
-        this.userRoleDao.removeUserRole(username);
+        this.roleService.removeUserRole(username);
         User user = userService.userByUsername(username);
         UserRole userRole = new UserRole(user, "USER");
-        this.userRoleDao.save(userRole);
+        this.roleService.save(userRole);
         return adminPage(model, principal);
     }
 
