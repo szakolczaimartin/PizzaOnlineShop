@@ -1,31 +1,31 @@
-package com.pizzashop.userdetails;
+package com.pizzashop.userdetail.entity;
 
 import javax.persistence.*;
 
 @Entity
-@Table(name = "USER_DETAILS")
-public class UserDetails {
+@Table(name = "USER_DETAIL")
+public class UserDetail {
 
     @Id
     @GeneratedValue
     private int id;
 
-    @Column(name = "NAME", nullable = false, length = 36)
+    @Column(name = "name", nullable = false, length = 36)
     private String name;
 
-    @Column(name = "ADDRESS", nullable = false, length = 150)
+    @Column(name = "address", nullable = false, length = 150)
     private String address;
 
-    @Column(name = "EMAIL", nullable = false, length = 100)
+    @Column(name = "email", nullable = false, length = 100)
     private String email;
 
-    @Column(name = "PHONE_NUMBER", nullable = false, length = 100)
+    @Column(name = "phone_number", nullable = false, length = 100)
     private String phoneNumber;
 
-    public UserDetails() {
+    public UserDetail() {
     }
 
-    public UserDetails(String name, String address, String email, String phoneNumber) {
+    public UserDetail(String name, String address, String email, String phoneNumber) {
         this.name = name;
         this.address = address;
         this.email = email;

@@ -2,7 +2,7 @@ package com.pizzashop.user.entity;
 
 
 import com.pizzashop.order.entity.Order;
-import com.pizzashop.userdetails.UserDetails;
+import com.pizzashop.userdetail.entity.UserDetail;
 import com.pizzashop.userrole.entity.UserRole;
 
 import javax.persistence.*;
@@ -22,7 +22,7 @@ public class User {
 
     @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "USER_DETAIL")
-    private UserDetails userDet;
+    private UserDetail userDet;
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.DETACH)
     private List<UserRole> userRoles;
@@ -40,7 +40,7 @@ public class User {
         this.enabled = enabled;
     }
 
-    public User(String username, String password, boolean enabled, UserDetails userDet) {
+    public User(String username, String password, boolean enabled, UserDetail userDet) {
         this.username = username;
         this.password = password;
         this.enabled = enabled;
@@ -79,11 +79,11 @@ public class User {
         this.userRoles = userRoles;
     }
 
-    public UserDetails getUserDet() {
+    public UserDetail getUserDet() {
         return userDet;
     }
 
-    public void setUserDet(UserDetails userDet) {
+    public void setUserDet(UserDetail userDet) {
         this.userDet = userDet;
     }
 }

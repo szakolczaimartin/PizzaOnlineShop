@@ -8,8 +8,8 @@ import com.pizzashop.order.entity.Order;
 import com.pizzashop.order.service.OrderService;
 import com.pizzashop.user.entity.User;
 import com.pizzashop.user.service.UserService;
-import com.pizzashop.userdetails.UserDetails;
-import com.pizzashop.userdetails.UserDetailsDao;
+import com.pizzashop.userdetail.entity.UserDetail;
+import com.pizzashop.userdetail.service.UserDetailService;
 import com.pizzashop.userrole.entity.UserRole;
 import com.pizzashop.userrole.service.UserRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,7 +42,7 @@ public class MainController {
     private OrderService orderService;
 
     @Autowired
-    private UserDetailsDao userDetailsDao;
+    private UserDetailService userDetailsService;
 
     @RequestMapping(value = {"/", "/welcome"}, method = RequestMethod.GET)
     public String welcomePage(Model model) {
@@ -218,15 +218,15 @@ public class MainController {
             // After user login successfully.
             String userName2 = principal.getName();
 
-            UserDetails userDetails = userService.userByUsername(userName2).getUserDet();
+            UserDetail userDetail = userService.userByUsername(userName2).getUserDet();
 
-            userDetails.setAddress(address);
-            userDetails.setEmail(email);
-            userDetails.setName(name);
-            userDetails.setPhoneNumber(phoneNumber);
+            userDetail.setAddress(address);
+            userDetail.setEmail(email);
+            userDetail.setName(name);
+            userDetail.setPhoneNumber(phoneNumber);
 
-            this.userDetailsDao.save(userDetails);
-            User user = new User(userName2, password, true, userDetails);
+            this.userDetailsService.save(userDetail);
+            User user = new User(userName2, password, true, userDetail);
             this.userService.save(user);
 
             return "welcomePage";
@@ -297,9 +297,9 @@ public class MainController {
             model.addAttribute("message", "Username already exists!");
             return signUpPage(model);
         } else {
-            UserDetails userDetails = new UserDetails(name, address, email, phoneNumber);
-            userDetailsDao.save(userDetails);
-            User user = new User(username, password, true, userDetails);
+            UserDetail userDetail = new UserDetail(name, address, email, phoneNumber);
+            userDetailsService.save(userDetail);
+            User user = new User(username, password, true, userDetail);
             userService.save(user);
 
 
@@ -325,7 +325,7 @@ public class MainController {
         int userDetails = userService.userByUsername(username).getUserDet().getId();
         this.roleService.removeUserRole(username);
         this.userService.removeUser(username);
-        this.userDetailsDao.removeUserDetailById(userDetails);
+        this.userDetailsService.removeUserDetailById(userDetails);
 
         SecurityContextHolder.clearContext();
         return "loginPage";
@@ -338,7 +338,7 @@ public class MainController {
         int userDetails = userService.userByUsername(username).getUserDet().getId();
         this.roleService.removeUserRole(username);
         this.userService.removeUser(username);
-        this.userDetailsDao.removeUserDetailById(userDetails);
+        this.userDetailsService.removeUserDetailById(userDetails);
         return adminPage(model, principal);
     }
 
