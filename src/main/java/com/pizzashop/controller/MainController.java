@@ -1,35 +1,33 @@
 package com.pizzashop.controller;
 
-import java.security.Principal;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
 import com.pizzashop.food.entity.Food;
 import com.pizzashop.food.service.FoodService;
 import com.pizzashop.item.entity.Item;
 import com.pizzashop.item.service.ItemService;
 import com.pizzashop.order.entity.Order;
 import com.pizzashop.order.service.OrderService;
-import com.pizzashop.user.service.UserService;
-import com.pizzashop.userrole.entity.UserRole;
 import com.pizzashop.user.entity.User;
+import com.pizzashop.user.service.UserService;
+import com.pizzashop.userdetails.UserDetails;
+import com.pizzashop.userdetails.UserDetailsDao;
+import com.pizzashop.userrole.entity.UserRole;
 import com.pizzashop.userrole.service.UserRoleService;
-import com.pizzashop.usersdetail.entity.UsersDetail;
-import com.pizzashop.usersdetail.service.UserDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.security.Principal;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 @Controller
 public class MainController {
 
     @Autowired
     private UserService userService;
-
-    @Autowired
-    private UserDetailService userDetailService;
 
     @Autowired
     private UserRoleService roleService;
@@ -43,9 +41,11 @@ public class MainController {
     @Autowired
     private OrderService orderService;
 
+    @Autowired
+    private UserDetailsDao userDetailsDao;
+
     @RequestMapping(value = {"/", "/welcome"}, method = RequestMethod.GET)
     public String welcomePage(Model model) {
-
 
         List<Food> foodList = this.foodService.findAll();
         List<Food> foodList1 = new ArrayList<Food>();
@@ -150,7 +150,7 @@ public class MainController {
         for (Order order : allOrderList) {
 
             if (order.getShipped() == false && order.getOrdered() == true) {
-                order.getUser().getUsersDetail().getName();
+                order.getUser().getUserDet().getName();
                 orderList.add(order);
             }
         }
@@ -191,13 +191,13 @@ public class MainController {
         return "logoutSuccessfulPage";
     }
 
+
     @RequestMapping(value = "/modifyDetails", method = RequestMethod.GET)
     public String modifyDetailsPage(Model model, Principal principal) {
         String userName2 = principal.getName();
 
-        UsersDetail userDetails = userDetailService.listbyUsername(userName2).get(0);
-
-        model.addAttribute("userDetails", userDetails);
+        User user = userService.userByUsername(userName2);
+        model.addAttribute("user", user);
 
         return "modifyDetailsPage";
     }
@@ -218,12 +218,17 @@ public class MainController {
             // After user login successfully.
             String userName2 = principal.getName();
 
-            UsersDetail userDetails = userDetailService.listbyUsername(userName2).get(0);
+            UserDetails userDetails = userService.userByUsername(userName2).getUserDet();
 
-            UsersDetail modifyDetails = new UsersDetail(username, name, address, email, phoneNumber);
-            User user = new User(userName2, password, true);
+            userDetails.setAddress(address);
+            userDetails.setEmail(email);
+            userDetails.setName(name);
+            userDetails.setPhoneNumber(phoneNumber);
+
+            this.userDetailsDao.save(userDetails);
+            User user = new User(userName2, password, true, userDetails);
             this.userService.save(user);
-            this.userDetailService.save(modifyDetails);
+
             return "welcomePage";
         }
     }
@@ -292,10 +297,11 @@ public class MainController {
             model.addAttribute("message", "Username already exists!");
             return signUpPage(model);
         } else {
-            User user = new User(username, password, true);
+            UserDetails userDetails = new UserDetails(name, address, email, phoneNumber);
+            userDetailsDao.save(userDetails);
+            User user = new User(username, password, true, userDetails);
             userService.save(user);
-            UsersDetail usersDetail = new UsersDetail(username, name, address, email, phoneNumber, user);
-            userDetailService.save(usersDetail);
+
 
             UserRole userRole = new UserRole(user, "USER");
             roleService.save(userRole);
@@ -311,12 +317,28 @@ public class MainController {
         return "signUpPage";
     }
 
+    @RequestMapping("/removeMySelf")
+    public String removePersonMyself(Model model, Principal principal) {
+
+        String username = principal.getName();
+
+        int userDetails = userService.userByUsername(username).getUserDet().getId();
+        this.roleService.removeUserRole(username);
+        this.userService.removeUser(username);
+        this.userDetailsDao.removeUserDetailById(userDetails);
+
+        SecurityContextHolder.clearContext();
+        return "loginPage";
+    }
+
     @RequestMapping("/remove/{username}")
     public String removePerson(Model model, Principal principal, @PathVariable("username") String username) {
 
-        this.userDetailService.removeUserDetails(username);
+
+        int userDetails = userService.userByUsername(username).getUserDet().getId();
         this.roleService.removeUserRole(username);
         this.userService.removeUser(username);
+        this.userDetailsDao.removeUserDetailById(userDetails);
         return adminPage(model, principal);
     }
 
@@ -326,6 +348,7 @@ public class MainController {
         this.itemService.removeItem(id);
         return cartPage(model, principal);
     }
+
 
     @RequestMapping("/addAdmin/{username}")
     public String addAdmin(Model model, Principal principal, @PathVariable("username") String username) {

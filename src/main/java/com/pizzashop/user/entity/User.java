@@ -2,8 +2,8 @@ package com.pizzashop.user.entity;
 
 
 import com.pizzashop.order.entity.Order;
+import com.pizzashop.userdetails.UserDetails;
 import com.pizzashop.userrole.entity.UserRole;
-import com.pizzashop.usersdetail.entity.UsersDetail;
 
 import javax.persistence.*;
 import java.util.List;
@@ -20,9 +20,9 @@ public class User {
     @Column(name = "ENABlED", nullable = false)
     private boolean enabled;
 
-    @OneToOne
-    @PrimaryKeyJoinColumn
-    private UsersDetail usersDetail;
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "USER_DETAIL")
+    private UserDetails userDet;
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.DETACH)
     private List<UserRole> userRoles;
@@ -40,11 +40,11 @@ public class User {
         this.enabled = enabled;
     }
 
-    public User(String username, String password, boolean enabled, UsersDetail usersDetail) {
+    public User(String username, String password, boolean enabled, UserDetails userDet) {
         this.username = username;
         this.password = password;
         this.enabled = enabled;
-        this.usersDetail = usersDetail;
+        this.userDet = userDet;
     }
 
     public String getUsername() {
@@ -71,19 +71,19 @@ public class User {
         this.enabled = enabled;
     }
 
-    public UsersDetail getUsersDetail() {
-        return usersDetail;
-    }
-
-    public void setUsersDetail(UsersDetail usersDetail) {
-        this.usersDetail = usersDetail;
-    }
-
     public List<UserRole> getUserRoles() {
         return userRoles;
     }
 
     public void setUserRoles(List<UserRole> userRoles) {
         this.userRoles = userRoles;
+    }
+
+    public UserDetails getUserDet() {
+        return userDet;
+    }
+
+    public void setUserDet(UserDetails userDet) {
+        this.userDet = userDet;
     }
 }

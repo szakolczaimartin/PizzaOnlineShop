@@ -19,7 +19,14 @@ public class UserServiceImp implements UserService {
     }
 
     public User userByUsername(String username) {
-        return dao.userByUsername(username);
+
+        try {
+           User user = dao.userByUsername(username);
+            return  user;
+             }catch(Exception ex) {
+            return null;
+        }
+
     }
 
     public List<User> findAll() {

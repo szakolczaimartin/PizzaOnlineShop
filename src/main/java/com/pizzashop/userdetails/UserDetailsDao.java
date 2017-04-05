@@ -1,7 +1,7 @@
-package com.pizzashop.usersdetail.dao;
+package com.pizzashop.userdetails;
 
+import com.pizzashop.food.entity.Food;
 import com.pizzashop.user.entity.User;
-import com.pizzashop.usersdetail.entity.UsersDetail;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,12 +12,12 @@ import java.util.List;
 
 @Repository
 @SuppressWarnings({"unchecked", "rawtypes"})
-public class UserDetailDaoImp implements UserDetailDao {
+public class UserDetailsDao {
 
     @Autowired
     private SessionFactory sessionFactory;
 
-    public void save(UsersDetail usersDetail) {
+    public void save(UserDetails usersDetail) {
         Session currenSession = sessionFactory.openSession();
         currenSession.saveOrUpdate(usersDetail);
         currenSession.flush();
@@ -27,17 +27,33 @@ public class UserDetailDaoImp implements UserDetailDao {
     public void removeUserDetails(String userName) {
         Session session = sessionFactory.openSession();
         List<User> userses = session.createQuery("select  i from User i where i.username = '" + userName + "'").list();
-        UsersDetail usersDetail = userses.get(0).getUsersDetail();
+        UserDetails usersDetail = userses.get(0).getUserDet();
         session.delete(usersDetail);
         session.flush();
         session.close();
     }
 
     @Transactional
-    public List<UsersDetail> listbyUsername(String username) {
+    public UserDetails getDetailById(int id) {
+        Session currenSession = sessionFactory.openSession();
+        UserDetails userDetails = (UserDetails) currenSession.get(UserDetails.class, new Integer(id));
+        currenSession.close();
+        return userDetails;
+    }
+
+    public void removeUserDetailById(int id) {
+        UserDetails userDetails = getDetailById(id);
+        Session session = sessionFactory.openSession();
+        session.delete(userDetails);
+        session.flush();
+        session.close();
+    }
+
+    @Transactional
+    public List<UserDetails> listbyUsername(String username) {
 
         Session session = sessionFactory.getCurrentSession();
-        List itemses = session.createQuery("select  i from UsersDetail i where i.username = '" + username + "'").list();
+        List itemses = session.createQuery("select  i from UserDetails i where i.name = '" + username + "'").list();
         return itemses;
     }
 }

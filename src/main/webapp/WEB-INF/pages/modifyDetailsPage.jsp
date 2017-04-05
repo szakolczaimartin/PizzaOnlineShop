@@ -116,25 +116,25 @@
 
             <div class="input-group">
                 <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                <input  type="text" class="form-control input-lg" name='name' placeholder="Your full name" value="${userDetails.name}" required>
+                <input  type="text" class="form-control input-lg" name='name' placeholder="Your full name" value="${user.userDet.name}" required>
             </div>
             <div class="input-group">
                 <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                <input  type="text" class="form-control input-lg" name='username' placeholder="Username"  value="${userDetails.username}" readonly>
+                <input  type="text" class="form-control input-lg" name='username' placeholder="Username"  value="${user.username}" readonly>
             </div>
             <div class="input-group">
                 <span class="input-group-addon" id="basic-addon1">@</span>
-                <input type="email" class="form-control" placeholder="Email" name="email" aria-describedby="basic-addon1" value="${userDetails.email}" required>
+                <input type="email" class="form-control" placeholder="Email" name="email" aria-describedby="basic-addon1" value="${user.userDet.email}" required>
             </div>
 
             <div class="input-group">
                 <span class="input-group-addon"><i class="glyphicon glyphicon-earphone"></i></span>
-                <input  type="text" class="form-control input-lg" name='phoneNumber' placeholder="Phone number" value="${userDetails.phoneNumber}" required>
+                <input  type="text" class="form-control input-lg" name='phoneNumber' placeholder="Phone number" value="${user.userDet.phoneNumber}" required>
             </div>
 
             <div class="input-group">
                 <span class="input-group-addon"><i class="glyphicon glyphicon-road"></i></span>
-                <input  type="text" class="form-control input-lg" name='address' placeholder="Address" value="${userDetails.address}"required>
+                <input  type="text" class="form-control input-lg" name='address' placeholder="Address" value="${user.userDet.address}"required>
             </div>
 
             <div class="input-group">
@@ -152,7 +152,7 @@
                 <button name="submit" type="submit" value="submit" class="btn btn-primary btn-lg btn-block"> Modify</button>
             </div>
                 <div>
-                    <td><a href="<c:url value='/remove/${userDetails.username}' />" > <font size="4" color="red"> Delete my account</font></a></td>
+                    <td><a href="/removeMySelf" /> <font size="4" color="red"> Delete my account</font></a></td>
                 </div>
         </div>
 

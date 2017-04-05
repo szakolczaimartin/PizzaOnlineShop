@@ -64,9 +64,9 @@
                     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                         <ul class="nav navbar-nav navbar-center cl-effect-14">
                             <li class="active"><a href="${pageContext.request.contextPath}/welcome">Home</a></li>
-                            <li><a href="${pageContext.request.contextPath}/selectOrder">Orders</a></li>
+                            <li><a href="${pageContext.request.contextPath}/userInfo">Orders</a></li>
                             <li><a href="${pageContext.request.contextPath}/admin">Admin</a></li>
-                            <li><a href="${pageContext.request.contextPath}/cart">Cart</a></li>
+                            <li><a href="about.html">About</a></li>
                             <li><a href="codes.html">Codes</a></li>
                             <li><a href="gallery.html">Gallery</a></li>
                             <li><a href="contact.html">Contact</a></li>
@@ -83,19 +83,6 @@
 <!--banner-bottom-->
 
 
-<div class="col-md-12">
-    <ul class="nav navbar-nav navbar-right">
-        <c:if test="${pageContext.request.userPrincipal.name != null}">
-            <li><a href="/modifyDetails" >Signed in as: ${pageContext.request.userPrincipal.name}</a></li>
-            <li><a href="${pageContext.request.contextPath}/logout" ><span class="glyphicon glyphicon-log-out"></span> Log out</a></li>
-        </c:if>
-
-        <c:if test="${!(pageContext.request.userPrincipal.name != null)}">
-            <li><a href="${pageContext.request.contextPath}/signUp"><span class="glyphicon glyphicon-user"></span> Sign Up</font></a></li>
-            <li><a href="${pageContext.request.contextPath}/login"><span class="glyphicon glyphicon-log-in"></span> Login</font</a></li>
-        </c:if>
-    </ul>
-</div>
 
 <br>
 <br>
@@ -180,15 +167,27 @@
                 <li>3531 Miskolc</li>
                 <li>+3630/856-2123</li>
             </ul>
-
         </div>
-        <div class="col-md-5 footer-left">
-            <h4>Location</h4>
-            <div class="map">
-                <iframe style="height: 35%;" src="https://www.google.com/maps/embed/v1/place?q=miskolc%20b%C3%A1rsony%20j%C3%A1nos%2043%20&key=AIzaSyC3PM8eQYk6ie6KQBgZCrMXehaCMkFgL7I" ></iframe>
-            </div>
+        <div class="col-md-3 footer-left">
+            <h4>Popular</h4>
+            <ul>
+                <li><a href="#">Proin placerat</a></li>
+                <li><a href="#">Ipsum et rutrum</a></li>
+                <li><a href="#">Proin semper utr</a></li>
+                <li><a href="#">ligula sit amet</a></li>
+            </ul>
+        </div>
+        <div class="col-md-3 footer-left">
+            <h4>Details</h4>
+            <ul>
+                <li><a href="about.html">About</a></li>
+                <li><a href="#">Careers</a></li>
+                <li><a href="#">Privacy Policy</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
         </div>
         <div class="col-md-3 footer-right">
+            <p> © 2016 Pizza . All rights reserved | Design by <a href="http://w3layouts.com/">W3layouts</a></p>
             <div class="icons">
                 <ul>
                     <li><a href="#" class="twitter"> </a></li>
