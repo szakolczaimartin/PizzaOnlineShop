@@ -2,10 +2,8 @@ package com.pizzashop.userdetail.service;
 
 
 import com.pizzashop.userdetail.dao.UserDetailDao;
-import com.pizzashop.userdetail.dao.UserDetailDaoImp;
 import com.pizzashop.userdetail.entity.UserDetail;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
