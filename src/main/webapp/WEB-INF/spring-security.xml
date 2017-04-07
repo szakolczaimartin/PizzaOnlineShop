@@ -19,19 +19,15 @@
 
 
 
-
-        <intercept-url pattern="/selectOrder"
-                       access="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')" />
+        <intercept-url pattern="/cook" access="hasRole('ROLE_COOK')" />
         <intercept-url pattern="/admin" access="hasRole('ROLE_ADMIN')" />
         <intercept-url pattern="/other/**" access="isAuthenticated()" />
 
-        <intercept-url pattern="/cart"
-                       access="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')" />
-        <intercept-url pattern="/admin" access="hasRole('ROLE_ADMIN')" />
-        <intercept-url pattern="/other/**" access="isAuthenticated()" />
+        <intercept-url pattern="/selectOrder" access="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')" />
 
-        <intercept-url pattern="/modifyDetails"
-                       access="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')" />
+        <intercept-url pattern="/cart" access="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')" />
+
+        <intercept-url pattern="/modifyDetails" access="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')" />
         <intercept-url pattern="/admin" access="hasRole('ROLE_ADMIN')" />
         <intercept-url pattern="/other/**" access="isAuthenticated()" />
 

@@ -1,5 +1,7 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@page session="true"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -16,8 +18,6 @@
     <!--js-->
     <script src="/resources/js/jquery-1.11.1.min.js"></script>
     <script src="/resources/js/modernizr.custom.js"></script>
-    <script src ="/resources/js/validator.js"></script>
-
     <!-- //js -->
 
 
@@ -79,12 +79,9 @@
         </div>
     </div>
 </div>
-<!--//banner-->
-<!--banner-bottom-->
 <div class="col-md-12">
     <ul class="nav navbar-nav navbar-right">
         <c:if test="${pageContext.request.userPrincipal.name != null}">
-            <li><a href="${pageContext.request.contextPath}/signUp"><span class="glyphicon glyphicon-shopping-cart"></span> <span class="badge badge-primary">${countItemNumber}</span></a></li>
             <li><a href="/modifyDetails" >Signed in as: ${pageContext.request.userPrincipal.name}</a></li>
             <li><a href="${pageContext.request.contextPath}/logout" ><span class="glyphicon glyphicon-log-out"></span> Log out</a></li>
         </c:if>
@@ -97,75 +94,52 @@
 </div>
 
 
+
 <br>
 <br>
 <br>
-<br>
-<br>
-<div class="container">
-<div class="col-xs-2 col-centered"></div>
+<div class="col-xs-2 col-centered">
+</div>
+
 <div class="col-xs-8 col-centered">
+    <h2 class="typoh2">Ordered foods</h2>
+
     <div class="bs-docs-separator">
         <table class="table table-striped">
-            <h3 class="title">Your cart</h3>
-            <div style="color:red;margin:10px 0px;">
-
-                ${message}
-
-            </div>
-            <br>
-
             <thead>
             <tr>
-                <th width="150"><h5>Food name</h5></th>
-                <th width="30"><h5>Quantity<h5></th>
-                <th width="400"><h5>Price<h5></th>
-                <th width="30"><h5>Delete<h5></th>
+                <th width="60">Order id</th>
+                <th width="60">Food name</th>
+                <th width="60">Quantity</th>
+                <th width="60">Order time</th>
+                <th width="140">Check if it prepared</th>
 
             </tr>
             </thead>
             <tbody>
-            <c:forEach items="${orders}" var="food">
+            <c:forEach items="${items}" var="item">
             <tr>
-                <form action="/">
-                    <td><h5> ${food.food.name} </h5>
-                           Type: ${food.food.type}
+            <tr>
+                <form action="/cooked">
+                    <td>${item.order.id}</td>
+                    <td>${item.food.name}</td>
+                    <td>${item.quantity}</td>
+                    <td>${item.order.date}
+                        <input name="id" type="text" value="${item.id}" size="1" style="visibility: hidden;"/>
                     </td>
-                    <td><h5>${food.quantity}</h5></td>
-                    <td><h5>${food.price} Ft</h5></td>
                     <td>
-                        <a href="<c:url value='/removeItem/${food.id}' />" >Delete</a>
+                        <button type="submit">Check if it prepared</button>
                     </td>
-                </form>
 
-            </tr>
+                </form>
                 </c:forEach>
             </tbody>
-            <tr class="danger">
-                <td></td>
-                <td><h3>  </h3></td>
-                <td><h3> In all: ${inAll} Ft</h3>  </td>
-            <td></td>
-            <td></td>
-            <tr>
-            <tr class="danger">
-                <td></td>
-            <td></td>
-
-            <td>
-            <div>
-                <form action="/orderIt" method="post">
-                <button name="submit" type="submit" value="submit" class="btn btn-primary btn-lg btn-block"> Order it!</button>
-                </form>
-            </div>
-            </td>
-            <td></td>
-            <td></td>
-            <tr>
         </table>
-</div>
     </div>
+
     </div>
+<br>
+<br>
 
 
 <!-- Modal -->
@@ -190,45 +164,31 @@
     </div>
 </div>
 
-<br>
-<br>
-<br>
-<br>
+<!-- Modal -->
+<div class="modal fade" id="orderModal" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Modal Header</h4>
+            </div>
+            <div class="modal-body">
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
 
 <!-- //testimonial -->
 <!--footer-->
-<div class="footer">
-    <div class="container">
-        <div class="col-md-3 footer-left">
-            <h4>Address</h4>
-            <ul>
-                <li>Martin Restaurant</li>
-                <li> Barsony Janos Street</li>
-                <li>3531 Miskolc</li>
-                <li>+3630/856-2123</li>
-            </ul>
 
-        </div>
-        <div class="col-md-5 footer-left">
-            <h4>Location</h4>
-            <div class="map">
-                <iframe style="height: 35%;" src="https://www.google.com/maps/embed/v1/place?q=miskolc%20b%C3%A1rsony%20j%C3%A1nos%2043%20&key=AIzaSyC3PM8eQYk6ie6KQBgZCrMXehaCMkFgL7I" ></iframe>
-            </div>
-        </div>
-        <div class="col-md-3 footer-right">
-            <div class="icons">
-                <ul>
-                    <li><a href="#" class="twitter"> </a></li>
-                    <li><a href="#" class="twitter facebook"> </a></li>
-                    <li><a href="#" class="twitter chrome"> </a></li>
-                    <li><a href="#" class="twitter pinterest"> </a></li>
-                    <li><a href="#" class="twitter linkedin"> </a></li>
-                </ul>
-            </div>
-        </div>
-        <div class="clearfix"> </div>
-    </div>
-</div>
 <!--//footer-->
 <!-- Bootstrap core JavaScript
 ================================================== -->

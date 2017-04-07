@@ -258,6 +258,7 @@
                             <th width="60">Order time</th>
                             <th width="30">Price</th>
                             <th width="60">Show items</th>
+                            <th width="60">Status</th>
                             <th width="60">Delivered</th>
 
                         </tr>
@@ -273,6 +274,7 @@
                             <td>${order.price}</td>
                             <td><a href="<c:url value='/showItems/${order.id}' />" data-toggle="modal"
                                    data-target="#orderModal"> Show items</a></td>
+                            <th width="60">${order.orderStatus}</th>
                             <td><a href="<c:url value='/orderDelivered/${order.id}' />" >Delivered</a></td>
 
                         </tr>

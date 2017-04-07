@@ -22,7 +22,8 @@ public class Item {
     private Food food;
 
     private int quantity;
-    private  int price;
+    private int price;
+    private boolean cooked;
 
     public Item() {
     }
@@ -72,5 +73,13 @@ public class Item {
 
     public void setPrice(int price) {
         this.price = price;
+    }
+
+    public boolean isCooked() {
+        return cooked;
+    }
+
+    public void setCooked(boolean cooked) {
+        this.cooked = cooked;
     }
 }

@@ -25,17 +25,20 @@ public class Order {
 
     private Date date;
     private Boolean shipped;
-    private Boolean ordered;
+
+    @Column(name = "order_statusz")
+    @Enumerated(EnumType.STRING)
+    private OrderStatus orderStatus;
     private int price;
 
     public Order() {
     }
 
-    public Order(User user, Date date, Boolean shipped, Boolean ordered, int price) {
+    public Order(User user, Date date, Boolean shipped, OrderStatus orderStatus, int price) {
         this.user = user;
         this.date = date;
         this.shipped = shipped;
-        this.ordered = ordered;
+        this.orderStatus = orderStatus;
         this.price = price;
     }
 
@@ -79,12 +82,12 @@ public class Order {
         this.items = items;
     }
 
-    public Boolean getOrdered() {
-        return ordered;
+    public OrderStatus getOrderStatus() {
+        return orderStatus;
     }
 
-    public void setOrdered(Boolean ordered) {
-        this.ordered = ordered;
+    public void setOrderStatus(OrderStatus orderStatus) {
+        this.orderStatus = orderStatus;
     }
 
     public int getPrice() {

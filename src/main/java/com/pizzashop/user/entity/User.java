@@ -30,7 +30,6 @@ public class User {
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.DETACH)
     private List<Order> order;
 
-
     public User() {
     }
 

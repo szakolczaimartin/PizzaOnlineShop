@@ -5,6 +5,7 @@ import com.pizzashop.food.service.FoodService;
 import com.pizzashop.item.entity.Item;
 import com.pizzashop.item.service.ItemService;
 import com.pizzashop.order.entity.Order;
+import com.pizzashop.order.entity.OrderStatus;
 import com.pizzashop.order.service.OrderService;
 import com.pizzashop.user.entity.User;
 import com.pizzashop.user.service.UserService;
@@ -83,7 +84,7 @@ public class MainController {
         int price = food.getPrice() * quantity;
 
         if (orderService.getOrdesByUsername(user.getUsername()) == null) {
-            Order order = new Order(user, date, false, false, 0);
+            Order order = new Order(user, date, false, OrderStatus.IN_CART, 0);
             orderService.save(order);
 
             Item item = new Item(order, food, quantity, price);
@@ -95,19 +96,44 @@ public class MainController {
 
             for (Order order : orderList) {
 
-                if (order.getOrdered() == false) {
-                    Item item = new Item(order, food, quantity, price);
-                    itemService.save(item);
-                    flag = true;
+                if (order.getOrderStatus().equals(OrderStatus.IN_CART)) {
+
+                    if (quantity > 1)
+                    {
+                        for(int i = 0; i < quantity; i++)
+                        {
+                            Item item = new Item(order, food, 1, price);
+                            itemService.save(item);
+                            flag = true;
+                        }
+                    }
+                    else
+                    {
+                        Item item = new Item(order, food, quantity, price);
+                        itemService.save(item);
+                        flag = true;
+                    }
                 }
             }
 
             if (!flag) {
-                Order order = new Order(user, date, false, false, 0);
+                Order order = new Order(user, date, false, OrderStatus.IN_CART, 0);
                 orderService.save(order);
 
-                Item item = new Item(order, food, quantity, price);
-                itemService.save(item);
+
+                if (quantity > 1)
+                {
+                    for(int i = 0; i < quantity; i++)
+                    {
+                        Item item = new Item(order, food, 1, price);
+                        itemService.save(item);
+                    }
+                }
+                else
+                {
+                    Item item = new Item(order, food, quantity, price);
+                    itemService.save(item);
+                }
             }
         }
         return selectOrder(model, principal);
@@ -149,7 +175,7 @@ public class MainController {
         List<Order> orderList = new ArrayList<Order>();
         for (Order order : allOrderList) {
 
-            if (order.getShipped() == false && order.getOrdered() == true) {
+            if (order.getShipped() == false && !(order.getOrderStatus().equals(OrderStatus.IN_CART))) {
                 order.getUser().getUserDet().getName();
                 orderList.add(order);
             }
@@ -160,6 +186,9 @@ public class MainController {
 
     @RequestMapping(value = "/admin", method = RequestMethod.GET)
     public String adminPage(Model model, Principal principal) {
+
+
+        prepaerdItem();
 
         int countItemNumber = countItemsInCart(principal.getName());
         List<User> userList = userService.findAll();
@@ -176,6 +205,29 @@ public class MainController {
         model.addAttribute("countItemNumber", countItemNumber);
 
         return "adminPage";
+    }
+
+    private void prepaerdItem()
+    {
+        List<Order> orderList = this.orderService.findAll();
+
+        for (Order order:orderList) {
+
+            List<Item> itemList = order.getItems();
+            int flag =  0;
+            for (Item item: itemList) {
+                if (item.isCooked())
+                {
+                    flag = flag +1;
+                }
+            }
+
+            if (flag == itemList.size())
+            {
+                order.setOrderStatus(OrderStatus.PREPARED);
+                this.orderService.save(order);
+            }
+        }
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
@@ -381,7 +433,7 @@ public class MainController {
 
         for (Order order : orderList) {
 
-            if (order.getOrdered() == false) {
+            if (order.getOrderStatus().equals(OrderStatus.IN_CART)) {
 
                 itemList = order.getItems();
 
@@ -416,14 +468,14 @@ public class MainController {
         if (!orderList.isEmpty()) {
             for (Order order : orderList) {
 
-                if (order.getOrdered() == false && !order.getItems().isEmpty()) {
+                if (order.getOrderStatus().equals(OrderStatus.IN_CART)&& !order.getItems().isEmpty()) {
 
                     int price = 0;
                     for (Item item : order.getItems()) {
                         price = price + item.getPrice();
                     }
 
-                    order.setOrdered(true);
+                    order.setOrderStatus(OrderStatus.ORDERED);
                     order.setDate(new Date());
                     order.setPrice(price);
                     orderService.save(order);
@@ -442,13 +494,6 @@ public class MainController {
         return "successOrderedPage";
     }
 
-    @RequestMapping(value = "/modifyItemModal/{id}", method = RequestMethod.GET)
-    public String modifyItemModal(Model model, @PathVariable("id") int id) {
-        Item myItem = this.itemService.getItemById(id);
-
-        model.addAttribute("myItem", myItem);
-        return "modifyItem";
-    }
 
     @RequestMapping(value = "/showItems/{id}", method = RequestMethod.GET)
     public String showItems(Model model, @PathVariable("id") int id) {
@@ -484,10 +529,46 @@ public class MainController {
         List<Order> orderList = this.orderService.getOrdesByUsername(username);
         for (Order order : orderList) {
 
-            if (order.getOrdered() == false) {
+            if (order.getOrderStatus().equals(OrderStatus.IN_CART)) {
                 return order.getItems().size();
             }
         }
         return 0;
     }
+
+    @RequestMapping(value = "/cook", method = RequestMethod.GET)
+    public String cookPage(Model model, Principal principal) {
+
+        List<Order> orderList = orderService.findAll();
+        List<Item> items = new ArrayList<Item>();
+
+        for (Order order:orderList) {
+            if (order.getOrderStatus().equals(OrderStatus.ORDERED))
+            {
+                for (Item item:order.getItems()) {
+                    if (!(item.isCooked()))
+                    {
+                        items.add(item);
+                    }
+                }
+            }
+        }
+
+        model.addAttribute("items", items);
+        return "cookPage";
+    }
+
+
+
+    @RequestMapping(value = "/cooked")
+    public String cooked(Model model, Principal principal, @RequestParam("id") int id) {
+
+        Item item = itemService.getItemById(id);
+        item.setCooked(true);
+
+        this.itemService.save(item);
+
+        return cookPage(model, principal);
+    }
+
 }

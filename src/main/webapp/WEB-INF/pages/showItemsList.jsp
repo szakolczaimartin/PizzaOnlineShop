@@ -55,9 +55,11 @@
                     <tr>
                         <th width="20">id</th>
                         <th width="50">Food name</th>
-                        <th width="50">Type</th>
+                        <th width="30">Type</th>
                         <th width="120">Ingredients</th>
                         <th width="30">Size</th>
+                        <th width="30">Prepared  it</th>
+
 
                     </tr>
                     </thead>
@@ -69,6 +71,18 @@
                             <td>${item.food.type}</td>
                             <td>${item.food.ingredients}</td>
                             <td>${item.food.size}</td>
+                            <td>
+
+                                <c:if test="${item.cooked}">
+                                    <a href="${pageContext.request.contextPath}/logout" ><span class="glyphicon glyphicon-ok"/></a>
+                                </c:if>
+
+
+                                <c:if test="${!item.cooked}">
+                                    <a href="${pageContext.request.contextPath}/logout" ><span class="glyphicon glyphicon-remove"/></a>
+                                </c:if>
+
+                            </td>
                         </tr>
                     </c:forEach>
                     </tbody>
