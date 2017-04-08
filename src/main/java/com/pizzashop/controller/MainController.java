@@ -170,38 +170,36 @@ public class MainController {
         return adminPage(model, principal);
     }
 
-    public List<Order> avaiableOrderList() {
-        List<Order> allOrderList = orderService.findAll();
-        List<Order> orderList = new ArrayList<Order>();
-        for (Order order : allOrderList) {
-
-            if (!(order.getOrderStatus().equals(OrderStatus.IN_CART))) {
-                order.getUser().getUserDet().getName();
-                orderList.add(order);
-            }
-        }
-        return orderList;
-    }
-
-
     @RequestMapping(value = "/admin", method = RequestMethod.GET)
     public String adminPage(Model model, Principal principal) {
 
 
+
         prepaerdItem();
+
+        List<Order> allOrderList = orderService.findAll();
+        List<Order> preparedList = preparedOrders(allOrderList);
+        List<Order> orderedList = orderedOrders(allOrderList);
+        List<Order> shippingList = shippingOrders(allOrderList);
+        List<Order> deliveredList = deliveredOrders(allOrderList);
 
         int countItemNumber = countItemsInCart(principal.getName());
         List<User> userList = userService.findAll();
         List<UserRole> userRoleList = roleService.findAll();
         List<UserRole> userRoleAdminList = roleService.findAdmin();
         List<Food> foods = foodService.findAll();
-        List<Order> orderList = avaiableOrderList();
+
         model.addAttribute("userList", userList);
         model.addAttribute("userRoleList", userRoleList);
         model.addAttribute("userRoleAdminList", userRoleAdminList);
         model.addAttribute("foodForm", new Food());
         model.addAttribute("foods", foods);
-        model.addAttribute("orderList", orderList);
+
+        model.addAttribute("preparedList", preparedList);
+        model.addAttribute("orderedList", orderedList);
+        model.addAttribute("shippingList", shippingList);
+        model.addAttribute("deliveredList", deliveredList);
+
         model.addAttribute("countItemNumber", countItemNumber);
 
         return "adminPage";
@@ -230,6 +228,64 @@ public class MainController {
             }
         }
     }
+
+    private List<Order> preparedOrders(List<Order> list)
+    {
+        List<Order> actList = new ArrayList<Order>();
+
+        for (Order order:list) {
+
+            if (order.getOrderStatus().equals(OrderStatus.PREPARED))
+            {
+                actList.add(order);
+            }
+        }
+        return  actList;
+    }
+
+    private List<Order> orderedOrders(List<Order> list)
+    {
+        List<Order> actList = new ArrayList<Order>();
+
+        for (Order order:list) {
+
+            if (order.getOrderStatus().equals(OrderStatus.ORDERED))
+            {
+                actList.add(order);
+            }
+        }
+        return  actList;
+    }
+
+    private List<Order> shippingOrders(List<Order> list)
+    {
+        List<Order> actList = new ArrayList<Order>();
+
+        for (Order order:list) {
+
+            if (order.getOrderStatus().equals(OrderStatus.SHIPPING))
+            {
+                actList.add(order);
+            }
+        }
+        return  actList;
+    }
+
+
+    private List<Order> deliveredOrders(List<Order> list)
+    {
+        List<Order> actList = new ArrayList<Order>();
+
+        for (Order order:list) {
+
+            if (order.getOrderStatus().equals(OrderStatus.DELIVERED))
+            {
+                actList.add(order);
+            }
+        }
+        return  actList;
+    }
+
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String loginPage(Model model) {
@@ -412,15 +468,62 @@ public class MainController {
         return adminPage(model, principal);
     }
 
-    @RequestMapping("/depriveAdmin/{username}")
-    public String depriveAdmin(Model model, Principal principal, @PathVariable("username") String username) {
-
-        this.roleService.removeUserRole(username);
+    @RequestMapping("/addPermission")
+    public  String addPermission(Model model, Principal principal, @RequestParam("permission") String permission, @RequestParam("username") String username)
+    {
         User user = userService.userByUsername(username);
-        UserRole userRole = new UserRole(user, "USER");
-        this.roleService.save(userRole);
+
+        List<UserRole> roles = roleService.findAll();
+        List<UserRole> roleList = new ArrayList<UserRole>();
+        int flag = 0;
+        for (UserRole userRole: roles) {
+            if(userRole.getUser().getUsername().equals(username))
+            {
+                roleList.add(userRole);
+            }
+        }
+
+
+        for (UserRole role:roleList) {
+            if(!role.getUserRole().equals(permission))
+            {
+                flag = flag + 1;
+            }
+        }
+
+        if (flag == roleList.size())
+        {
+            UserRole userRole = new UserRole(user, permission);
+            this.roleService.save(userRole);
+        }
+
         return adminPage(model, principal);
     }
+
+    @RequestMapping("/deprivePermission")
+    public  String deprivePermission(Model model, Principal principal, @RequestParam("permission") String permission, @RequestParam("username") String username)
+    {
+        List<UserRole> roles = roleService.findAll();
+        List<UserRole> roleList = new ArrayList<UserRole>();
+
+        for (UserRole userRole: roles) {
+            if(userRole.getUser().getUsername().equals(username))
+            {
+                roleList.add(userRole);
+            }
+        }
+
+        for (UserRole role:roleList) {
+
+            if(role.getUserRole().equals(permission))
+            {
+                this.roleService.removeUserRoleByID(role.getId());
+            }
+        }
+
+        return adminPage(model, principal);
+    }
+
 
     @RequestMapping(value = "/cart", method = RequestMethod.GET)
     public String cartPage(Model model, Principal principal) {
@@ -591,9 +694,12 @@ public class MainController {
 
         Order order = orderService.getOrderById(id);
 
+        User user = userService.userByUsername(principal.getName());
+
         if (order.getOrderStatus().equals(OrderStatus.PREPARED))
         {
             order.setOrderStatus(OrderStatus.SHIPPING);
+            order.setShipper(user);
         }
         else
         {

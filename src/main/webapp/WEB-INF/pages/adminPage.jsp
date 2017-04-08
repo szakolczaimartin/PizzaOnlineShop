@@ -152,49 +152,62 @@
         </div>
         <div id="menu1" class="tab-pane fade">
             <form>
-                    <h2 class="typoh2">Users</h2>
+                <h2 class="typoh2">Users</h2>
                         <div class="bs-docs-separator">
                             <table class="table table-striped">
                                 <thead>
                                 <tr>
                                     <th width="80">Person name</th>
                                     <th width="120">Person username</th>
-                                    <th width="120">Permission</th>
-                                    <th width="60">Edit</th>
+                                    <th width="60">Permissions</th>
+                                    <th width="70">Add Permission</th>
+                                    <th width="130">Deprive Permission</th>
                                     <th width="60">Delete</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 <c:forEach items="${userList}" var="person">
-                                    <c:set var="contains" value="false" />
                                     <tr>
                                         <td>${person.userDet.name}</td>
                                         <td>${person.username}</td>
 
-
-
-                                        <c:forEach items="${userRoleAdminList}" var="admin">
-                                            <c:if test="${(person.username == admin.user.username)}">
-                                                <c:set var="contains" value="true" />
-                                            </c:if>
-                                        </c:forEach>
                                         <td>
-                                            <c:if test="${contains}">
-                                                ADMIN
-                                            </c:if>
-                                            <c:if test="${!contains}">
-                                                USER
-                                            </c:if>
+                                            <ul>
+                                                <c:forEach items="${userRoleList}" var="roleList">
+                                                    <c:if test="${(person.username == roleList.user.username)}">
+                                                        <li>${roleList.userRole} </li>
+                                                    </c:if>
+                                                </c:forEach>
 
+                                            </ul>
                                         </td>
 
                                         <td>
-                                            <c:if test="${contains}">
-                                                <a href="<c:url value='/depriveAdmin/${person.username}' />" >Deprive to Admin</a>
-                                            </c:if>
-                                            <c:if test="${!contains}">
-                                                <a href="<c:url value='/addAdmin/${person.username}' />" >Add to Admin</a>
-                                            </c:if>
+                                        <div>
+                                            <form action="/addPermission">
+                                                <select name="permission">
+                                                    <option value="USER">USER</option>
+                                                    <option value="ADMIN">ADMIN</option>
+                                                    <option value="SHIPPER">SHIPPER</option>
+                                                    <option value="COOK">COOK</option>
+                                                </select>
+                                                <button type="submit" class="btn btn-primary">ADD</button>
+                                                <input name="username" type="text" value="${person.username}" size="1" style="visibility: hidden;"/>
+                                            </form>
+                                            </div>
+                                        </td>
+
+                                        <td>
+                                            <form action="/deprivePermission">
+                                                <select name="permission">
+                                                    <option value="USER">USER</option>
+                                                    <option value="ADMIN">ADMIN</option>
+                                                    <option value="SHIPPER">SHIPPER</option>
+                                                    <option value="COOK">COOK</option>
+                                                </select>
+                                                <button type="submit" class="btn btn-danger">DEPRIVE</button>
+                                                <input name="username" type="text" value="${person.username}" size="1" style="visibility: hidden;"/>
+                                            </form>
                                         </td>
 
                                         <td><a href="<c:url value='/remove/${person.username}' />" >Delete</a></td>
@@ -246,40 +259,183 @@
         </div>
         <div id="menu3" class="tab-pane fade">
             <form>
-                <h2 class="typoh2">Food modify</h2>
-                <div class="bs-docs-separator">
-                    <table class="table table-striped">
-                        <thead>
-                        <tr>
-                            <th width="80">Order id</th>
-                            <th width="80">Customer name</th>
-                            <th width="120">Phone number</th>
-                            <th width="120">Address</th>
-                            <th width="60">Order time</th>
-                            <th width="30">Price</th>
-                            <th width="60">Show items</th>
-                            <th width="60">Status</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <c:forEach items="${orderList}" var="order">
-                        <tr>
-                            <td>${order.id}</td>
-                            <td>${order.user.userDet.name}</td>
-                            <td>${order.user.userDet.phoneNumber}</td>
-                            <td>${order.user.userDet.address}</td>
-                            <td>${order.date}</td>
-                            <td>${order.price}</td>
-                            <td><a href="<c:url value='/showItems/${order.id}' />" data-toggle="modal"
-                                   data-target="#orderModal"> Show items</a></td>
-                            <th width="60">${order.orderStatus}</th>
-                        </tr>
-                        </c:forEach>
-                        </tbody>
-                    </table>
+                <div>
+                <div class="container">
+                    <ul class="nav nav-tabs">
+                        <li class="active"><a data-toggle="tab" href="#ordered">Ordered</a></li>
+                        <li><a data-toggle="tab" href="#prepared">Prepared</a></li>
+                        <li><a data-toggle="tab" href="#shipping">Shipping</a></li>
+                        <li><a data-toggle="tab" href="#delivered">Delivered</a></li>
+                    </ul>
 
+                    <div class="tab-content">
+                        <div id="ordered" class="tab-pane fade in active">
+
+                            <form>
+                                <h2 class="typoh2">Ordered</h2>
+                                <div class="bs-docs-separator">
+                                    <table class="table table-striped">
+                                        <thead>
+                                        <tr>
+                                            <th width="80">Order id</th>
+                                            <th width="80">Customer name</th>
+                                            <th width="120">Phone number</th>
+                                            <th width="120">Address</th>
+                                            <th width="60">Order time</th>
+                                            <th width="30">Price</th>
+                                            <th width="60">Show items</th>
+                                            <th width="60">Status</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <c:forEach items="${orderedList}" var="order">
+                                            <tr>
+                                                <td>${order.id}</td>
+                                                <td>${order.user.userDet.name}</td>
+                                                <td>${order.user.userDet.phoneNumber}</td>
+                                                <td>${order.user.userDet.address}</td>
+                                                <td>${order.date}</td>
+                                                <td>${order.price}</td>
+                                                <td><a href="<c:url value='/showItems/${order.id}' />" data-toggle="modal"
+                                                       data-target="#orderModal"> Show items</a></td>
+                                                <th width="60">${order.orderStatus}</th>
+                                            </tr>
+                                        </c:forEach>
+                                        </tbody>
+                                    </table>
+
+                                </div>
+                            </form>
+
+                        </div>
+
+
+
+
+                        <div id="prepared" class="tab-pane fade">
+                            <form>
+                                <h2 class="typoh2">Prepared orders</h2>
+                                <div class="bs-docs-separator">
+                                    <table class="table table-striped">
+                                        <thead>
+                                        <tr>
+                                            <th width="80">Order id</th>
+                                            <th width="80">Customer name</th>
+                                            <th width="120">Phone number</th>
+                                            <th width="120">Address</th>
+                                            <th width="60">Order time</th>
+                                            <th width="30">Price</th>
+                                            <th width="60">Show items</th>
+                                            <th width="60">Status</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <c:forEach items="${preparedList}" var="order">
+                                            <tr>
+                                                <td>${order.id}</td>
+                                                <td>${order.user.userDet.name}</td>
+                                                <td>${order.user.userDet.phoneNumber}</td>
+                                                <td>${order.user.userDet.address}</td>
+                                                <td>${order.date}</td>
+                                                <td>${order.price}</td>
+                                                <td><a href="<c:url value='/showItems/${order.id}' />" data-toggle="modal"
+                                                       data-target="#orderModal"> Show items</a></td>
+                                                <th width="60">${order.orderStatus}</th>
+                                            </tr>
+                                        </c:forEach>
+                                        </tbody>
+                                    </table>
+
+                                </div>
+                            </form>
+                        </div>
+
+
+
+
+                        <div id="shipping" class="tab-pane fade">
+
+                            <form>
+                                <h2 class="typoh2">Shipping orders</h2>
+                                <div class="bs-docs-separator">
+                                    <table class="table table-striped">
+                                        <thead>
+                                        <tr>
+                                            <th width="80">Order id</th>
+                                            <th width="80">Customer name</th>
+                                            <th width="120">Phone number</th>
+                                            <th width="120">Address</th>
+                                            <th width="60">Order time</th>
+                                            <th width="30">Price</th>
+                                            <th width="60">Show items</th>
+                                            <th width="60">Shipper</th>
+                                            <th width="60">Status</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <c:forEach items="${shippingList}" var="order">
+                                            <tr>
+                                                <td>${order.id}</td>
+                                                <td>${order.user.userDet.name}</td>
+                                                <td>${order.user.userDet.phoneNumber}</td>
+                                                <td>${order.user.userDet.address}</td>
+                                                <td>${order.date}</td>
+                                                <td>${order.price}</td>
+                                                <td><a href="<c:url value='/showItems/${order.id}' />" data-toggle="modal"
+                                                       data-target="#orderModal"> Show items</a></td>
+                                                <th width="60">${order.shipper.userDet.name}</th>
+                                                <th width="60">${order.orderStatus}</th>
+                                            </tr>
+                                        </c:forEach>
+                                        </tbody>
+                                    </table>
+
+                                </div>
+                            </form>
+                        </div>
+                        <div id="delivered" class="tab-pane fade">
+                            <form>
+                                <h2 class="typoh2">Delivered orders</h2>
+                                <div class="bs-docs-separator">
+                                    <table class="table table-striped">
+                                        <thead>
+                                        <tr>
+                                            <th width="80">Order id</th>
+                                            <th width="80">Customer name</th>
+                                            <th width="120">Phone number</th>
+                                            <th width="120">Address</th>
+                                            <th width="60">Order time</th>
+                                            <th width="30">Price</th>
+                                            <th width="60">Show items</th>
+                                            <th width="60">Shipper</th>
+                                            <th width="60">Status</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <c:forEach items="${deliveredList}" var="order">
+                                            <tr>
+                                                <td>${order.id}</td>
+                                                <td>${order.user.userDet.name}</td>
+                                                <td>${order.user.userDet.phoneNumber}</td>
+                                                <td>${order.user.userDet.address}</td>
+                                                <td>${order.date}</td>
+                                                <td>${order.price}</td>
+                                                <td><a href="<c:url value='/showItems/${order.id}' />" data-toggle="modal"
+                                                       data-target="#orderModal"> Show items</a></td>
+                                                <th width="60">${order.shipper.userDet.name}</th>
+                                                <th width="60">${order.orderStatus}</th>
+                                            </tr>
+                                        </c:forEach>
+                                        </tbody>
+                                    </table>
+
+                                </div>
+                            </form>
+                        </div>
+                    </div>
                 </div>
-            </form>
+                </div>
+        </form>
         </div>
     </div>
 </div>

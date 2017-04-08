@@ -1,5 +1,6 @@
 package com.pizzashop.userrole.dao;
 
+import com.pizzashop.item.entity.Item;
 import com.pizzashop.userrole.entity.UserRole;
 import com.pizzashop.user.entity.User;
 import org.hibernate.Session;
@@ -48,6 +49,22 @@ public class UserRoleDaoImp implements UserRoleDao {
         for (UserRole var: userRoles) {
             session.delete(var);
         }
+        session.flush();
+        session.close();
+    }
+
+    @Transactional
+    public UserRole getUserRoleById(int id) {
+        Session currenSession = sessionFactory.openSession();
+        UserRole userRole = (UserRole) currenSession.get(UserRole.class, new Integer(id));
+        currenSession.close();
+        return userRole;
+    }
+
+    public void removeUserRoleByID(int id) {
+        UserRole userRole = getUserRoleById(id);
+        Session session = sessionFactory.openSession();
+        session.delete(userRole);
         session.flush();
         session.close();
     }

@@ -14,4 +14,8 @@ public interface UserRoleService {
      void save(UserRole userRole);
 
      void removeUserRole(String userName);
+
+     UserRole getUserRoleById(int id);
+
+     void removeUserRoleByID(int id);
 }

@@ -30,6 +30,10 @@ public class Order {
     private OrderStatus orderStatus;
     private int price;
 
+    @ManyToOne
+    @JoinColumn(name = "shipper")
+    private User shipper;
+
     public Order() {
     }
 
@@ -86,5 +90,13 @@ public class Order {
 
     public void setPrice(int price) {
         this.price = price;
+    }
+
+    public User getShipper() {
+        return shipper;
+    }
+
+    public void setShipper(User shipper) {
+        this.shipper = shipper;
     }
 }

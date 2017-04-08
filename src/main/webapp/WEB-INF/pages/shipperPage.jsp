@@ -120,7 +120,7 @@
                         <th width="60">Phone</th>
                         <th width="60">Order time</th>
                         <th width="60">To pay</th>
-                        <th width="60">Status</th>
+                        <th width="60">Items</th>
                         <th width="60">Status</th>
                         <th width="60">Activity</th>
                     </tr>
@@ -164,8 +164,9 @@
                         <th width="60">Address</th>
                         <th width="60">Phone</th>
                         <th width="60">Order time</th>
+                        <th width="60">Shipper</th>
                         <th width="60">To pay</th>
-                        <th width="60">Status</th>
+                        <th width="60">Items</th>
                         <th width="60">Status</th>
                         <th width="60">Activity</th>
 
@@ -181,6 +182,7 @@
                             <td>${order.user.userDet.address}</td>
                             <td>${order.user.userDet.phoneNumber}</td>
                             <td>${order.date}</td>
+                            <td>${order.shipper.userDet.name}</td>
                             <td>${order.price}</td>
 
                             <td><a href="<c:url value='/showItems/${order.id}' />" data-toggle="modal"

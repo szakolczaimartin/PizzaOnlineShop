@@ -55,5 +55,4 @@ public class UserDaoImp implements UserDao {
         session.flush();
         session.close();
     }
-
 }
