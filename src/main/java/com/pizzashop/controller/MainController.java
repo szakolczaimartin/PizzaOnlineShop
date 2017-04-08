@@ -84,7 +84,7 @@ public class MainController {
         int price = food.getPrice() * quantity;
 
         if (orderService.getOrdesByUsername(user.getUsername()) == null) {
-            Order order = new Order(user, date, false, OrderStatus.IN_CART, 0);
+            Order order = new Order(user, date, OrderStatus.IN_CART, 0);
             orderService.save(order);
 
             Item item = new Item(order, food, quantity, price);
@@ -117,7 +117,7 @@ public class MainController {
             }
 
             if (!flag) {
-                Order order = new Order(user, date, false, OrderStatus.IN_CART, 0);
+                Order order = new Order(user, date, OrderStatus.IN_CART, 0);
                 orderService.save(order);
 
 
@@ -175,7 +175,7 @@ public class MainController {
         List<Order> orderList = new ArrayList<Order>();
         for (Order order : allOrderList) {
 
-            if (order.getShipped() == false && !(order.getOrderStatus().equals(OrderStatus.IN_CART))) {
+            if (!(order.getOrderStatus().equals(OrderStatus.IN_CART))) {
                 order.getUser().getUserDet().getName();
                 orderList.add(order);
             }
@@ -211,21 +211,22 @@ public class MainController {
     {
         List<Order> orderList = this.orderService.findAll();
 
+
         for (Order order:orderList) {
 
-            List<Item> itemList = order.getItems();
-            int flag =  0;
-            for (Item item: itemList) {
-                if (item.isCooked())
-                {
-                    flag = flag +1;
+            if (order.getOrderStatus().equals(OrderStatus.ORDERED)) {
+                List<Item> itemList = order.getItems();
+                int flag = 0;
+                for (Item item : itemList) {
+                    if (item.isCooked()) {
+                        flag = flag + 1;
+                    }
                 }
-            }
 
-            if (flag == itemList.size())
-            {
-                order.setOrderStatus(OrderStatus.PREPARED);
-                this.orderService.save(order);
+                if (flag == itemList.size()) {
+                    order.setOrderStatus(OrderStatus.PREPARED);
+                    this.orderService.save(order);
+                }
             }
         }
     }
@@ -504,17 +505,6 @@ public class MainController {
         return "showItemsList";
     }
 
-
-    @RequestMapping(value = "/orderDelivered/{id}", method = RequestMethod.GET)
-    public String orderDelivered(Model model, Principal principal, @PathVariable("id") int id) {
-        Order order = this.orderService.getOrderById(id);
-
-        order.setShipped(true);
-        this.orderService.save(order);
-
-        return adminPage(model, principal);
-    }
-
     @RequestMapping(value = "/modifyItemSub", method = RequestMethod.POST)
     public String modifyItem(Model model, Principal principal, @RequestParam("id") int id, @RequestParam("quantity") int quantity) {
 
@@ -569,6 +559,50 @@ public class MainController {
         this.itemService.save(item);
 
         return cookPage(model, principal);
+    }
+
+
+    @RequestMapping(value = "/shipper", method = RequestMethod.GET)
+    public String shipperPage(Model model, Principal principal) {
+
+        List<Order> orderList = orderService.findAll();
+        List<Order> orderPreparedList = new ArrayList<Order>();
+        List<Order> orderShippingList = new ArrayList<Order>();
+
+        for (Order order:orderList) {
+            if (order.getOrderStatus().equals(OrderStatus.PREPARED))
+            {
+              orderPreparedList.add(order);
+            }
+            else if (order.getOrderStatus().equals(OrderStatus.SHIPPING))
+            {
+                orderShippingList.add(order);
+            }
+        }
+
+        model.addAttribute("orderPreparedList", orderPreparedList);
+        model.addAttribute("orderShippingList", orderShippingList);
+        return "shipperPage";
+    }
+
+
+    @RequestMapping(value = "/nextStatus")
+    public String nextStatus(Model model, Principal principal, @RequestParam("id") int id) {
+
+        Order order = orderService.getOrderById(id);
+
+        if (order.getOrderStatus().equals(OrderStatus.PREPARED))
+        {
+            order.setOrderStatus(OrderStatus.SHIPPING);
+        }
+        else
+        {
+            order.setOrderStatus(OrderStatus.DELIVERED);
+        }
+
+        this.orderService.save(order);
+
+        return shipperPage(model, principal);
     }
 
 }

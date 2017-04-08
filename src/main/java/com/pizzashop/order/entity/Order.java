@@ -24,9 +24,8 @@ public class Order {
     private List<Item> items;
 
     private Date date;
-    private Boolean shipped;
 
-    @Column(name = "order_statusz")
+    @Column(name = "order_status")
     @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus;
     private int price;
@@ -34,10 +33,9 @@ public class Order {
     public Order() {
     }
 
-    public Order(User user, Date date, Boolean shipped, OrderStatus orderStatus, int price) {
+    public Order(User user, Date date, OrderStatus orderStatus, int price) {
         this.user = user;
         this.date = date;
-        this.shipped = shipped;
         this.orderStatus = orderStatus;
         this.price = price;
     }
@@ -64,14 +62,6 @@ public class Order {
 
     public void setDate(Date date) {
         this.date = date;
-    }
-
-    public Boolean getShipped() {
-        return shipped;
-    }
-
-    public void setShipped(Boolean shipped) {
-        this.shipped = shipped;
     }
 
     public List<Item> getItems() {

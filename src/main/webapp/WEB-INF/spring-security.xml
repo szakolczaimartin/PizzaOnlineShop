@@ -20,6 +20,7 @@
 
 
         <intercept-url pattern="/cook" access="hasRole('ROLE_COOK')" />
+        <intercept-url pattern="/shipper" access="hasRole('ROLE_COOK')" />
         <intercept-url pattern="/admin" access="hasRole('ROLE_ADMIN')" />
         <intercept-url pattern="/other/**" access="isAuthenticated()" />
 

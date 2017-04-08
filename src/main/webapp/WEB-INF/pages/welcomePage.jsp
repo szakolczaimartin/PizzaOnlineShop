@@ -64,9 +64,7 @@
                             <li><a href="${pageContext.request.contextPath}/admin">Admin</a></li>
                             <li><a href="${pageContext.request.contextPath}/cart">Cart</a></li>
                             <li><a href="${pageContext.request.contextPath}/cook">Cook</a></li>
-                            <li><a href="codes.html">Codes</a></li>
-                            <li><a href="gallery.html">Gallery</a></li>
-                            <li><a href="contact.html">Contact</a></li>
+                            <li><a href="${pageContext.request.contextPath}/shipper">Shipper</a></li>
                         </ul>
                         <div class="clearfix"> </div>
                     </div>
