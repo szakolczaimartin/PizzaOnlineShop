@@ -72,7 +72,7 @@
                             <security:authorize access="hasAnyRole('ROLE_SHIPPER', 'ROLE_ADMIN')">
                                 <li><a href="${pageContext.request.contextPath}/shipper">Shipper</a></li>
                             </security:authorize>
-                            <li><a href="${pageContext.request.contextPath}/about">Shipper</a></li>
+                            <li><a href="${pageContext.request.contextPath}/about">About</a></li>
 
 
                         </ul>
