@@ -19,8 +19,9 @@
 
 
 
-        <intercept-url pattern="/cook" access="hasRole('ROLE_COOK')" />
-        <intercept-url pattern="/shipper" access="hasRole('ROLE_COOK')" />
+        <intercept-url pattern="/cook" access="hasAnyRole('ROLE_COOK', 'ROLE_ADMIN')" />
+        <intercept-url pattern="/shipper" access="hasAnyRole('ROLE_SHIPPER', 'ROLE_ADMIN')" />
+
         <intercept-url pattern="/admin" access="hasRole('ROLE_ADMIN')" />
         <intercept-url pattern="/other/**" access="isAuthenticated()" />
 

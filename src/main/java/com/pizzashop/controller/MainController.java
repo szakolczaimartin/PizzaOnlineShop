@@ -68,6 +68,12 @@ public class MainController {
         return "welcomePage";
     }
 
+
+    @RequestMapping(value = {"/about"}, method = RequestMethod.GET)
+    public String aboutPage(Model model) {
+        return "aboutPage";
+    }
+
     @RequestMapping(value = "/addFood", method = RequestMethod.POST)
     public String save(Model model, Principal principal, @ModelAttribute("foodForm") Food f) {
         this.foodService.save(f);

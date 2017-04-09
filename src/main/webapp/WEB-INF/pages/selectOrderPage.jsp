@@ -1,4 +1,5 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@page session="true" %>
@@ -72,11 +73,20 @@
                         <ul class="nav navbar-nav navbar-center cl-effect-14">
                             <li class="active"><a href="${pageContext.request.contextPath}/welcome">Home</a></li>
                             <li><a href="${pageContext.request.contextPath}/selectOrder">Orders</a></li>
-                            <li><a href="${pageContext.request.contextPath}/admin">Admin</a></li>
                             <li><a href="${pageContext.request.contextPath}/cart">Cart</a></li>
-                            <li><a href="codes.html">Codes</a></li>
-                            <li><a href="gallery.html">Gallery</a></li>
-                            <li><a href="contact.html">Contact</a></li>
+
+                            <security:authorize access="hasRole('ROLE_ADMIN')">
+                                <li><a href="${pageContext.request.contextPath}/admin">Admin</a></li>
+                            </security:authorize>
+                            <security:authorize access="hasAnyRole('ROLE_COOK', 'ROLE_ADMIN')">
+                                <li><a href="${pageContext.request.contextPath}/cook">Cook</a></li>
+                            </security:authorize>
+                            <security:authorize access="hasAnyRole('ROLE_SHIPPER', 'ROLE_ADMIN')">
+                                <li><a href="${pageContext.request.contextPath}/shipper">Shipper</a></li>
+                            </security:authorize>
+                            <li><a href="${pageContext.request.contextPath}/about">About</a></li>
+
+
                         </ul>
                         <div class="clearfix"></div>
                     </div>
@@ -90,7 +100,7 @@
 <div class="col-md-12">
     <ul class="nav navbar-nav navbar-right">
         <c:if test="${pageContext.request.userPrincipal.name != null}">
-            <li><a href="${pageContext.request.contextPath}/signUp"><span class="glyphicon glyphicon-shopping-cart"></span> <span class="badge badge-primary">${countItemNumber}</span></a></li>
+            <li><a href="${pageContext.request.contextPath}/cart"><span class="glyphicon glyphicon-shopping-cart"></span> <span class="badge badge-primary">${countItemNumber}</span></a></li>
             <li><a href="/modifyDetails" >Signed in as: ${pageContext.request.userPrincipal.name}</a></li>
             <li><a href="${pageContext.request.contextPath}/logout" ><span class="glyphicon glyphicon-log-out"></span> Log out</a></li>
         </c:if>
