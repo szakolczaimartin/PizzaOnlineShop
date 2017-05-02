@@ -10,7 +10,7 @@ public interface ItemService {
 
     List<Item> findAll();
 
-    void removeItemsFood(String id);
+    void removeItemByFood(String id);
 
     Item getItemById(int id);
 

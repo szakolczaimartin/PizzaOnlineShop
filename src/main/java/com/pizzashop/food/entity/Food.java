@@ -20,6 +20,7 @@ public class Food {
     private String type;
     private String size;
 
+
     private int price;
 
     @OneToMany(mappedBy = "food", fetch = FetchType.LAZY, cascade = CascadeType.DETACH)

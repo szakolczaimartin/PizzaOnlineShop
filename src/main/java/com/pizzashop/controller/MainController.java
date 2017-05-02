@@ -147,7 +147,7 @@ public class MainController {
 
     @RequestMapping(value = "/removeFood/{id}")
     public String removeFood(Model model, Principal principal, @PathVariable("id") int id) {
-        this.itemService.removeItemsFood(Integer.toHexString(id));
+        this.itemService.removeItemByFood(Integer.toHexString(id));
         this.foodService.removeFood(id);
         return adminPage(model, principal);
     }
@@ -179,8 +179,6 @@ public class MainController {
     @RequestMapping(value = "/admin", method = RequestMethod.GET)
     public String adminPage(Model model, Principal principal) {
 
-
-
         prepaerdItem();
 
         List<Order> allOrderList = orderService.findAll();
@@ -192,12 +190,10 @@ public class MainController {
         int countItemNumber = countItemsInCart(principal.getName());
         List<User> userList = userService.findAll();
         List<UserRole> userRoleList = roleService.findAll();
-        List<UserRole> userRoleAdminList = roleService.findAdmin();
         List<Food> foods = foodService.findAll();
 
         model.addAttribute("userList", userList);
         model.addAttribute("userRoleList", userRoleList);
-        model.addAttribute("userRoleAdminList", userRoleAdminList);
         model.addAttribute("foodForm", new Food());
         model.addAttribute("foods", foods);
 
@@ -438,7 +434,7 @@ public class MainController {
         String username = principal.getName();
 
         int userDetails = userService.userByUsername(username).getUserDet().getId();
-        this.roleService.removeUserRole(username);
+        this.roleService.removeUserRoleByUsername(username);
         this.userService.removeUser(username);
         this.userDetailsService.removeUserDetailById(userDetails);
 
@@ -451,7 +447,7 @@ public class MainController {
 
 
         int userDetails = userService.userByUsername(username).getUserDet().getId();
-        this.roleService.removeUserRole(username);
+        this.roleService.removeUserRoleByUsername(username);
         this.userService.removeUser(username);
         this.userDetailsService.removeUserDetailById(userDetails);
         return adminPage(model, principal);
@@ -673,6 +669,8 @@ public class MainController {
 
     @RequestMapping(value = "/shipper", method = RequestMethod.GET)
     public String shipperPage(Model model, Principal principal) {
+
+        prepaerdItem();
 
         List<Order> orderList = orderService.findAll();
         List<Order> orderPreparedList = new ArrayList<Order>();

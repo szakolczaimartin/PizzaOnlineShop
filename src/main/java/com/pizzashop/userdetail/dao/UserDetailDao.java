@@ -9,7 +9,7 @@ public interface UserDetailDao {
 
     void save(UserDetail usersDetail);
 
-    void removeUserDetails(String userName);
+    void removeUserDetailByUsername(String userName);
 
     UserDetail getDetailById(int id);
 

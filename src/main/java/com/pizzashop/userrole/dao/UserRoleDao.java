@@ -11,11 +11,9 @@ public interface UserRoleDao {
 
     List<UserRole> findAll();
 
-    List<UserRole> findAdmin();
-
     void save(UserRole userRole);
 
-    void removeUserRole(String userName);
+    void removeUserRoleByUsername(String userName);
 
     UserRole getUserRoleById(int id);
 

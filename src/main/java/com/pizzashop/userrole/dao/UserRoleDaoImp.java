@@ -25,14 +25,6 @@ public class UserRoleDaoImp implements UserRoleDao {
         return userRoles;
     }
 
-    @Transactional
-    public List<UserRole> findAdmin() {
-        String admin="ADMIN";
-        Session session = sessionFactory.getCurrentSession();
-        List<UserRole> userRoles = session.createQuery("select  i from UserRole i where i.userRole = '" + admin + "'").list();
-        return userRoles;
-    }
-
 
     public void save(UserRole userRole)
     {
@@ -42,7 +34,7 @@ public class UserRoleDaoImp implements UserRoleDao {
         currenSession.close();
     }
 
-    public void removeUserRole(String userName) {
+    public void removeUserRoleByUsername(String userName) {
         Session session = sessionFactory.openSession();
         List<User> users = session.createQuery("select  i from User i where i.username = '" + userName + "'").list();
         List<UserRole> userRoles = users.get(0).getUserRoles();

@@ -112,14 +112,17 @@
 </div>
 
 <div class="col-xs-8 col-centered">
-    <h2 class="typoh2">Ordered foods</h2>
-
+    <h2 class="typoh2">Cook Page</h2>
+    <br>
+    <h4 class="typoh2">Ordered foods</h4>
     <div class="bs-docs-separator">
         <table class="table table-striped">
             <thead>
             <tr>
                 <th width="60">Order id</th>
                 <th width="60">Food name</th>
+                <th width="90">Ingredients</th>
+                <th width="40">Size</th>
                 <th width="60">Quantity</th>
                 <th width="60">Order time</th>
                 <th width="140">Check if it prepared</th>
@@ -133,6 +136,8 @@
                 <form action="/cooked">
                     <td>${item.order.id}</td>
                     <td>${item.food.name}</td>
+                    <td>${item.food.ingredients}</td>
+                    <td>${item.food.size}</td>
                     <td>${item.quantity}</td>
                     <td>${item.order.date}
                         <input name="id" type="text" value="${item.id}" size="1" style="visibility: hidden;"/>

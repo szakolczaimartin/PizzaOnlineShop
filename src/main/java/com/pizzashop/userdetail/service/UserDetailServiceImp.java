@@ -19,8 +19,8 @@ public class UserDetailServiceImp implements UserDetailService {
         dao.save(usersDetail);
     }
 
-    public void removeUserDetails(String userName) {
-        dao.removeUserDetails(userName);
+    public void removeUserDetailByUsername(String userName) {
+        dao.removeUserDetailByUsername(userName);
     }
 
     public UserDetail getDetailById(int id) {

@@ -22,8 +22,8 @@ public class ItemServiceImp implements ItemService {
         return dao.findAll();
     }
 
-    public void removeItemsFood(String id) {
-        dao.removeItemsFood(id);
+    public void removeItemByFood(String id) {
+        dao.removeItemByFood(id);
     }
 
     public Item getItemById(int id) {

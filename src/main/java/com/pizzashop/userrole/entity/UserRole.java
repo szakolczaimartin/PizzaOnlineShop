@@ -11,14 +11,14 @@ public class UserRole {
 
     @Id
     @GeneratedValue
-    @Column(name = "ROLE_ID")
+    @Column(name = "role_ID")
     private int id;
 
     @ManyToOne
-    @JoinColumn(name = "USERNAME", nullable = false)
+    @JoinColumn(name = "username", nullable = false)
     private User user;
 
-    @Column(name = "USER_ROLE" ,  nullable = false)
+    @Column(name = "user_role" ,  nullable = false)
     private String userRole ;
 
     public UserRole(){}

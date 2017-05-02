@@ -24,7 +24,7 @@ public class UserDetailDaoImp implements UserDetailDao {
         currenSession.close();
     }
 
-    public void removeUserDetails(String userName) {
+    public void removeUserDetailByUsername(String userName) {
         Session session = sessionFactory.openSession();
         List<User> userses = session.createQuery("select  i from User i where i.username = '" + userName + "'").list();
         UserDetail usersDetail = userses.get(0).getUserDet();

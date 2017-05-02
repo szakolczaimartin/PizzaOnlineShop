@@ -2,10 +2,8 @@ package com.pizzashop.userrole.service;
 
 import com.pizzashop.userrole.dao.UserRoleDao;
 import com.pizzashop.userrole.entity.UserRole;
-import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -19,18 +17,13 @@ public class UserRoleServiceImp implements UserRoleService {
         return dao.findAll();
     }
 
-    public List<UserRole> findAdmin() {
-        return dao.findAdmin();
-    }
-
     public void save(UserRole userRole) {
         dao.save(userRole);
     }
 
-    public void removeUserRole(String userName) {
-        dao.removeUserRole(userName);
+    public void removeUserRoleByUsername(String userName) {
+        dao.removeUserRoleByUsername(userName);
     }
-
 
     public UserRole getUserRoleById(int id) {
        return dao.getUserRoleById(id);
