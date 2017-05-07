@@ -1,11 +1,8 @@
 package userrole_test;
 
-import com.pizzashop.user.dao.UserDao;
 import com.pizzashop.user.entity.User;
-import com.pizzashop.user.service.UserServiceImp;
 import com.pizzashop.userrole.dao.UserRoleDao;
 import com.pizzashop.userrole.entity.UserRole;
-import com.pizzashop.userrole.service.UserRoleService;
 import com.pizzashop.userrole.service.UserRoleServiceImp;
 import org.junit.Assert;
 import org.junit.Before;
@@ -18,7 +15,6 @@ import org.mockito.runners.MockitoJUnitRunner;
 import java.util.ArrayList;
 import java.util.List;
 
-import static java.lang.Boolean.TRUE;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -49,8 +45,7 @@ public class UserRoleServiceTest {
         Assert.assertEquals("test", userRole.getUserRole());
     }
 
-    public UserRole createUserRole()
-    {
-        return new UserRole(new User("admin","admin", true),"test");
+    public UserRole createUserRole() {
+        return new UserRole(new User("admin", "admin", true), "test");
     }
 }
